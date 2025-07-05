@@ -158,7 +158,9 @@ export default function VolunteerPage() {
           setScanResult({
             status: "valid",
             message: result.message,
-            donationDetails: result.donation,
+            donationDetails: result.scannedItem
+              ? { ...result.donation, purpose: result.scannedItem.purpose, category: result.scannedItem.category }
+              : result.donation,
           })
           toast({
             title: "QR Code Validated",
@@ -167,7 +169,7 @@ export default function VolunteerPage() {
           })
         } else {
           setScanResult({
-            status: result.message.includes("already used") ? "used" : "invalid",
+            status: result.message.includes("fully used") ? "used" : "invalid",
             message: result.message,
           })
           toast({

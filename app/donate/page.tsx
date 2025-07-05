@@ -4,19 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import {
-  Heart,
-  Users,
-  Building,
-  CreditCard,
-  Smartphone,
-  QrCode,
-  Copy,
-  Check,
-  AlertCircle,
-  Loader2,
-  Download,
-} from "lucide-react"
+import { Heart, CreditCard, Smartphone, QrCode, Copy, Check, AlertCircle, Loader2, Download, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -27,16 +15,18 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useToast } from "@/hooks/use-toast"
 import { submitDonation } from "@/actions/donations" // Import the Server Action
 import { cn } from "@/lib/utils"
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://pwjobmhkgwdebrjjkdjk.supabase.co'
-const supabaseKey = process.env.SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+
+// Define the DonationItem interface locally for client-side use
+interface DonationItem {
+  purpose: string
+  category: string
+  amount: string
+}
 
 export default function DonatePage() {
   const [selectedAmounts, setSelectedAmounts] = useState<string[]>([])
   const [customAmount, setCustomAmount] = useState("")
-  const [selectedPurpose, setSelectedPurpose] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("") // New state for category
+  const [selectedPujaItems, setSelectedPujaItems] = useState<DonationItem[]>([]) // New state for multiple puja items
   const [paymentMethod, setPaymentMethod] = useState("upi")
   const [copied, setCopied] = useState(false)
   const [firstName, setFirstName] = useState("")
@@ -46,8 +36,8 @@ export default function DonatePage() {
   const [message, setMessage] = useState("")
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [receiptPdfBase64, setReceiptPdfBase64] = useState<string | null>(null) // New state for PDF
-  const [generatedQrCodeToken, setGeneratedQrCodeToken] = useState<string | null>(null) // New state for QR token
+  const [receiptPdfBase64, setReceiptPdfBase64State] = useState<string | null>(null)
+  const [generatedQrCodeToken, setGeneratedQrCodeToken] = useState<string | null>(null)
 
   const { toast } = useToast()
 
@@ -112,14 +102,24 @@ export default function DonatePage() {
   ]
 
   const handlePujaDonationSelect = (amount: number, purpose: string, category: string) => {
-    setCustomAmount(amount.toString()) // Set custom amount to the puja amount
+    const newItem: DonationItem = { purpose, category, amount: amount.toString() }
+    setSelectedPujaItems((prevItems) => {
+      const exists = prevItems.some((item) => item.purpose === newItem.purpose && item.category === newItem.category)
+      if (exists) {
+        return prevItems.filter((item) => !(item.purpose === newItem.purpose && item.category === newItem.category))
+      } else {
+        return [...prevItems, newItem]
+      }
+    })
     setSelectedAmounts([]) // Clear predefined amount selection
-    setSelectedPurpose(purpose) // Set the purpose
-    setSelectedCategory(category) // Set the category
+    setCustomAmount("") // Clear custom amount
   }
 
-  const upiId = "kallol8655852917@iob"
-  const paytmNumber = "+91 98765 43210"
+  const removePujaItem = (itemToRemove: DonationItem) => {
+    setSelectedPujaItems((prevItems) =>
+      prevItems.filter((item) => !(item.purpose === itemToRemove.purpose && item.category === itemToRemove.category)),
+    )
+  }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -136,20 +136,21 @@ export default function DonatePage() {
       }
     })
     setCustomAmount("") // Clear custom amount
-    setSelectedPurpose("") // Clear purpose if a general amount is selected
-    setSelectedCategory("") // Clear category if a general amount is selected
+    setSelectedPujaItems([]) // Clear puja items if a general amount is selected
   }
 
   const handleCustomAmountChange = (value: string) => {
     setCustomAmount(value)
     setSelectedAmounts([]) // Clear multi-selected amounts
-    setSelectedPurpose("") // Clear purpose if custom amount is entered
-    setSelectedCategory("") // Clear category if custom amount is entered
+    setSelectedPujaItems([]) // Clear puja items if custom amount is entered
   }
 
   const getCurrentAmount = () => {
-    if (customAmount) return `₹${customAmount}`
-    if (selectedPurpose) return `₹${customAmount}` // If puja purpose is selected, amount comes from customAmount
+    if (selectedPujaItems.length > 0) {
+      const total = selectedPujaItems.reduce((sum, item) => sum + Number.parseFloat(item.amount), 0)
+      return `₹${total.toLocaleString("en-IN")}`
+    }
+    if (customAmount) return `₹${Number.parseFloat(customAmount).toLocaleString("en-IN")}`
     if (selectedAmounts.length > 0) {
       const total = selectedAmounts.reduce((sum, amountStr) => {
         return sum + Number.parseFloat(amountStr.replace("₹", ""))
@@ -157,6 +158,19 @@ export default function DonatePage() {
       return `₹${total.toLocaleString("en-IN")}`
     }
     return "₹0"
+  }
+
+  const getRawCurrentAmount = () => {
+    if (selectedPujaItems.length > 0) {
+      return selectedPujaItems.reduce((sum, item) => sum + Number.parseFloat(item.amount), 0)
+    }
+    if (customAmount) return Number.parseFloat(customAmount)
+    if (selectedAmounts.length > 0) {
+      return selectedAmounts.reduce((sum, amountStr) => {
+        return sum + Number.parseFloat(amountStr.replace("₹", ""))
+      }, 0)
+    }
+    return 0
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -176,28 +190,14 @@ export default function DonatePage() {
       errors.phoneNumber = "Phone Number is required"
     }
 
-    let finalAmount: number | null = null
-    if (selectedPurpose) {
-      // If a puja purpose is selected, the amount must come from customAmount (which was set by the button)
-      finalAmount = Number.parseFloat(customAmount)
-      if (isNaN(finalAmount) || finalAmount <= 0) {
-        errors.amount = "Please select a valid Puja donation amount."
-      }
-    } else if (customAmount) {
-      finalAmount = Number.parseFloat(customAmount)
-      if (isNaN(finalAmount) || finalAmount <= 0) {
-        errors.amount = "Donation amount must be greater than zero."
-      }
-    } else if (selectedAmounts.length > 0) {
-      // New condition for multi-select
-      finalAmount = selectedAmounts.reduce((sum, amountStr) => {
-        return sum + Number.parseFloat(amountStr.replace("₹", ""))
-      }, 0)
-      if (isNaN(finalAmount) || finalAmount <= 0) {
-        errors.amount = "Please select a valid donation amount."
-      }
-    } else {
-      errors.amount = "Please select or enter a donation amount."
+    const finalAmount = getRawCurrentAmount()
+    if (isNaN(finalAmount) || finalAmount <= 0) {
+      errors.amount = "Please select or enter a valid donation amount."
+    }
+
+    // If no puja items are selected and no general amount is selected/entered
+    if (selectedPujaItems.length === 0 && finalAmount <= 0) {
+      errors.amount = "Please select at least one puja item or enter a general donation amount."
     }
 
     setFormErrors(errors)
@@ -212,20 +212,13 @@ export default function DonatePage() {
     }
 
     setIsSubmitting(true)
-    setReceiptPdfBase64(null) // Clear previous receipt
+    setReceiptPdfBase64State(null) // Clear previous receipt
     setGeneratedQrCodeToken(null) // Clear previous QR token
 
     const formData = new FormData(e.currentTarget as HTMLFormElement)
-    formData.set("amount", finalAmount!.toFixed(2)) // Use the validated finalAmount
+    formData.set("totalAmount", finalAmount.toFixed(2)) // Use the validated finalAmount
     formData.set("paymentMethod", paymentMethod)
-    if (selectedPurpose) {
-      // Only include purpose if a specific Puja button was selected
-      formData.set("purpose", selectedPurpose)
-    }
-    if (selectedCategory) {
-      // Include category if a specific Puja button was selected
-      formData.set("category", selectedCategory)
-    }
+    formData.set("donationItems", JSON.stringify(selectedPujaItems)) // Pass selected puja items as JSON string
 
     const result = await submitDonation(formData)
 
@@ -237,7 +230,7 @@ export default function DonatePage() {
       })
       // Set the receipt PDF base64
       if (result.receiptPdfBase64) {
-        setReceiptPdfBase64(result.receiptPdfBase64)
+        setReceiptPdfBase64State(result.receiptPdfBase64)
       }
       if (result.qrCodeToken) {
         // Store the QR code token
@@ -251,8 +244,7 @@ export default function DonatePage() {
       setGotra("")
       setPhoneNumber("")
       setMessage("")
-      setSelectedPurpose("") // Clear selected purpose on success
-      setSelectedCategory("") // Clear selected category on success
+      setSelectedPujaItems([]) // Clear selected puja items on success
     } else {
       toast({
         title: "Donation Failed",
@@ -327,22 +319,27 @@ export default function DonatePage() {
                     <AccordionContent className="p-6 pt-0">
                       <p className="text-gray-700 mb-4">{puja.description}</p>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {puja.items.map((item, itemIndex) => (
-                          <Button
-                            key={itemIndex}
-                            type="button"
-                            className={cn(
-                              "flex flex-col h-auto py-3 transition-colors", // Common layout and transition
-                              selectedPurpose === item.purpose && Number.parseFloat(customAmount) === item.amount
-                                ? "bg-kallol-700 hover:bg-kallol-800 text-white" // Selected state styling
-                                : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent", // Unselected state styling
-                            )}
-                            onClick={() => handlePujaDonationSelect(item.amount, item.purpose, puja.name)} // Pass puja.name as category
-                          >
-                            <span className="font-medium text-base">{item.purpose}</span>
-                            <span className="text-sm">₹{item.amount.toLocaleString("en-IN")}</span>
-                          </Button>
-                        ))}
+                        {puja.items.map((item, itemIndex) => {
+                          const isSelected = selectedPujaItems.some(
+                            (selected) => selected.purpose === item.purpose && selected.category === puja.name,
+                          )
+                          return (
+                            <Button
+                              key={itemIndex}
+                              type="button"
+                              className={cn(
+                                "flex flex-col h-auto py-3 transition-colors",
+                                isSelected
+                                  ? "bg-kallol-700 hover:bg-kallol-800 text-white"
+                                  : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent",
+                              )}
+                              onClick={() => handlePujaDonationSelect(item.amount, item.purpose, puja.name)}
+                            >
+                              <span className="font-medium text-base">{item.purpose}</span>
+                              <span className="text-sm">₹{item.amount.toLocaleString("en-IN")}</span>
+                            </Button>
+                          )
+                        })}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -359,8 +356,31 @@ export default function DonatePage() {
               </CardHeader>
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Hidden input for category */}
-                  <input type="hidden" name="category" value={selectedCategory} />
+                  {/* Display selected puja items */}
+                  {selectedPujaItems.length > 0 && (
+                    <div className="mb-4">
+                      <Label className="text-base font-medium text-gray-900 mb-2 block">Selected Puja Items:</Label>
+                      <div className="space-y-2">
+                        {selectedPujaItems.map((item, index) => (
+                          <div key={index} className="flex items-center justify-between bg-gray-100 p-3 rounded-md">
+                            <span className="text-gray-800 text-sm">
+                              {item.purpose} ({item.category}) - ₹
+                              {Number.parseFloat(item.amount).toLocaleString("en-IN")}
+                            </span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removePujaItem(item)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Amount Selection */}
                   <div>
@@ -371,13 +391,13 @@ export default function DonatePage() {
                           key={amount}
                           type="button"
                           className={cn(
-                            "h-auto py-3 transition-colors", // Added h-auto py-3 for consistent height
+                            "h-auto py-3 transition-colors",
                             selectedAmounts.includes(amount)
                               ? "bg-kallol-700 hover:bg-kallol-800 text-white"
-                              : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent", // Explicitly added bg-transparent
+                              : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent",
                           )}
                           onClick={() => handleAmountSelect(amount)}
-                          disabled={!!selectedPurpose} // Disable if a puja purpose is selected
+                          disabled={selectedPujaItems.length > 0} // Disable if puja items are selected
                         >
                           {amount}
                         </Button>
@@ -396,8 +416,8 @@ export default function DonatePage() {
                           className="pl-8 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
                           value={customAmount}
                           onChange={(e) => handleCustomAmountChange(e.target.value)}
-                          name="amount"
-                          disabled={!!selectedPurpose} // Disable if a puja purpose is selected
+                          name="amount" // This name attribute is for the total amount, not individual items
+                          disabled={selectedPujaItems.length > 0} // Disable if puja items are selected
                         />
                       </div>
                       {formErrors.amount && (
@@ -439,12 +459,12 @@ export default function DonatePage() {
                               <p className="text-sm text-gray-700 mb-4">Scan QR code or use UPI ID to make payment</p>
                               <div className="bg-white p-3 rounded-md border border-kallol-200 mb-4">
                                 <div className="flex items-center justify-between">
-                                  <span className="font-mono text-sm">{upiId}</span>
+                                  <span className="font-mono text-sm">kallol8655852917@iob</span>
                                   <Button
                                     type="button"
                                     size="sm"
                                     variant="outline"
-                                    onClick={() => copyToClipboard(upiId)}
+                                    onClick={() => copyToClipboard("kallol8655852917@iob")}
                                     className="border-kallol-700 text-kallol-700 hover:bg-kallol-50"
                                   >
                                     {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -468,12 +488,12 @@ export default function DonatePage() {
                               <p className="text-sm text-gray-700 mb-4">Send money to our Paytm number</p>
                               <div className="bg-white p-3 rounded-md border border-kallol-200 mb-4">
                                 <div className="flex items-center justify-between">
-                                  <span className="font-mono text-sm">{paytmNumber}</span>
+                                  <span className="font-mono text-sm">+91 98765 43210</span>
                                   <Button
                                     type="button"
                                     size="sm"
                                     variant="outline"
-                                    onClick={() => copyToClipboard(paytmNumber)}
+                                    onClick={() => copyToClipboard("+91 98765 43210")}
                                     className="border-kallol-700 text-kallol-700 hover:bg-kallol-50"
                                   >
                                     {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -652,40 +672,15 @@ export default function DonatePage() {
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center"
+          className="mb-12"
         >
-          <Card className="border-gray-200 bg-gradient-to-r from-gray-50 to-kallol-50 p-8">
-            <CardContent className="p-0">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Donor Recognition</h2>
-              <p className="text-gray-700 max-w-2xl mx-auto mb-6">
-                We deeply appreciate all our donors and supporters. Major contributors will be recognized in our annual
-                report and during special events at the Kali Mandir.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <div className="text-center">
-                  <div className="bg-kallol-100 p-4 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                    <Heart className="h-8 w-8 text-kallol-700" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Supporter</h3>
-                  <p className="text-sm text-gray-600">₹500 - ₹2,499</p>
-                </div>
-                <div className="text-center">
-                  <div className="bg-kallol-100 p-4 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                    <Users className="h-8 w-8 text-kallol-700" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Patron</h3>
-                  <p className="text-sm text-gray-600">₹2,500 - ₹9,999</p>
-                </div>
-                <div className="text-center">
-                  <div className="bg-kallol-100 p-4 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                    <Building className="h-8 w-8 text-kallol-700" />
-                  </div>
-                  <h3 className="font-semibold text-gray-900">Benefactor</h3>
-                  <p className="text-sm text-gray-600">₹10,000+</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+            Recognition <span className="text-kallol-700">Donors</span>
+          </h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Thank you to all our generous donors who have supported Kallol's cultural initiatives and temple
+            maintenance.
+          </p>
         </motion.div>
       </div>
     </main>

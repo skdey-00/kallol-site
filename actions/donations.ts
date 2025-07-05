@@ -1,15 +1,28 @@
 "use server"
 
-import { promises as fs } from "fs"
-import path from "path"
-import crypto from "crypto"
 import { PDFDocument, rgb, StandardFonts, PageSizes } from "pdf-lib"
-import qrcode from "qrcode" // Import qrcode library
-
-const DONATIONS_FILE_PATH = path.join(process.cwd(), "data", "donations.json")
+import qrcode from "qrcode"
+import { createClient } from "@supabase/supabase-js" // Import Supabase client
 
 const KALLOL_LOGO_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Kallol%20Logo-nzQyFJe53XiKXnTvKn7jbus1vKTW0l.png"
+
+// Initialize Supabase client for server-side operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// New interfaces for donation items and QR scan records
+interface DonationItem {
+  purpose: string
+  category: string
+  amount: string // Amount for this specific item
+}
+
+interface QrScanRecord {
+  timestamp: string
+  itemIndex: number // Index of the item in the original `donationItems` array that this scan corresponds to
+}
 
 interface DonationRecord {
   id: string
@@ -17,44 +30,14 @@ interface DonationRecord {
   lastName: string
   gotra: string
   phoneNumber: string
-  amount: string
+  totalAmount: string // Total amount of the donation
   paymentMethod: string
   message?: string
-  purpose?: string
-  category?: string
   status: string
   timestamp: string
-  qrCodeToken?: string // New: Unique token for QR code
-  qrCodeUsed?: boolean // New: Flag to track if QR code has been used
-}
-
-/**
- * Reads donation records from the local JSON file.
- * @returns An array of DonationRecord.
- */
-async function readDonationsFromFile(): Promise<DonationRecord[]> {
-  try {
-    const data = await fs.readFile(DONATIONS_FILE_PATH, "utf8")
-    return JSON.parse(data)
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
-      return []
-    }
-    console.error("Error reading donations file:", error)
-    return []
-  }
-}
-
-/**
- * Writes donation records to the local JSON file.
- * @param donations The array of DonationRecord to write.
- */
-async function writeDonationsToFile(donations: DonationRecord[]): Promise<void> {
-  try {
-    await fs.writeFile(DONATIONS_FILE_PATH, JSON.stringify(donations, null, 2), "utf8")
-  } catch (error) {
-    console.error("Error writing donations file:", error)
-  }
+  qrCodeToken?: string
+  donationItems: DonationItem[] // Array of items the donation covers
+  qrCodeScans: QrScanRecord[] // Array of successful scans, each linked to an item
 }
 
 /**
@@ -163,7 +146,7 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
   // Donation Details
   page.drawText("Donation Details:", { x: margin, y: y, font: boldFont, size: 16, color: rgb(0, 0, 0) })
   y -= 25
-  page.drawText(`Amount: Rs.${donation.amount}`, {
+  page.drawText(`Total Amount: Rs.${donation.totalAmount}`, {
     x: margin,
     y: y,
     font: boldFont,
@@ -179,14 +162,24 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
     color: rgb(0, 0, 0),
   })
   y -= 20
-  if (donation.category) {
-    page.drawText(`Category: ${donation.category}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-    y -= 20
+
+  // List donation items
+  if (donation.donationItems && donation.donationItems.length > 0) {
+    page.drawText("Items Donated For:", { x: margin, y: y, font: boldFont, size: 12, color: rgb(0, 0, 0) })
+    y -= 15
+    donation.donationItems.forEach((item) => {
+      page.drawText(`- ${item.purpose} (${item.category}): Rs.${item.amount}`, {
+        x: margin + 10,
+        y: y,
+        font,
+        size: 10,
+        color: rgb(0, 0, 0),
+      })
+      y -= 15
+    })
   }
-  if (donation.purpose) {
-    page.drawText(`Purpose: ${donation.purpose}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-    y -= 20
-  }
+  y -= 20
+
   if (donation.message) {
     page.drawText(`Message: ${donation.message}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
     y -= 20
@@ -240,7 +233,7 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
 }
 
 /**
- * Handles donation submission and stores it locally.
+ * Handles donation submission and stores it in Supabase.
  * @param formData The form data containing donation details.
  * @returns A success/error message and optionally the base64 PDF receipt.
  */
@@ -253,57 +246,103 @@ export async function submitDonation(
   const lastName = formData.get("lastName") as string
   const gotra = formData.get("gotra") as string
   const phoneNumber = formData.get("phoneNumber") as string
-  const amount = Number.parseFloat(formData.get("amount") as string)
+  const totalAmount = Number.parseFloat(formData.get("totalAmount") as string)
   const paymentMethod = formData.get("paymentMethod") as string
   const message = formData.get("message") as string
-  const purpose = formData.get("purpose") as string
-  const category = formData.get("category") as string
 
-  const isPaymentSuccessful = Math.random() > 0.2
+  const donationItemsString = formData.get("donationItems") as string
+  let donationItems: DonationItem[] = []
+  if (donationItemsString) {
+    try {
+      donationItems = JSON.parse(donationItemsString)
+    } catch (e) {
+      console.error("Failed to parse donationItems:", e)
+      return { success: false, message: "Invalid donation items data." }
+    }
+  }
+
+  const isPaymentSuccessful = Math.random() > 0.2 // Simulate payment success/failure
   const donationStatus = isPaymentSuccessful ? "success" : "failure"
 
   const qrCodeToken = crypto.randomUUID() // Generate unique token for QR code
 
-  const newDonation: DonationRecord = {
-    id: crypto.randomUUID(),
-    firstName,
-    lastName,
-    gotra,
-    phoneNumber,
-    amount: amount.toFixed(2),
-    paymentMethod,
-    message: message || undefined,
-    purpose: purpose || undefined,
-    category: category || undefined,
+  const newDonationData = {
+    first_name: firstName,
+    last_name: lastName,
+    gotra: gotra,
+    phone_number: phoneNumber,
+    total_amount: totalAmount.toFixed(2),
+    payment_method: paymentMethod,
+    message: message || null,
     status: donationStatus,
-    timestamp: new Date().toISOString(),
-    qrCodeToken: qrCodeToken, // Store the QR code token
-    qrCodeUsed: false, // Initialize as unused
+    qr_code_token: qrCodeToken,
+    donation_items: donationItems, // Supabase will store this as JSONB
+    qr_code_scans: [], // Initialize as empty
   }
 
-  const existingDonations = await readDonationsFromFile()
-  const updatedDonations = [newDonation, ...existingDonations]
-  await writeDonationsToFile(updatedDonations)
+  const { data, error } = await supabase.from("donations").insert([newDonationData]).select().single()
+
+  if (error) {
+    console.error("Error inserting donation:", error)
+    return { success: false, message: `Failed to record donation: ${error.message}` }
+  }
+
+  const newDonationRecord: DonationRecord = {
+    id: data.id,
+    firstName: data.first_name,
+    lastName: data.last_name,
+    gotra: data.gotra,
+    phoneNumber: data.phone_number,
+    totalAmount: data.total_amount,
+    paymentMethod: data.payment_method,
+    message: data.message || undefined,
+    status: data.status,
+    timestamp: data.timestamp,
+    qrCodeToken: data.qr_code_token,
+    donationItems: data.donation_items,
+    qrCodeScans: data.qr_code_scans,
+  }
 
   if (isPaymentSuccessful) {
-    console.log("Successful Donation:", newDonation)
-    const qrCodeDataUrl = await qrcode.toDataURL(qrCodeToken, { errorCorrectionLevel: "H", margin: 1, scale: 4 }) // Generate QR code data URL
-    const receiptPdfBase64 = await generateDonationReceiptPdf(newDonation, qrCodeDataUrl)
+    console.log("Successful Donation:", newDonationRecord)
+    const qrCodeDataUrl = await qrcode.toDataURL(qrCodeToken, { errorCorrectionLevel: "H", margin: 1, scale: 4 })
+    const receiptPdfBase64 = await generateDonationReceiptPdf(newDonationRecord, qrCodeDataUrl)
     return { success: true, message: "Donation confirmed successfully!", receiptPdfBase64, qrCodeToken }
   } else {
-    console.log("Unsuccessful Donation:", newDonation)
+    console.log("Unsuccessful Donation:", newDonationRecord)
     return { success: false, message: "Payment failed. Please try again." }
   }
 }
 
 /**
- * Retrieves all successful and unsuccessful donation records from local file.
+ * Retrieves all successful and unsuccessful donation records from Supabase.
  * @returns An object containing arrays of successful and unsuccessful donations.
  */
 export async function getDonations() {
   await new Promise((resolve) => setTimeout(resolve, 500))
 
-  const allDonations = await readDonationsFromFile()
+  const { data, error } = await supabase.from("donations").select("*").order("timestamp", { ascending: false })
+
+  if (error) {
+    console.error("Error fetching donations:", error)
+    return { successful: [], unsuccessful: [] }
+  }
+
+  const allDonations: DonationRecord[] = data.map((d: any) => ({
+    id: d.id,
+    firstName: d.first_name,
+    lastName: d.last_name,
+    gotra: d.gotra,
+    phoneNumber: d.phone_number,
+    totalAmount: d.total_amount,
+    paymentMethod: d.payment_method,
+    message: d.message || undefined,
+    status: d.status,
+    timestamp: d.timestamp,
+    qrCodeToken: d.qr_code_token,
+    donationItems: d.donation_items,
+    qrCodeScans: d.qr_code_scans,
+  }))
 
   const successful = allDonations.filter((d) => d.status === "success")
   const unsuccessful = allDonations.filter((d) => d.status === "failure")
@@ -315,35 +354,61 @@ export async function getDonations() {
 }
 
 /**
- * Exports donation records to a CSV string from local file.
+ * Exports donation records to a CSV string from Supabase.
  * @param type The type of donations to export ('successful' or 'unsuccessful').
  * @returns A CSV formatted string.
  */
 export async function exportDonationsToCsv(type: "successful" | "unsuccessful") {
   await new Promise((resolve) => setTimeout(resolve, 100))
 
-  const allDonations = await readDonationsFromFile()
-  const filteredData = allDonations.filter((d) => d.status === (type === "successful" ? "success" : "failure"))
+  const { data, error } = await supabase
+    .from("donations")
+    .select(
+      "id, first_name, last_name, gotra, phone_number, total_amount, payment_method, message, status, timestamp, qr_code_token, donation_items, qr_code_scans",
+    )
+    .eq("status", type === "successful" ? "success" : "failure")
+    .order("timestamp", { ascending: false })
+
+  if (error) {
+    console.error("Error fetching donations for CSV export:", error)
+    return ""
+  }
+
+  const filteredData = data.map((d: any) => ({
+    id: d.id,
+    firstName: d.first_name,
+    lastName: d.last_name,
+    gotra: d.gotra,
+    phoneNumber: d.phone_number,
+    totalAmount: d.total_amount,
+    paymentMethod: d.payment_method,
+    message: d.message || "",
+    status: d.status,
+    timestamp: d.timestamp,
+    qrCodeToken: d.qr_code_token || "",
+    donationItems: d.donation_items,
+    qrCodeScans: d.qr_code_scans,
+  }))
 
   if (filteredData.length === 0) {
     return ""
   }
 
+  // Headers for the CSV, including new fields
   const headers = [
     "id",
     "firstName",
     "lastName",
     "gotra",
     "phoneNumber",
-    "amount",
+    "totalAmount",
     "paymentMethod",
     "message",
-    "purpose",
-    "category",
     "status",
     "timestamp",
-    "qrCodeToken", // Include QR code token in CSV
-    "qrCodeUsed", // Include QR code used status in CSV
+    "qrCodeToken",
+    "donationItems",
+    "qrCodeScans",
   ].join(",")
 
   const rows = filteredData.map((record) =>
@@ -353,15 +418,14 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful") 
       record.lastName,
       record.gotra,
       record.phoneNumber,
-      record.amount,
+      record.totalAmount,
       record.paymentMethod,
-      record.message || "",
-      record.purpose || "",
-      record.category || "",
+      record.message,
       record.status,
       record.timestamp,
-      record.qrCodeToken || "", // Ensure it's included
-      record.qrCodeUsed ? "true" : "false", // Ensure it's included
+      record.qrCodeToken,
+      JSON.stringify(record.donationItems),
+      JSON.stringify(record.qrCodeScans),
     ]
       .map((value) => {
         if (typeof value === "string" && (value.includes(",") || value.includes('"'))) {

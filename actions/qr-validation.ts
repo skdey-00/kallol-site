@@ -1,85 +1,123 @@
 "use server"
 
-import { promises as fs } from "fs"
-import path from "path"
+import { createClient } from "@supabase/supabase-js" // Import Supabase client
 
-const DONATIONS_FILE_PATH = path.join(process.cwd(), "data", "donations.json")
+// Initialize Supabase client for server-side operations
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// New interfaces for donation items and QR scan records (consistent with donations.ts)
+interface DonationItem {
+  purpose: string
+  category: string
+  amount: string // Amount for this specific item
+}
+
+interface QrScanRecord {
+  timestamp: string
+  itemIndex: number // Index of the item in the original `donationItems` array that this scan corresponds to
+}
 
 interface DonationRecord {
   id: string
   firstName: string
   lastName: string
-  amount: string
-  purpose?: string
-  category?: string
-  qrCodeToken?: string
-  qrCodeUsed?: boolean
+  gotra: string
+  phoneNumber: string
+  totalAmount: string // Total amount of the donation
+  paymentMethod: string
+  message?: string
+  status: string
   timestamp: string
+  qrCodeToken?: string
+  donationItems: DonationItem[] // Array of items the donation covers
+  qrCodeScans: QrScanRecord[] // Array of successful scans, each linked to an item
 }
 
 /**
- * Reads donation records from the local JSON file.
- * @returns An array of DonationRecord.
- */
-async function readDonationsFromFile(): Promise<DonationRecord[]> {
-  try {
-    const data = await fs.readFile(DONATIONS_FILE_PATH, "utf8")
-    return JSON.parse(data)
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
-      return []
-    }
-    console.error("Error reading donations file:", error)
-    return []
-  }
-}
-
-/**
- * Writes donation records to the local JSON file.
- * @param donations The array of DonationRecord to write.
- */
-async function writeDonationsToFile(donations: DonationRecord[]): Promise<void> {
-  try {
-    await fs.writeFile(DONATIONS_FILE_PATH, JSON.stringify(donations, null, 2), "utf8")
-  } catch (error) {
-    console.error("Error writing donations file:", error)
-  }
-}
-
-/**
- * Validates a QR code token and marks it as used if valid and unused.
+ * Validates a QR code token and marks one of its associated items as used.
  * @param token The unique QR code token scanned.
- * @returns An object indicating success/failure and relevant donation details.
+ * @returns An object indicating success/failure and relevant donation/item details.
  */
 export async function validateQrCode(token: string): Promise<{
   success: boolean
   message: string
-  donation?: Omit<DonationRecord, "qrCodeToken" | "qrCodeUsed">
+  donation?: Omit<DonationRecord, "qrCodeToken" | "donationItems" | "qrCodeScans"> // Basic donation info
+  scannedItem?: DonationItem & { scanTimestamp: string } // Details of the specific item scanned
 }> {
   await new Promise((resolve) => setTimeout(resolve, 500)) // Simulate network delay
 
-  const allDonations = await readDonationsFromFile()
-  const donationIndex = allDonations.findIndex((d) => d.qrCodeToken === token)
+  // Fetch the donation record by QR code token
+  const { data: donationData, error: fetchError } = await supabase
+    .from("donations")
+    .select("*")
+    .eq("qr_code_token", token)
+    .single()
 
-  if (donationIndex === -1) {
+  if (fetchError || !donationData) {
+    console.error("Error fetching donation for QR validation:", fetchError)
     return { success: false, message: "Invalid QR Code. No matching donation found." }
   }
 
-  const donation = allDonations[donationIndex]
-
-  if (donation.qrCodeUsed) {
-    return { success: false, message: "QR Code already used for this donation." }
+  // Map Supabase data to DonationRecord interface
+  const donation: DonationRecord = {
+    id: donationData.id,
+    firstName: donationData.first_name,
+    lastName: donationData.last_name,
+    gotra: donationData.gotra,
+    phoneNumber: donationData.phone_number,
+    totalAmount: donationData.total_amount,
+    paymentMethod: donationData.payment_method,
+    message: donationData.message || undefined,
+    status: donationData.status,
+    timestamp: donationData.timestamp,
+    qrCodeToken: donationData.qr_code_token,
+    donationItems: donationData.donation_items,
+    qrCodeScans: donationData.qr_code_scans,
   }
 
-  // Mark QR code as used
-  allDonations[donationIndex].qrCodeUsed = true
-  await writeDonationsToFile(allDonations)
+  // Check if there are still items to be scanned
+  if (donation.qrCodeScans.length >= donation.donationItems.length) {
+    return { success: false, message: "QR Code fully used for all associated items." }
+  }
 
-  // Return relevant details without sensitive info or QR code data
-  const { qrCodeToken, qrCodeUsed, ...donationDetails } = donation
+  // Get the next item to be scanned
+  const nextItemIndex = donation.qrCodeScans.length
+  const scannedItemDetails = donation.donationItems[nextItemIndex]
+
+  if (!scannedItemDetails) {
+    return { success: false, message: "Error: Could not find next item to scan." }
+  }
+
+  // Record the scan with a timestamp and the item index
+  const newScanRecord: QrScanRecord = {
+    timestamp: new Date().toISOString(),
+    itemIndex: nextItemIndex,
+  }
+  const updatedQrCodeScans = [...donation.qrCodeScans, newScanRecord]
+
+  // Update the donation record in Supabase
+  const { error: updateError } = await supabase
+    .from("donations")
+    .update({ qr_code_scans: updatedQrCodeScans })
+    .eq("id", donation.id)
+
+  if (updateError) {
+    console.error("Error updating donation with new scan:", updateError)
+    return { success: false, message: `Failed to record scan: ${updateError.message}` }
+  }
+
+  // Prepare the response
+  const { qrCodeToken: _, donationItems: __, qrCodeScans: ___, ...basicDonationInfo } = donation
+
   return {
     success: true,
-    message: "QR Code validated successfully! Donation confirmed.",
-    donation: donationDetails,
+    message: `QR Code validated successfully for ${scannedItemDetails.purpose}!`,
+    donation: basicDonationInfo,
+    scannedItem: {
+      ...scannedItemDetails,
+      scanTimestamp: newScanRecord.timestamp,
+    },
   }
 }
