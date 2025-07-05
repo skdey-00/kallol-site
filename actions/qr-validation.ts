@@ -78,30 +78,45 @@ export async function validateQrCode(token: string): Promise<{
     qrCodeScans: donationData.qr_code_scans,
   }
 
-  // Check if there are still items to be scanned
-  if (donation.qrCodeScans.length >= donation.donationItems.length) {
-    return { success: false, message: "QR Code fully used for all associated items." }
+  // Find the first unscanned scannable puja item
+  let itemToScan: { item: DonationItem; index: number } | undefined
+
+  // Filter for "Special Puja" or "Evening Puja" items that are meant to be QR-scannable
+  const scannablePujaItemsWithIndices = donation.donationItems
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => item.purpose.includes("Special Puja") || item.purpose.includes("Evening Puja"))
+
+  for (const { item, index } of scannablePujaItemsWithIndices) {
+    const hasBeenScanned = donation.qrCodeScans.some((scan) => scan.itemIndex === index)
+    if (!hasBeenScanned) {
+      itemToScan = { item, index }
+      break
+    }
   }
 
-  // Get the next item to be scanned
-  const nextItemIndex = donation.qrCodeScans.length
-  const scannedItemDetails = donation.donationItems[nextItemIndex]
-
-  if (!scannedItemDetails) {
-    return { success: false, message: "Error: Could not find next item to scan." }
+  // If no unscanned scannable puja item is found, the QR code is fully consumed for its intended purpose.
+  if (!itemToScan) {
+    const allScanTimestamps = donation.qrCodeScans
+      .map((scan) => new Date(scan.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))
+      .join(", ")
+    return {
+      success: false,
+      message: `QR Code fully used for all associated Special/Evening Puja items. All items scanned at: ${allScanTimestamps}.`,
+    }
   }
 
-  // --- New: Date Validation Logic ---
-  const isSpecialOrEveningPuja =
-    scannedItemDetails.purpose.includes("Special Puja") || scannedItemDetails.purpose.includes("Evening Puja")
+  // Now, itemToScan contains the specific item we are attempting to scan.
+  const scannedItemDetails = itemToScan.item
+  const itemIndexToScan = itemToScan.index
 
-  if (isSpecialOrEveningPuja && scannedItemDetails.date) {
+  // Apply the date validation for the specific item being scanned
+  const today = new Date()
+  const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+
+  if (scannedItemDetails.date) {
+    // Only check date if it exists on the item
     const pujaDate = new Date(scannedItemDetails.date)
-    const today = new Date()
-
-    // Normalize dates to compare only year, month, and day
     const pujaDateNormalized = new Date(pujaDate.getFullYear(), pujaDate.getMonth(), pujaDate.getDate())
-    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate())
 
     if (pujaDateNormalized.getTime() !== todayNormalized.getTime()) {
       return {
@@ -110,16 +125,14 @@ export async function validateQrCode(token: string): Promise<{
       }
     }
   }
-  // --- End New: Date Validation Logic ---
 
-  // Record the scan with a timestamp and the item index
+  // If we reach here, the item is valid for scanning. Record the scan.
   const newScanRecord: QrScanRecord = {
     timestamp: new Date().toISOString(),
-    itemIndex: nextItemIndex,
+    itemIndex: itemIndexToScan,
   }
   const updatedQrCodeScans = [...donation.qrCodeScans, newScanRecord]
 
-  // Update the donation record in Supabase
   const { error: updateError } = await supabase
     .from("donations")
     .update({ qr_code_scans: updatedQrCodeScans })
@@ -130,7 +143,6 @@ export async function validateQrCode(token: string): Promise<{
     return { success: false, message: `Failed to record scan: ${updateError.message}` }
   }
 
-  // Prepare the response
   const { qrCodeToken: _, donationItems: __, qrCodeScans: ___, ...basicDonationInfo } = donation
 
   return {
