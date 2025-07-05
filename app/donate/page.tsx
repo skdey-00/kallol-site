@@ -21,6 +21,7 @@ interface DonationItem {
   purpose: string
   category: string
   amount: string
+  date?: string // Added date property
 }
 
 export default function DonatePage() {
@@ -55,7 +56,14 @@ export default function DonatePage() {
       description: "Support the grand annual Durga Puja celebration, the largest festival for Bengalis.",
       items: [
         { purpose: "Idol Decoration", amount: 25000 },
-        { purpose: "Bhog Prasad", amount: 15000 },
+        { purpose: "Saptami: Special Puja", amount: 15000, date: "2025-07-05" }, // Added date
+        { purpose: "Saptami: Evening Puja", amount: 15000, date: "2025-07-05" }, // Added date
+        { purpose: "Ashtami: Special Puja", amount: 15000, date: "2025-10-09" }, // Added date
+        { purpose: "Ashtami: Evening Puja", amount: 15000, date: "2025-10-09" }, // Added date
+        { purpose: "Navami: Special Puja", amount: 15000, date: "2025-10-10" }, // Added date
+        { purpose: "Navami: Evening Puja", amount: 15000, date: "2025-10-10" }, // Added date
+        { purpose: "Sandhi: Special Puja", amount: 15000, date: "2025-10-09" }, // Added date
+        { purpose: "Sandhi: Evening Puja", amount: 15000, date: "2025-10-09" }, // Added date
         { purpose: "Cultural Program", amount: 10000 },
         { purpose: "Pandal Setup", amount: 50000 },
       ],
@@ -67,7 +75,7 @@ export default function DonatePage() {
       items: [
         { purpose: "Puja Samagri", amount: 7500 },
         { purpose: "Flower Decoration", amount: 5000 },
-        { purpose: "Lighting & Sound", amount: 8000 },
+        { purpose: "Special Puja", amount: 8000, date: "2025-11-12" }, // Added date
       ],
     },
     {
@@ -77,7 +85,7 @@ export default function DonatePage() {
       items: [
         { purpose: "Books & Stationery for Kids", amount: 3000 },
         { purpose: "Cultural Performances", amount: 6000 },
-        { purpose: "Prasad Distribution", amount: 2000 },
+        { purpose: "Special Puja", amount: 2000, date: "2026-02-14" }, // Added date
       ],
     },
     {
@@ -85,7 +93,7 @@ export default function DonatePage() {
       name: "Lakshmi Puja",
       description: "Support the worship of Goddess Lakshmi for prosperity and well-being.",
       items: [
-        { purpose: "Alpona & Rangoli", amount: 2500 },
+        { purpose: "Special Puja", amount: 2500, date: "2025-10-28" }, // Added date
         { purpose: "Diya & Lighting", amount: 1500 },
       ],
     },
@@ -101,12 +109,17 @@ export default function DonatePage() {
     },
   ]
 
-  const handlePujaDonationSelect = (amount: number, purpose: string, category: string) => {
-    const newItem: DonationItem = { purpose, category, amount: amount.toString() }
+  const handlePujaDonationSelect = (amount: number, purpose: string, category: string, date?: string) => {
+    const newItem: DonationItem = { purpose, category, amount: amount.toString(), date } // Pass date
     setSelectedPujaItems((prevItems) => {
-      const exists = prevItems.some((item) => item.purpose === newItem.purpose && item.category === newItem.category)
+      const exists = prevItems.some(
+        (item) => item.purpose === newItem.purpose && item.category === newItem.category && item.date === newItem.date,
+      )
       if (exists) {
-        return prevItems.filter((item) => !(item.purpose === newItem.purpose && item.category === newItem.category))
+        return prevItems.filter(
+          (item) =>
+            !(item.purpose === newItem.purpose && item.category === newItem.category && item.date === newItem.date),
+        )
       } else {
         return [...prevItems, newItem]
       }
@@ -117,7 +130,14 @@ export default function DonatePage() {
 
   const removePujaItem = (itemToRemove: DonationItem) => {
     setSelectedPujaItems((prevItems) =>
-      prevItems.filter((item) => !(item.purpose === itemToRemove.purpose && item.category === itemToRemove.category)),
+      prevItems.filter(
+        (item) =>
+          !(
+            item.purpose === itemToRemove.purpose &&
+            item.category === itemToRemove.category &&
+            item.date === itemToRemove.date
+          ),
+      ),
     )
   }
 
@@ -321,22 +341,30 @@ export default function DonatePage() {
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {puja.items.map((item, itemIndex) => {
                           const isSelected = selectedPujaItems.some(
-                            (selected) => selected.purpose === item.purpose && selected.category === puja.name,
+                            (selected) =>
+                              selected.purpose === item.purpose &&
+                              selected.category === puja.name &&
+                              selected.date === item.date,
                           )
                           return (
                             <Button
                               key={itemIndex}
                               type="button"
                               className={cn(
-                                "flex flex-col h-auto py-3 transition-colors",
+                                "flex flex-col h-auto py-3 transition-colors text-center whitespace-normal",
                                 isSelected
                                   ? "bg-kallol-700 hover:bg-kallol-800 text-white"
                                   : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent",
                               )}
-                              onClick={() => handlePujaDonationSelect(item.amount, item.purpose, puja.name)}
+                              onClick={() => handlePujaDonationSelect(item.amount, item.purpose, puja.name, item.date)} // Pass item.date
                             >
                               <span className="font-medium text-base">{item.purpose}</span>
                               <span className="text-sm">₹{item.amount.toLocaleString("en-IN")}</span>
+                              {item.date && ( // Display date if available
+                                <span className="text-xs text-gray-400 mt-1">
+                                  {new Date(item.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                                </span>
+                              )}
                             </Button>
                           )
                         })}
@@ -366,6 +394,17 @@ export default function DonatePage() {
                             <span className="text-gray-800 text-sm">
                               {item.purpose} ({item.category}) - ₹
                               {Number.parseFloat(item.amount).toLocaleString("en-IN")}
+                              {item.date && (
+                                <span className="ml-2 text-gray-600">
+                                  (
+                                  {new Date(item.date).toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  })}
+                                  )
+                                </span>
+                              )}
                             </span>
                             <Button
                               type="button"

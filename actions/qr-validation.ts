@@ -12,6 +12,7 @@ interface DonationItem {
   purpose: string
   category: string
   amount: string // Amount for this specific item
+  date?: string // Added date property
 }
 
 interface QrScanRecord {
@@ -89,6 +90,27 @@ export async function validateQrCode(token: string): Promise<{
   if (!scannedItemDetails) {
     return { success: false, message: "Error: Could not find next item to scan." }
   }
+
+  // --- New: Date Validation Logic ---
+  const isSpecialOrEveningPuja =
+    scannedItemDetails.purpose.includes("Special Puja") || scannedItemDetails.purpose.includes("Evening Puja")
+
+  if (isSpecialOrEveningPuja && scannedItemDetails.date) {
+    const pujaDate = new Date(scannedItemDetails.date)
+    const today = new Date()
+
+    // Normalize dates to compare only year, month, and day
+    const pujaDateNormalized = new Date(pujaDate.getFullYear(), pujaDate.getMonth(), pujaDate.getDate())
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+
+    if (pujaDateNormalized.getTime() !== todayNormalized.getTime()) {
+      return {
+        success: false,
+        message: `This QR code can only be scanned on the puja date: ${pujaDate.toLocaleDateString()}.`,
+      }
+    }
+  }
+  // --- End New: Date Validation Logic ---
 
   // Record the scan with a timestamp and the item index
   const newScanRecord: QrScanRecord = {

@@ -17,6 +17,7 @@ interface DonationItem {
   purpose: string
   category: string
   amount: string // Amount for this specific item
+  date?: string // Added date property
 }
 
 interface QrScanRecord {
@@ -69,6 +70,7 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
 
   let qrCodeImage = null
   if (qrCodeDataUrl) {
+    // Only embed QR code if data URL is provided
     try {
       const qrCodeBytes = Buffer.from(qrCodeDataUrl.split(",")[1], "base64")
       qrCodeImage = await pdfDoc.embedPng(qrCodeBytes)
@@ -168,7 +170,10 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
     page.drawText("Items Donated For:", { x: margin, y: y, font: boldFont, size: 12, color: rgb(0, 0, 0) })
     y -= 15
     donation.donationItems.forEach((item) => {
-      page.drawText(`- ${item.purpose} (${item.category}): Rs.${item.amount}`, {
+      const itemText =
+        `- ${item.purpose} (${item.category}): Rs.${item.amount}` +
+        (item.date ? ` (Date: ${new Date(item.date).toLocaleDateString()})` : "")
+      page.drawText(itemText, {
         x: margin + 10,
         y: y,
         font,
@@ -208,7 +213,7 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
     color: rgb(0, 0, 0),
   })
 
-  // QR Code (bottom-right)
+  // QR Code (bottom-right) - Only draw if qrCodeImage is available
   if (qrCodeImage) {
     const qrSize = 100
     const qrX = width - margin - qrSize
@@ -262,9 +267,19 @@ export async function submitDonation(
   }
 
   const isPaymentSuccessful = Math.random() > 0.2 // Simulate payment success/failure
-  const donationStatus = isPaymentSuccessful ? "success" : "failure"
 
-  const qrCodeToken = crypto.randomUUID() // Generate unique token for QR code
+  let qrCodeToken: string | undefined = undefined
+  let qrCodeDataUrl: string | undefined = undefined
+
+  // Determine if QR code should be generated
+  const shouldGenerateQrCode = donationItems.some(
+    (item) => item.purpose.includes("Special Puja") || item.purpose.includes("Evening Puja"),
+  )
+
+  if (shouldGenerateQrCode) {
+    qrCodeToken = crypto.randomUUID() // Generate unique token for QR code
+    qrCodeDataUrl = await qrcode.toDataURL(qrCodeToken, { errorCorrectionLevel: "H", margin: 1, scale: 4 })
+  }
 
   const newDonationData = {
     first_name: firstName,
@@ -274,8 +289,8 @@ export async function submitDonation(
     total_amount: totalAmount.toFixed(2),
     payment_method: paymentMethod,
     message: message || null,
-    status: donationStatus,
-    qr_code_token: qrCodeToken,
+    status: isPaymentSuccessful ? "success" : "failure",
+    qr_code_token: qrCodeToken || null, // Store null if no QR code is generated
     donation_items: donationItems, // Supabase will store this as JSONB
     qr_code_scans: [], // Initialize as empty
   }
@@ -298,14 +313,13 @@ export async function submitDonation(
     message: data.message || undefined,
     status: data.status,
     timestamp: data.timestamp,
-    qrCodeToken: data.qr_code_token,
+    qrCodeToken: data.qr_code_token || undefined, // Ensure it's undefined if null from DB
     donationItems: data.donation_items,
     qrCodeScans: data.qr_code_scans,
   }
 
   if (isPaymentSuccessful) {
     console.log("Successful Donation:", newDonationRecord)
-    const qrCodeDataUrl = await qrcode.toDataURL(qrCodeToken, { errorCorrectionLevel: "H", margin: 1, scale: 4 })
     const receiptPdfBase64 = await generateDonationReceiptPdf(newDonationRecord, qrCodeDataUrl)
     return { success: true, message: "Donation confirmed successfully!", receiptPdfBase64, qrCodeToken }
   } else {
@@ -339,7 +353,7 @@ export async function getDonations() {
     message: d.message || undefined,
     status: d.status,
     timestamp: d.timestamp,
-    qrCodeToken: d.qr_code_token,
+    qrCodeToken: d.qr_code_token || undefined,
     donationItems: d.donation_items,
     qrCodeScans: d.qr_code_scans,
   }))
