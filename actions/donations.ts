@@ -272,12 +272,7 @@ export async function submitDonation(
   let qrCodeDataUrl: string | undefined = undefined
 
   // Determine if QR code should be generated
-  const shouldGenerateQrCode = donationItems.some(
-    (item) =>
-      item.purpose.includes("Special Puja") ||
-      item.purpose.includes("Evening Puja") ||
-      item.purpose.includes("Sandhi Puja"),
-  )
+  const shouldGenerateQrCode = donationItems.some((item) => item.category !== "General Offering")
 
   if (shouldGenerateQrCode) {
     qrCodeToken = crypto.randomUUID() // Generate unique token for QR code
