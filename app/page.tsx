@@ -20,10 +20,17 @@ export default function Home() {
 
           <div className="max-w-3xl mx-auto text-center mb-12">
             <p className="text-lg text-gray-700 mb-6">
-              Kallol has been home to the Bengali Community of Goregaon for over Six decades, providing a platform for expression and exposition to Bengali Culture.
+              Kallol has been home to the Bengali Community of Goregaon for over Six decades, providing a platform for
+              expression and exposition to Bengali Culture.
             </p>
-            <p className="text-lg text-gray-700">
-              Our club strves to pay homage to our ancestral heritage, staying in touch with our roots, and builing a home away from home. Through our cultural programs we give local artists a platform to showcase their talentsbuilding our communiy furthermore, and keeping the embers of our bengai culture alive.
+             <p className="text-lg text-gray-700 mb-6">
+              {"The Bengali community in Goregaon is one of the oldest settlements in the north western suburbs of the Bombay city, now Mumbai."}
+            </p>
+            <p className="text-lg text-gray-700 mb-6">
+              {"Kallol had it's humble beginnings in the decision by it\'s founding fathers, to celebrate the Spring Festival, Basanta Panchami with the worship of Maa Saraswati."}
+            </p>
+            <p className="text-lg text-gray-700 mb-6">
+              {"Since then Kallol has come a long way and is now considered an established portal to the community for the Bengalis of the suburbs."}
             </p>
           </div>
 
@@ -115,7 +122,7 @@ export default function Home() {
             <Button
               asChild
               variant="outline"
-              className="border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 px-8 py-6 rounded-md text-lg shadow-sm"
+              className="border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 px-8 py-6 rounded-md text-lg shadow-sm bg-transparent"
             >
               <Link href="/contact">Contact Us</Link>
             </Button>

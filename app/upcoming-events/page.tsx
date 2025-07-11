@@ -38,7 +38,7 @@ export default function UpcomingEventsPage() {
       description:
         "Join us for Amavasya Puja at the Kali Mandir in Bangur Nagar. The evening will include traditional rituals and the distribution of prasad. Let’s gather in devotion and prayer on this auspicious new moon night.",
       image: "/placeholder.svg?height=300&width=500",
-      category: "religious",
+      category: "social",
       featured: true,
     },
     {
@@ -50,7 +50,7 @@ export default function UpcomingEventsPage() {
       description:
         "Join us for Shree Shree Shanidev Puja at the Kali Mandir in Bangur Nagar. The evening will feature traditional puja rituals, devotional chants, and prasad distribution. Come offer your prayers to Shanidev for protection, peace, and prosperity.",
       image: "/placeholder.svg?height=300&width=500",
-      category: "religious",
+      category: "social",
       featured: true,
     },
     {
@@ -62,7 +62,7 @@ export default function UpcomingEventsPage() {
       description:
         "Join us for Bipattarini Puja at the Kali Mandir in Bangur Nagar. The celebration will include sacred rituals, heartfelt prayers to the Goddess for protection from misfortunes, and prasad distribution. Let us come together in devotion and faith.",
       image: "/placeholder.svg?height=300&width=500",
-      category: "religious",
+      category: "social",
       featured: false,
     },
     {
@@ -74,7 +74,7 @@ export default function UpcomingEventsPage() {
       description:
         "Join us for Bipattarini Puja at the Kali Mandir in Bangur Nagar. The celebration will include sacred rituals, heartfelt prayers to the Goddess for protection from misfortunes, and prasad distribution. Let us come together in devotion and faith.",
       image: "/placeholder.svg?height=300&width=500",
-      category: "religious",
+      category: "social",
       featured: false,
     },
     {
@@ -86,7 +86,7 @@ export default function UpcomingEventsPage() {
       description:
         "Screening of classic Bengali films followed by a discussion on Bengali cinema and its cultural impact.",
       image: "/placeholder.svg?height=300&width=500",
-      category: "religious",
+      category: "social",
       featured: false,
     },
     {
@@ -98,7 +98,7 @@ export default function UpcomingEventsPage() {
       description:
         "Join us for Amavasya Puja at the Kali Mandir in Bangur Nagar. The evening will include traditional rituals and the distribution of prasad. Let’s gather in devotion and prayer on this auspicious new moon night.",
       image: "/placeholder.svg?height=300&width=500",
-      category: "religious",
+      category: "social",
       featured: false,
     },
   ]
@@ -187,10 +187,10 @@ export default function UpcomingEventsPage() {
                   All
                 </TabsTrigger>
                 <TabsTrigger
-                  value="religious"
+                  value="social"
                   className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white"
                 >
-                  Religious
+                  Social
                 </TabsTrigger>
                 <TabsTrigger
                   value="cultural"
@@ -270,12 +270,12 @@ export default function UpcomingEventsPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white shadow-md">
-                  <Link href="/contact">Become a Member</Link>
+                  <Link href="/contact">Join our community</Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
-                  className="border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 shadow-sm"
+                  className="border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 shadow-sm bg-transparent"
                 >
                   <Link href="/calendar">View Calendar</Link>
                 </Button>

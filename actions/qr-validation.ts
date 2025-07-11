@@ -84,7 +84,12 @@ export async function validateQrCode(token: string): Promise<{
   // Filter for "Special Puja" or "Evening Puja" items that are meant to be QR-scannable
   const scannablePujaItemsWithIndices = donation.donationItems
     .map((item, index) => ({ item, index }))
-    .filter(({ item }) => item.purpose.includes("Special Puja") || item.purpose.includes("Evening Puja"))
+    .filter(
+      ({ item }) =>
+        item.purpose.includes("Special Puja") ||
+        item.purpose.includes("Evening Puja") ||
+        item.purpose.includes("Sandhi Puja"),
+    )
 
   for (const { item, index } of scannablePujaItemsWithIndices) {
     const hasBeenScanned = donation.qrCodeScans.some((scan) => scan.itemIndex === index)

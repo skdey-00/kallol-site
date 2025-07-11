@@ -36,7 +36,7 @@ export default function LoginPage() {
 
     const success = await login(email, password)
     if (success) {
-      router.push("/life-members")
+      router.push("/")
     } else {
       setError("Invalid email or password")
     }
@@ -135,10 +135,7 @@ export default function LoginPage() {
                   <strong>Admin:</strong> admin@kallol.org / admin123
                 </div>
                 <div>
-                  <strong>Life Member:</strong> member@kallol.org / member123
-                </div>
-                <div>
-                  <strong>Executive Member:</strong> executive@kallol.org / executive123
+                  <strong>Volunteer:</strong> volunteer@kallol.org / volunteer123
                 </div>
               </div>
             </div>

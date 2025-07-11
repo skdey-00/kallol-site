@@ -1,8 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react"
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, LogIn, LogOut } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useAuth } from "@/hooks/use-auth"
 
 export function Footer() {
+  const { user, logout } = useAuth()
+
   return (
     <footer className="bg-kallol-700 text-gray-100">
       <div className="container mx-auto px-4 py-12 md:py-16">
@@ -18,11 +24,17 @@ export function Footer() {
               educational programs at the Kali Mandir in Bangur Nagar.
             </p>
             <div className="flex space-x-4">
-              <Link href="#https://www.facebook.com/kallolkalimandir#" className="text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="#https://www.facebook.com/kallolkalimandir#"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
               </Link>
-              <Link href="https://www.instagram.com/kallolkalimandir/" className="text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="https://www.instagram.com/kallolkalimandir/"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
@@ -30,6 +42,34 @@ export function Footer() {
                 <Twitter className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
+            </div>
+            <div className="mt-6">
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm text-gray-300">Welcome, {user.name}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={logout}
+                    className="border-kallol-300 text-kallol-300 hover:bg-kallol-600 bg-transparent"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="border-kallol-300 text-kallol-300 hover:bg-kallol-600 bg-transparent"
+                >
+                  <Link href="/login">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Login
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 

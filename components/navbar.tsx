@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Sun, Moon, LogIn, LogOut } from "lucide-react"
+import { Menu, X, Sun, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { motion, AnimatePresence } from "framer-motion"
@@ -34,14 +34,12 @@ export function Navbar() {
     { name: "Home", href: "/" },
     { name: "Upcoming Events", href: "/upcoming-events" },
     { name: "Calendar", href: "/calendar" },
-    ...(user && (user.membershipType === "life" || user.membershipType === "executive")
-      ? [{ name: "Life Members", href: "/life-members" }]
-      : []),
     ...(user && (user.membershipType === "volunteer" || user.email === "admin@kallol.org")
       ? [{ name: "Volunteer", href: "/volunteer" }]
       : []),
     ...(user?.email === "admin@kallol.org" ? [{ name: "Admin", href: "/admin" }] : []),
     { name: "About Us", href: "/about" },
+    { name: "Contact Us", href: "/contact" }, // Added Contact Us to Navbar
     { name: "Donate (INR)", href: "/donate" },
   ]
 
@@ -71,40 +69,6 @@ export function Navbar() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-kallol-700 transition-all group-hover:w-full"></span>
               </Link>
             ))}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="ml-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-700 dark:text-gray-300">Welcome, {user.name}</span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={logout}
-                  className="border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent"
-              >
-                <Link href="/login">
-                  <LogIn className="h-4 w-4 mr-2" />
-                  Login
-                </Link>
-              </Button>
-            )}
           </nav>
 
           {/* Mobile Navigation Toggle */}
@@ -117,29 +81,7 @@ export function Navbar() {
             >
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
-            {user ? (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={logout}
-                className="mr-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            ) : (
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="mr-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent"
-              >
-                <Link href="/login">
-                  <LogIn className="h-4 w-4 mr-2" />
-                  Login
-                </Link>
-              </Button>
-            )}
+
             <Button
               variant="outline"
               size="icon"

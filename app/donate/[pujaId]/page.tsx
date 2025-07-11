@@ -4,18 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import {
-  Heart,
-  CreditCard,
-  Smartphone,
-  QrCode,
-  Copy,
-  Check,
-  AlertCircle,
-  Loader2,
-  Download,
-  ArrowRight,
-} from "lucide-react"
+import { Heart, CreditCard, Smartphone, QrCode, Copy, Check, AlertCircle, Loader2, Download, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -23,14 +12,29 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
-import { submitDonation } from "@/actions/donations" // Import the Server Action
+import { submitDonation } from "@/actions/donations"
 import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { pujaDonations } from "@/lib/puja-data" // Import pujaDonations
+import { pujaDonations, type DonationItem, type PujaDonationCategory, type OfferingItem } from "@/lib/puja-data" // Import types and data
+import { notFound } from "next/navigation"
 
-export default function DonatePage() {
-  const [selectedAmounts, setSelectedAmounts] = useState<string[]>([])
-  const [customAmount, setCustomAmount] = useState("")
+interface PujaPageProps {
+  params: {
+    pujaId: string
+  }
+}
+
+
+
+export default function PujaDonatePage({ params }: PujaPageProps) {
+  const { pujaId } = params
+  const puja: PujaDonationCategory | undefined = pujaDonations.find((p) => p.id === pujaId)
+
+  if (!puja) {
+    notFound() // Render 404 page if pujaId is not found
+  }
+
+  const [selectedPujaItems, setSelectedPujaItems] = useState<DonationItem[]>([])
+  const [selectedOfferings, setSelectedOfferings] = useState<OfferingItem[]>([])
   const [paymentMethod, setPaymentMethod] = useState("upi")
   const [copied, setCopied] = useState(false)
   const [firstName, setFirstName] = useState("")
@@ -50,7 +54,35 @@ export default function DonatePage() {
     visible: { opacity: 1, y: 0 },
   }
 
-  const predefinedAmounts = ["₹500", "₹1000", "₹2500", "₹5000", "₹10000"]
+  const handlePujaDonationSelect = (amount: number, purpose: string, category: string, date?: string) => {
+    const newItem: DonationItem = { purpose, category, amount, date }
+    setSelectedPujaItems((prevItems) => {
+      const exists = prevItems.some(
+        (item) => item.purpose === newItem.purpose && item.category === newItem.category && item.date === newItem.date,
+      )
+      if (exists) {
+        return prevItems.filter(
+          (item) =>
+            !(item.purpose === newItem.purpose && item.category === newItem.category && item.date === newItem.date),
+        )
+      } else {
+        return [...prevItems, newItem]
+      }
+    })
+  }
+
+  const removePujaItem = (itemToRemove: DonationItem) => {
+    setSelectedPujaItems((prevItems) =>
+      prevItems.filter(
+        (item) =>
+          !(
+            item.purpose === itemToRemove.purpose &&
+            item.category === itemToRemove.category &&
+            item.date === itemToRemove.date
+          ),
+      ),
+    )
+  }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -58,41 +90,16 @@ export default function DonatePage() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const handleAmountSelect = (amount: string) => {
-    setSelectedAmounts((prevSelected) => {
-      if (prevSelected.includes(amount)) {
-        return prevSelected.filter((item) => item !== amount)
-      } else {
-        return [...prevSelected, amount]
-      }
-    })
-    setCustomAmount("") // Clear custom amount
-  }
-
-  const handleCustomAmountChange = (value: string) => {
-    setCustomAmount(value)
-    setSelectedAmounts([]) // Clear multi-selected amounts
-  }
-
   const getCurrentAmount = () => {
-    if (customAmount) return `₹${Number.parseFloat(customAmount).toLocaleString("en-IN")}`
-    if (selectedAmounts.length > 0) {
-      const total = selectedAmounts.reduce((sum, amountStr) => {
-        return sum + Number.parseFloat(amountStr.replace("₹", ""))
-      }, 0)
-      return `₹${total.toLocaleString("en-IN")}`
-    }
-    return "₹0"
+    let total = selectedPujaItems.reduce((sum, item) => sum + item.amount, 0)
+    total += selectedOfferings.reduce((sum, item) => sum + item.amount, 0)
+    return `₹${total.toLocaleString("en-IN")}`
   }
 
   const getRawCurrentAmount = () => {
-    if (customAmount) return Number.parseFloat(customAmount)
-    if (selectedAmounts.length > 0) {
-      return selectedAmounts.reduce((sum, amountStr) => {
-        return sum + Number.parseFloat(amountStr.replace("₹", ""))
-      }, 0)
-    }
-    return 0
+    let total = selectedPujaItems.reduce((sum, item) => sum + item.amount, 0)
+    total += selectedOfferings.reduce((sum, item) => sum + item.amount, 0)
+    return total
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -114,7 +121,7 @@ export default function DonatePage() {
 
     const finalAmount = getRawCurrentAmount()
     if (isNaN(finalAmount) || finalAmount <= 0) {
-      errors.amount = "Please select or enter a valid donation amount."
+      errors.amount = "Please select at least one puja item or an offering." // Updated error message
     }
 
     setFormErrors(errors)
@@ -122,20 +129,31 @@ export default function DonatePage() {
     if (Object.keys(errors).length > 0) {
       toast({
         title: "Validation Error",
-        description: "Please fill in all required fields and select a valid donation amount.",
+        description: "Please fill in all required fields and select at least one puja item or an offering.", // Updated description
         variant: "error",
       })
       return
     }
 
     setIsSubmitting(true)
-    setReceiptPdfBase64State(null) // Clear previous receipt
-    setGeneratedQrCodeToken(null) // Clear previous QR token
+    setReceiptPdfBase64State(null)
+    setGeneratedQrCodeToken(null)
 
     const formData = new FormData(e.currentTarget as HTMLFormElement)
-    formData.set("totalAmount", finalAmount.toFixed(2)) // Use the validated finalAmount
+    formData.set("totalAmount", finalAmount.toFixed(2))
     formData.set("paymentMethod", paymentMethod)
-    formData.set("donationItems", JSON.stringify([])) // No specific puja items for general donation
+
+    // Combine selected puja items and selected offering into a single array
+    const combinedDonationItems: DonationItem[] = [...selectedPujaItems]
+    selectedOfferings.forEach((offering) => {
+      combinedDonationItems.push({
+        purpose: offering.name,
+        category: "General Offering", // A generic category for offerings
+        amount: offering.amount,
+        date: new Date().toISOString().split("T")[0], // Use current date for offerings
+      })
+    })
+    formData.set("donationItems", JSON.stringify(combinedDonationItems)) // Pass combined items
 
     const result = await submitDonation(formData)
 
@@ -145,17 +163,15 @@ export default function DonatePage() {
         description: result.message,
         variant: "success",
       })
-      // Set the receipt PDF base64
       if (result.receiptPdfBase64) {
         setReceiptPdfBase64State(result.receiptPdfBase64)
       }
       if (result.qrCodeToken) {
-        // Store the QR code token
         setGeneratedQrCodeToken(result.qrCodeToken)
       }
       // Reset form fields
-      setSelectedAmounts([])
-      setCustomAmount("")
+      setSelectedPujaItems([])
+      setSelectedOfferings([])
       setFirstName("")
       setLastName("")
       setGotra("")
@@ -187,13 +203,24 @@ export default function DonatePage() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      URL.revokeObjectURL(url) // Clean up the URL object
+      URL.revokeObjectURL(url)
       toast({
         title: "Receipt Downloaded",
         description: "Your donation receipt has been downloaded.",
         variant: "default",
       })
     }
+  }
+
+  const handleOfferingSelect = (offering: OfferingItem) => {
+    setSelectedOfferings((prevSelected) => {
+      const exists = prevSelected.some((item) => item.name === offering.name)
+      if (exists) {
+        return prevSelected.filter((item) => item.name !== offering.name)
+      } else {
+        return [...prevSelected, offering]
+      }
+    })
   }
 
   return (
@@ -207,95 +234,143 @@ export default function DonatePage() {
           className="text-center mb-12"
         >
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Support <span className="text-kallol-700">Kallol</span>
+            Donate to <span className="text-kallol-700">{puja.name}</span>
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Your generous donations help us preserve Bengali culture, maintain the Kali Mandir, and organize community
-            events that bring our heritage to life.
+            {puja.description} Your contribution directly supports the successful organization of this sacred event.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Donation Impact Section */}
+          {/* Puja Items Selection */}
           <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.2 }}>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
-              Donate Towards <span className="text-kallol-700">Specific Pujas</span>
+              Select <span className="text-kallol-700">Donation Items</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {pujaDonations.map((puja) => (
-                <Card key={puja.id} className="border-gray-200 hover:shadow-md transition-shadow h-full flex flex-col">
-                  <CardContent className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center space-x-4 mb-4">
-                      <Heart className="h-6 w-6 text-kallol-700" />
-                      <h3 className="text-lg font-semibold text-gray-900">{puja.name}</h3>
-                    </div>
-                    <p className="text-gray-700 mb-4 flex-grow">{puja.description}</p>
-                    <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-auto self-start">
-                      <Link href={`/donate/${puja.id}`}>
-                        Donate to {puja.name}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+            <Card className="border-gray-200 shadow-lg">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {puja.items.map((item, itemIndex) => {
+                    const isSelected = selectedPujaItems.some(
+                      (selected) =>
+                        selected.purpose === item.purpose &&
+                        selected.category === item.category &&
+                        selected.date === item.date,
+                    )
+                    return (
+                      <Button
+                        key={itemIndex}
+                        type="button"
+                        className={cn(
+                          "flex flex-col h-auto py-3 transition-colors text-center whitespace-normal",
+                          isSelected
+                            ? "bg-kallol-700 hover:bg-kallol-800 text-white"
+                            : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent",
+                        )}
+                        onClick={() => handlePujaDonationSelect(item.amount, item.purpose, item.category, item.date)}
+                      >
+                        <span className="font-medium text-base">{item.purpose}</span>
+                        <span className="text-sm">₹{item.amount.toLocaleString("en-IN")}</span>
+                        {item.date && (
+                          <span className="text-xs text-gray-400 mt-1">
+                            ({new Date(item.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })})
+                          </span>
+                        )}
+                      </Button>
+                    )
+                  })}
+                </div>
+                {formErrors.amount && (
+                  <p className="text-red-500 text-sm mt-4 flex items-center">
+                    <AlertCircle className="h-4 w-4 mr-1" />
+                    {formErrors.amount}
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Display selected puja items */}
+            {selectedPujaItems.length > 0 && (
+              <div className="mt-6">
+                <Label className="text-base font-medium text-gray-900 mb-2 block">Your Selected Items:</Label>
+                <Card className="border-gray-200">
+                  <CardContent className="p-4 space-y-2">
+                    {selectedPujaItems.map((item, index) => (
+                      <div key={index} className="flex items-center justify-between bg-gray-100 p-3 rounded-md">
+                        <span className="text-gray-800 text-sm">
+                          {item.purpose} ({item.category}) - ₹{item.amount.toLocaleString("en-IN")}
+                          {item.date && (
+                            <span className="ml-2 text-gray-600">
+                              (
+                              {new Date(item.date).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                              )
+                            </span>
+                          )}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removePujaItem(item)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
                   </CardContent>
                 </Card>
-              ))}
+              </div>
+            )}
+
+            {/* Puja-Specific Offerings Section */}
+            <div className="mt-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+                Select <span className="text-kallol-700">{puja.name}</span> Offerings
+              </h2>
+              <Card className="border-gray-200 shadow-lg">
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    {puja.offerings.map((offering, index) => (
+                      <div key={index} className="flex items-start">
+                        <input
+                          type="checkbox"
+                          id={`offering-${index}`}
+                          name={offering.name}
+                          checked={selectedOfferings.some((item) => item.name === offering.name)}
+                          onChange={() => handleOfferingSelect(offering)}
+                          className="h-4 w-4 text-kallol-700 focus:ring-kallol-700 border-gray-300 rounded mt-1"
+                        />
+                        <label
+                          htmlFor={`offering-${index}`}
+                          className="ml-3 block text-base font-medium text-gray-900 cursor-pointer"
+                        >
+                          <div className="font-semibold">{offering.name}: ₹{offering.amount.toLocaleString("en-IN")}</div>
+                          {offering.description && (
+                            <div className="text-sm text-gray-600 mt-1">{offering.description}</div>
+                          )}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </motion.div>
 
-          {/* General Donation Form Section */}
+          {/* Donation Form Section */}
           <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.4 }}>
             <Card className="border-gray-200 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl text-center text-gray-900">General Donation</CardTitle>
+                <CardTitle className="text-2xl text-center text-gray-900">Complete Your Donation</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Amount Selection */}
-                  <div>
-                    <Label className="text-base font-medium text-gray-900 mb-4 block">Select Amount (INR)</Label>
-                    <div className="grid grid-cols-3 gap-3 mb-4">
-                      {predefinedAmounts.map((amount) => (
-                        <Button
-                          key={amount}
-                          type="button"
-                          className={cn(
-                            "h-auto py-3 transition-colors",
-                            selectedAmounts.includes(amount)
-                              ? "bg-kallol-700 hover:bg-kallol-800 text-white"
-                              : "border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent",
-                          )}
-                          onClick={() => handleAmountSelect(amount)}
-                        >
-                          {amount}
-                        </Button>
-                      ))}
-                    </div>
-                    <div>
-                      <Label htmlFor="custom-amount" className="text-sm text-gray-700">
-                        Or enter custom amount
-                      </Label>
-                      <div className="relative mt-1">
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
-                        <Input
-                          id="custom-amount"
-                          type="number"
-                          placeholder="Enter amount"
-                          className="pl-8 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
-                          value={customAmount}
-                          onChange={(e) => handleCustomAmountChange(e.target.value)}
-                          name="amount" // This name attribute is for the total amount, not individual items
-                        />
-                      </div>
-                      {formErrors.amount && (
-                        <p className="text-red-500 text-sm mt-1 flex items-center">
-                          <AlertCircle className="h-4 w-4 mr-1" />
-                          {formErrors.amount}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
                   {/* Payment Method Selection */}
                   <div>
                     <Label className="text-base font-medium text-gray-900 mb-4 block">Payment Method</Label>
@@ -393,7 +468,7 @@ export default function DonatePage() {
                             setFirstName(e.target.value)
                             setFormErrors((prev) => ({ ...prev, firstName: "" }))
                           }}
-                          name="firstName" // Add name attribute for FormData
+                          name="firstName"
                           required
                         />
                         {formErrors.firstName && (
@@ -416,7 +491,7 @@ export default function DonatePage() {
                             setLastName(e.target.value)
                             setFormErrors((prev) => ({ ...prev, lastName: "" }))
                           }}
-                          name="lastName" // Add name attribute for FormData
+                          name="lastName"
                           required
                         />
                         {formErrors.lastName && (
@@ -440,7 +515,7 @@ export default function DonatePage() {
                           setGotra(e.target.value)
                           setFormErrors((prev) => ({ ...prev, gotra: "" }))
                         }}
-                        name="gotra" // Add name attribute for FormData
+                        name="gotra"
                         required
                       />
                       {formErrors.gotra && (
@@ -464,7 +539,7 @@ export default function DonatePage() {
                           setPhoneNumber(e.target.value)
                           setFormErrors((prev) => ({ ...prev, phoneNumber: "" }))
                         }}
-                        name="phoneNumber" // Add name attribute for FormData
+                        name="phoneNumber"
                         required
                       />
                       {formErrors.phoneNumber && (
@@ -485,7 +560,7 @@ export default function DonatePage() {
                         rows={3}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        name="message" // Add name attribute for FormData
+                        name="message"
                       />
                     </div>
                   </div>
@@ -493,7 +568,7 @@ export default function DonatePage() {
                   <Button
                     type="submit"
                     className="w-full bg-kallol-700 hover:bg-kallol-800 text-white py-3 text-lg shadow-md"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || (selectedPujaItems.length === 0 && selectedOfferings.length === 0)}
                   >
                     {isSubmitting ? (
                       <>

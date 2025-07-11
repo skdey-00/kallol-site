@@ -5,20 +5,7 @@ import { Input } from "@/components/ui/input"
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import {
-  CheckCircle,
-  ListTodo,
-  Calendar,
-  Users,
-  Download,
-  FileText,
-  QrCode,
-  Scan,
-  XCircle,
-  Loader2,
-  Camera,
-  AlertTriangle,
-} from "lucide-react"
+import { CheckCircle, QrCode, Scan, XCircle, Loader2, Camera, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -44,7 +31,7 @@ export default function VolunteerPage() {
   const { user, isLoading } = useAuth()
   const router = useRouter()
   const { toast } = useToast()
-  const [activeTab, setActiveTab] = useState("tasks")
+  const [activeTab, setActiveTab] = useState("qr-validation")
 
   // QR Scanner states
   const [scannedToken, setScannedToken] = useState<string>("")
@@ -77,69 +64,6 @@ export default function VolunteerPage() {
       },
     },
   }
-
-  const volunteerTasks = [
-    {
-      id: 1,
-      title: "Event Setup & Decoration",
-      description: "Assist with setting up stages, seating, and decorations for upcoming cultural events.",
-      status: "pending",
-      dueDate: "2025-07-20",
-    },
-    {
-      id: 2,
-      title: "Guest Registration & Welcome",
-      description: "Help with welcoming guests and managing registration desks during large gatherings.",
-      status: "pending",
-      dueDate: "2025-08-01",
-    },
-    {
-      id: 3,
-      title: "Food Distribution & Management",
-      description: "Support in organizing and distributing prasad and meals during pujas and festivals.",
-      status: "pending",
-      dueDate: "2025-08-15",
-    },
-    {
-      id: 4,
-      title: "Cleanup & Logistics",
-      description: "Assist with post-event cleanup and managing logistics for equipment and supplies.",
-      status: "completed",
-      dueDate: "2025-06-30",
-    },
-    {
-      id: 5,
-      title: "Social Media Promotion",
-      description: "Help promote Kallol events and initiatives on various social media platforms.",
-      status: "pending",
-      dueDate: "2025-07-25",
-    },
-  ]
-
-  const meetingMinutes = [
-    {
-      id: 7,
-      date: "2024-09-01",
-      title: "Durga Puja Planning Meeting 2024",
-      attendees: 25,
-      topics: ["Pandal Design", "Cultural Program Schedule", "Volunteer Assignments", "Prasad Preparation"],
-      summary:
-        "Detailed planning for Durga Puja 2024, including logistics, cultural performances, and volunteer roles. Key decisions were made regarding volunteer shifts and responsibilities.",
-      type: "general",
-      downloadUrl: "#",
-    },
-    {
-      id: 6,
-      date: "2024-10-10",
-      title: "Durga Puja Review Meeting",
-      attendees: 38,
-      topics: ["Event Success Review", "Financial Report", "Feedback Collection", "Improvements for Next Year"],
-      summary:
-        "Reviewed the successful Durga Puja celebration, analyzed financial performance, and collected feedback for future improvements. Volunteer feedback was highly positive.",
-      type: "general",
-      downloadUrl: "#",
-    },
-  ]
 
   const handleValidation = useCallback(
     async (token: string) => {
@@ -249,14 +173,13 @@ export default function VolunteerPage() {
           className="text-center mb-12"
         >
           <div className="flex items-center justify-center mb-4">
-            <ListTodo className="h-8 w-8 text-kallol-700 mr-3" />
+            <QrCode className="h-8 w-8 text-kallol-700 mr-3" />
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
               Volunteer <span className="text-kallol-700">Hub</span>
             </h1>
           </div>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Welcome, {user.name}! Here you can find your assigned tasks and important meeting minutes for upcoming
-            events.
+            Welcome, {user.name}! Here you can validate QR codes for donations.
           </p>
           <Badge className="mt-4 bg-kallol-100 text-kallol-800 border-kallol-200 border">
             Thank you for your dedication!
@@ -264,148 +187,12 @@ export default function VolunteerPage() {
         </motion.div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-12">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="tasks" className="text-lg py-3">
-              <ListTodo className="h-5 w-5 mr-2" />
-              Your Tasks
-            </TabsTrigger>
-            <TabsTrigger value="minutes" className="text-lg py-3">
-              <FileText className="h-5 w-5 mr-2" />
-              Meeting Minutes
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-1 mb-8">
             <TabsTrigger value="qr-validation" className="text-lg py-3">
               <QrCode className="h-5 w-5 mr-2" />
               QR Validation
             </TabsTrigger>
           </TabsList>
-
-          <TabsContent value="tasks">
-            {/* Volunteer Tasks Section */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeIn}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-12"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                Your <span className="text-kallol-700">Tasks</span>
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {volunteerTasks.map((task) => (
-                  <Card
-                    key={task.id}
-                    className={`border-gray-200 ${
-                      task.status === "completed" ? "bg-green-50 border-green-200" : "bg-white"
-                    } hover:shadow-md transition-shadow`}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-bold text-gray-900">{task.title}</h3>
-                        <Badge
-                          className={
-                            task.status === "completed"
-                              ? "bg-green-100 text-green-800 border-green-200 border"
-                              : "bg-blue-100 text-blue-800 border-blue-200 border"
-                          }
-                        >
-                          {task.status === "completed" ? "Completed" : "Pending"}
-                        </Badge>
-                      </div>
-                      <p className="text-gray-700 mb-3">{task.description}</p>
-                      <div className="flex items-center text-gray-600 text-sm">
-                        <Calendar className="h-4 w-4 mr-2" />
-                        Due: {new Date(task.dueDate).toLocaleDateString("en-US", { month: "long", day: "numeric" })}
-                      </div>
-                      {task.status === "pending" && (
-                        <Button size="sm" className="mt-4 bg-kallol-700 hover:bg-kallol-800 text-white">
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          Mark as Complete
-                        </Button>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </motion.div>
-          </TabsContent>
-
-          <TabsContent value="minutes">
-            {/* Durga Puja Meeting Minutes Section */}
-            <motion.div initial="hidden" animate="visible" variants={staggerChildren} className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                Durga Puja <span className="text-kallol-700">Meeting Minutes</span>
-              </h2>
-              <div className="space-y-6">
-                {meetingMinutes.length === 0 ? (
-                  <Card className="border-gray-200 bg-gray-50">
-                    <CardContent className="p-8 text-center">
-                      <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">No Durga Puja Minutes Found</h3>
-                      <p className="text-gray-600">Check back later for updates on Durga Puja planning.</p>
-                    </CardContent>
-                  </Card>
-                ) : (
-                  meetingMinutes.map((minute) => (
-                    <motion.div key={minute.id} variants={fadeIn}>
-                      <Card className="border-gray-200 hover:shadow-md transition-shadow">
-                        <CardHeader>
-                          <div className="flex flex-col md:flex-row md:items-center justify-between">
-                            <div>
-                              <div className="flex items-center space-x-3 mb-2">
-                                <CardTitle className="text-xl text-gray-900">{minute.title}</CardTitle>
-                                <Badge className="bg-blue-100 text-blue-800 border-blue-200 border">
-                                  General Meeting
-                                </Badge>
-                              </div>
-                              <div className="flex items-center space-x-4 text-sm text-gray-600">
-                                <div className="flex items-center">
-                                  <Calendar className="h-4 w-4 mr-1" />
-                                  {new Date(minute.date).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                  })}
-                                </div>
-                                <div className="flex items-center">
-                                  <Users className="h-4 w-4 mr-1" />
-                                  {minute.attendees} attendees
-                                </div>
-                              </div>
-                            </div>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="border-kallol-700 text-kallol-700 hover:bg-kallol-50 mt-4 md:mt-0 bg-transparent"
-                            >
-                              <Download className="h-4 w-4 mr-2" />
-                              Download PDF
-                            </Button>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="mb-4">
-                            <h4 className="font-medium text-gray-900 mb-2">Topics Discussed:</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {minute.topics.map((topic, index) => (
-                                <Badge key={index} className="bg-gray-100 text-gray-800 border-gray-200 border text-xs">
-                                  {topic}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-gray-900 mb-2">Summary:</h4>
-                            <p className="text-gray-700">{minute.summary}</p>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))
-                )}
-              </div>
-            </motion.div>
-          </TabsContent>
 
           <TabsContent value="qr-validation">
             {/* QR Code Validation Section */}
@@ -576,8 +363,8 @@ export default function VolunteerPage() {
             <CardContent className="p-0">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Have Questions or Feedback?</h2>
               <p className="text-gray-700 max-w-2xl mx-auto mb-6">
-                Your contributions are invaluable. If you have any questions about your tasks, need assistance, or have
-                feedback, please reach out to the volunteer coordinator.
+                Your contributions are invaluable. If you have any questions or need assistance with QR validation,
+                please reach out to the volunteer coordinator.
               </p>
               <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white shadow-md">
                 <a href="mailto:volunteer@kallol.org">Contact Coordinator</a>

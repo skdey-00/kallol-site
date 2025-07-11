@@ -273,7 +273,10 @@ export async function submitDonation(
 
   // Determine if QR code should be generated
   const shouldGenerateQrCode = donationItems.some(
-    (item) => item.purpose.includes("Special Puja") || item.purpose.includes("Evening Puja"),
+    (item) =>
+      item.purpose.includes("Special Puja") ||
+      item.purpose.includes("Evening Puja") ||
+      item.purpose.includes("Sandhi Puja"),
   )
 
   if (shouldGenerateQrCode) {
