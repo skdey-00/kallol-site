@@ -122,26 +122,31 @@ export default function VolunteerPage() {
       handleValidation(result.text)
       setShowScanner(false) // Hide scanner after successful scan
     } else if (error) {
-      // Check if the error object is empty or just the "No QR code found" message
-      const isErrorObjectEmpty = typeof error === "object" && error !== null && Object.keys(error).length === 0
-      const isNoQrCodeFoundMessage = typeof error === "string" && error === "No QR code found"
-      const isErrorMessageProperty = typeof error === "object" && error !== null && error.message === "No QR code found"
-
-      if (!isErrorObjectEmpty && !isNoQrCodeFoundMessage && !isErrorMessageProperty) {
-        // Log only if it's a non-empty error object or a different error message
-        console.error("QR Scanner Decoding Error:", error)
-      }
+      // This block is executed when there's a decoding error (e.g., no QR code found in frame)
+      // but not necessarily a camera access error (which is handled by onError).
+      // We should provide user feedback for decoding failures.
+      console.error("QR Scanner Decoding Error:", error) // Keep logging for debugging
+      setScanResult({
+        status: "error",
+        message: "Could not detect a valid QR code. Please ensure good lighting and focus.",
+      })
     }
   }
 
   const handleCameraError = (error: any) => {
     console.error("Camera Error:", error)
-    if (error.name === "NotAllowedError") {
-      setCameraError("Camera access denied. Please grant camera permissions in your browser settings.")
+    if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+      setCameraError(
+        "Camera access denied. Please grant camera permissions in your browser settings and refresh the page.",
+      )
     } else if (error.name === "NotFoundError") {
-      setCameraError("No camera found. Please ensure a camera is connected and enabled.")
+      setCameraError("No camera found on this device. Please ensure a camera is connected and enabled.")
+    } else if (error.name === "NotReadableError") {
+      setCameraError("Camera is already in use or not accessible. Please close other apps using the camera.")
+    } else if (error.name === "OverconstrainedError") {
+      setCameraError("Camera constraints not supported. Try a different device or browser.")
     } else {
-      setCameraError(`An unexpected camera error occurred: ${error.message}`)
+      setCameraError(`An unexpected camera error occurred: ${error.message || error.name}.`)
     }
     setScanResult({ status: "error", message: "Camera error. Please check permissions or try again." })
     setShowScanner(false) // Hide scanner on critical error
@@ -252,6 +257,7 @@ export default function VolunteerPage() {
                         ) : (
                           <>
                             <QrScanner
+                              key={showScanner ? "scanner-active" : "scanner-inactive"}
                               onResult={handleScanResult}
                               onError={handleCameraError}
                               constraints={{ facingMode: "environment" }} // Prefer rear camera
