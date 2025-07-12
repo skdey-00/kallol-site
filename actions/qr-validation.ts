@@ -38,7 +38,7 @@ interface DonationRecord {
 
 /**
  * Validates a QR code token and marks one of its associated items as used.
- * Prioritizes items for the current day. If no item is for today, it fails.
+ * Prioritizes items for the current day. If no item is for today, it fails and suggests the nearest date.
  * @param token The unique QR code token scanned.
  * @returns An object indicating success/failure and relevant donation/item details.
  */
@@ -108,7 +108,7 @@ export async function validateQrCode(token: string): Promise<{
     }
   }
 
-  // If no unscanned item is found for today, the QR code is invalid for scanning at this time.
+  // If no unscanned item is found for today, determine the appropriate error message.
   if (!itemToScan) {
     // Check if all scannable items are already used
     if (unscannedItemsWithIndices.length === 0 && scannablePujaItemsWithIndices.length > 0) {
@@ -120,10 +120,36 @@ export async function validateQrCode(token: string): Promise<{
         message: `QR Code fully used for all associated Special/Evening Puja items. All items scanned at: ${allScanTimestamps}.`,
       }
     }
-    // If there are unscanned items, but none are for today
+
+    // If there are unscanned items, but none are for today, find the nearest date.
+    let nearestDate: Date | null = null
+    let minDateDiff = Number.POSITIVE_INFINITY
+
+    for (const { item } of unscannedItemsWithIndices) {
+      if (item.date) {
+        const itemDate = new Date(item.date)
+        const itemDateNormalized = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate())
+        const diff = Math.abs(itemDateNormalized.getTime() - todayNormalized.getTime())
+
+        if (diff < minDateDiff) {
+          minDateDiff = diff
+          nearestDate = itemDate
+        }
+      }
+    }
+
+    let errorMessage = "This QR code does not have an unscanned item scheduled for today."
+    if (nearestDate) {
+      errorMessage += ` The nearest available item is for ${nearestDate.toLocaleDateString()}.`
+    } else if (unscannedItemsWithIndices.length > 0) {
+      // This case should ideally not happen if unscannedItemsWithIndices has items,
+      // but it's a fallback if no dates are present on those items.
+      errorMessage += " No specific dates found for remaining unscanned items."
+    }
+
     return {
       success: false,
-      message: "This QR code does not have an unscanned item scheduled for today.",
+      message: errorMessage,
     }
   }
 
