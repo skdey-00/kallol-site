@@ -121,16 +121,9 @@ export default function VolunteerPage() {
     if (result && result.text) {
       handleValidation(result.text)
       setShowScanner(false) // Hide scanner after successful scan
-    } else if (error) {
-      // This block is executed when there's a decoding error (e.g., no QR code found in frame)
-      // but not necessarily a camera access error (which is handled by onError).
-      // We should provide user feedback for decoding failures.
-      console.error("QR Scanner Decoding Error:", error) // Keep logging for debugging
-      setScanResult({
-        status: "error",
-        message: "Could not detect a valid QR code. Please ensure good lighting and focus.",
-      })
     }
+    // Removed the else if (error) block to prevent displaying "no QR code detected" messages
+    // Errors related to invalid QR codes will still be handled by handleValidation.
   }
 
   const handleCameraError = (error: any) => {
