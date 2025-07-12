@@ -38,7 +38,7 @@ interface DonationRecord {
 
 /**
  * Validates a QR code token and marks one of its associated items as used.
- * Prioritizes items for the current day, then the closest available unscanned item.
+ * Prioritizes items for the current day. If no item is for today, it fails.
  * @param token The unique QR code token scanned.
  * @returns An object indicating success/failure and relevant donation/item details.
  */
@@ -96,7 +96,7 @@ export async function validateQrCode(token: string): Promise<{
   const today = new Date()
   const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate())
 
-  // 1. First, try to find an unscanned item for today
+  // 1. Find an unscanned item for today
   for (const { item, index } of unscannedItemsWithIndices) {
     if (item.date) {
       const itemDate = new Date(item.date)
@@ -108,44 +108,26 @@ export async function validateQrCode(token: string): Promise<{
     }
   }
 
-  // 2. If no item for today, find the unscanned item closest to today
-  let messageSuffix = ""
+  // If no unscanned item is found for today, the QR code is invalid for scanning at this time.
   if (!itemToScan) {
-    let minDateDiff = Number.POSITIVE_INFINITY
-    let closestItem: { item: DonationItem; index: number } | undefined
-
-    for (const { item, index } of unscannedItemsWithIndices) {
-      if (item.date) {
-        const itemDate = new Date(item.date)
-        const itemDateNormalized = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate())
-        const diff = Math.abs(itemDateNormalized.getTime() - todayNormalized.getTime())
-
-        if (diff < minDateDiff) {
-          minDateDiff = diff
-          closestItem = { item, index }
-        }
+    // Check if all scannable items are already used
+    if (unscannedItemsWithIndices.length === 0 && scannablePujaItemsWithIndices.length > 0) {
+      const allScanTimestamps = donation.qrCodeScans
+        .map((scan) => new Date(scan.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))
+        .join(", ")
+      return {
+        success: false,
+        message: `QR Code fully used for all associated Special/Evening Puja items. All items scanned at: ${allScanTimestamps}.`,
       }
     }
-    itemToScan = closestItem // Assign the closest item found
-
-    if (itemToScan && itemToScan.item.date) {
-      const scannedItemDate = new Date(itemToScan.item.date)
-      messageSuffix = ` (Note: This item is for ${scannedItemDate.toLocaleDateString()})`
-    }
-  }
-
-  // If no unscanned scannable puja item is found at all
-  if (!itemToScan) {
-    const allScanTimestamps = donation.qrCodeScans
-      .map((scan) => new Date(scan.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))
-      .join(", ")
+    // If there are unscanned items, but none are for today
     return {
       success: false,
-      message: `QR Code fully used for all associated Special/Evening Puja items. All items scanned at: ${allScanTimestamps}.`,
+      message: "This QR code does not have an unscanned item scheduled for today.",
     }
   }
 
-  // If we reach here, itemToScan is defined.
+  // If we reach here, itemToScan is defined and is for today.
   const scannedItemDetails = itemToScan.item
   const itemIndexToScan = itemToScan.index
 
@@ -170,7 +152,7 @@ export async function validateQrCode(token: string): Promise<{
 
   return {
     success: true,
-    message: `QR Code validated successfully for ${scannedItemDetails.purpose}!${messageSuffix}`,
+    message: `QR Code validated successfully for ${scannedItemDetails.purpose}!`,
     donation: basicDonationInfo,
     scannedItem: {
       ...scannedItemDetails,
