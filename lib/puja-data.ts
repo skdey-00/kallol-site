@@ -35,7 +35,7 @@ export const pujaDonations: PujaDonationCategory[] = [
       { purpose: "Navami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2025-10-01" },
       { purpose: "Navami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2025-10-01" },
       { purpose: "Sandhi Puja", category: "Durga Puja", amount: 21000, date: "2025-10-02" },
-      { purpose: "Dummy Puja", category: "Durga Puja", amount: 2000, date: "2025-07-12" },
+      { purpose: "Dummy Puja", category: "Durga Puja", amount: 2000, date: "2026-07-11" },
     ],
     offerings: [
       { name: "Durga Protima", amount: 100001, description: "Complete Durga idol for the puja" },

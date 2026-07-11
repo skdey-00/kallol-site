@@ -1,11 +1,12 @@
 "use server"
 
-import { createClient } from "@supabase/supabase-js" // Import Supabase client
+import { createClient } from "@supabase/supabase-js"
+import { localDb, isSupabaseConfigured } from "@/lib/local-db"
 
-// Initialize Supabase client for server-side operations
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Initialize Supabase client only if env vars are configured
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
 
 // New interfaces for donation items and QR scan records (consistent with donations.ts)
 interface DonationItem {
@@ -18,6 +19,7 @@ interface DonationItem {
 interface QrScanRecord {
   timestamp: string
   itemIndex: number // Index of the item in the original `donationItems` array that this scan corresponds to
+  photoPath?: string // Path to the verification photo captured at scan time
 }
 
 interface DonationRecord {
@@ -42,7 +44,10 @@ interface DonationRecord {
  * @param token The unique QR code token scanned.
  * @returns An object indicating success/failure and relevant donation/item details.
  */
-export async function validateQrCode(token: string): Promise<{
+export async function validateQrCode(
+  token: string,
+  photoBase64?: string,
+): Promise<{
   success: boolean
   message: string
   donation?: Omit<DonationRecord, "qrCodeToken" | "donationItems" | "qrCodeScans"> // Basic donation info
@@ -50,15 +55,26 @@ export async function validateQrCode(token: string): Promise<{
 }> {
   await new Promise((resolve) => setTimeout(resolve, 500)) // Simulate network delay
 
-  // Fetch the donation record by QR code token
-  const { data: donationData, error: fetchError } = await supabase
-    .from("donations")
-    .select("*")
-    .eq("qr_code_token", token)
-    .single()
+  let donationData: any | null
 
-  if (fetchError || !donationData) {
-    console.error("Error fetching donation for QR validation:", fetchError)
+  if (!supabase || !isSupabaseConfigured()) {
+    // --- LOCAL DB (development mode) ---
+    donationData = localDb.getByToken(token)
+  } else {
+    // --- SUPABASE (production) ---
+    const { data, error } = await supabase
+      .from("donations")
+      .select("*")
+      .eq("qr_code_token", token)
+      .single()
+    if (error || !data) {
+      donationData = null
+    } else {
+      donationData = data
+    }
+  }
+
+  if (!donationData) {
     return { success: false, message: "Invalid QR Code. No matching donation found." }
   }
 
@@ -158,20 +174,39 @@ export async function validateQrCode(token: string): Promise<{
   const itemIndexToScan = itemToScan.index
 
   // Record the scan.
+  let photoPath: string | undefined
+  if (photoBase64) {
+    if (!supabase || !isSupabaseConfigured()) {
+      // --- LOCAL DB (development mode) ---
+      photoPath = localDb.savePhoto(photoBase64)
+    } else {
+      // --- SUPABASE (production) ---
+      // TODO: Upload to Supabase Storage bucket
+      photoPath = localDb.savePhoto(photoBase64) // fallback for now
+    }
+  }
+
   const newScanRecord: QrScanRecord = {
     timestamp: new Date().toISOString(),
     itemIndex: itemIndexToScan,
+    photoPath,
   }
   const updatedQrCodeScans = [...donation.qrCodeScans, newScanRecord]
 
-  const { error: updateError } = await supabase
-    .from("donations")
-    .update({ qr_code_scans: updatedQrCodeScans })
-    .eq("id", donation.id)
+  if (!supabase || !isSupabaseConfigured()) {
+    // --- LOCAL DB (development mode) ---
+    localDb.updateScans(donation.id, updatedQrCodeScans)
+  } else {
+    // --- SUPABASE (production) ---
+    const { error: updateError } = await supabase
+      .from("donations")
+      .update({ qr_code_scans: updatedQrCodeScans })
+      .eq("id", donation.id)
 
-  if (updateError) {
-    console.error("Error updating donation with new scan:", updateError)
-    return { success: false, message: `Failed to record scan: ${updateError.message}` }
+    if (updateError) {
+      console.error("Error updating donation with new scan:", updateError)
+      return { success: false, message: `Failed to record scan: ${updateError.message}` }
+    }
   }
 
   const { qrCodeToken: _, donationItems: __, qrCodeScans: ___, ...basicDonationInfo } = donation

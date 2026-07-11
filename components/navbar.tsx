@@ -3,16 +3,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Sun, Moon } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useTheme } from "next-themes"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from "@/hooks/use-auth"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { theme, setTheme } = useTheme()
   const { user, logout } = useAuth()
 
   useEffect(() => {
@@ -39,14 +37,14 @@ export function Navbar() {
       : []),
     ...(user?.email === "admin@kallol.org" ? [{ name: "Admin", href: "/admin" }] : []),
     { name: "About Us", href: "/about" },
-    { name: "Contact Us", href: "/contact" }, // Added Contact Us to Navbar
+    { name: "Contact Us", href: "/contact" },
     { name: "Donate (INR)", href: "/donate" },
   ]
 
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-sm" : "bg-transparent"
+        scrolled ? "bg-white/95 shadow-md backdrop-blur-sm" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -63,7 +61,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-gray-800 dark:text-gray-100 hover:text-kallol-700 dark:hover:text-kallol-400 transition-colors relative group font-medium"
+                className="text-gray-800 hover:text-kallol-700 transition-colors relative group font-medium"
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-kallol-700 transition-all group-hover:w-full"></span>
@@ -73,15 +71,6 @@ export function Navbar() {
 
           {/* Mobile Navigation Toggle */}
           <div className="flex md:hidden items-center">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="mr-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50"
-            >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-
             <Button
               variant="outline"
               size="icon"
@@ -102,7 +91,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800"
+            className="md:hidden bg-white border-t border-gray-100"
           >
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col space-y-4">
@@ -110,7 +99,7 @@ export function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="text-gray-800 dark:text-gray-100 hover:text-kallol-700 dark:hover:text-kallol-400 py-2 transition-colors font-medium"
+                    className="text-gray-800 hover:text-kallol-700 py-2 transition-colors font-medium"
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}

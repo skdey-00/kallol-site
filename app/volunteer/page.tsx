@@ -2,10 +2,10 @@
 
 import { Input } from "@/components/ui/input"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { CheckCircle, QrCode, Scan, XCircle, Loader2, Camera, AlertTriangle } from "lucide-react"
+import { CheckCircle, QrCode, Scan, XCircle, Loader2, Camera, AlertTriangle, ImageIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -13,19 +13,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/hooks/use-auth"
 import { useToast } from "@/hooks/use-toast"
 import { validateQrCode } from "@/actions/qr-validation"
-
-// Dynamically import QrScanner to ensure it's only loaded on the client
-import dynamic from "next/dynamic"
-
-const QrScanner = dynamic(() => import("react-qr-reader").then((mod) => mod.QrReader), {
-  ssr: false, // This component should only be rendered on the client side
-  loading: () => (
-    <div className="flex items-center justify-center h-64 bg-gray-100 rounded-md">
-      <Loader2 className="h-8 w-8 animate-spin text-kallol-700" />
-      <p className="ml-2 text-gray-600">Loading scanner...</p>
-    </div>
-  ),
-})
 
 export default function VolunteerPage() {
   const { user, isLoading } = useAuth()
@@ -41,8 +28,20 @@ export default function VolunteerPage() {
     donationDetails?: any
   }>({ status: "idle", message: "Scan a QR code or enter a token to validate." })
   const [isProcessingScan, setIsProcessingScan] = useState(false)
-  const [showScanner, setShowScanner] = useState(false) // State to toggle scanner visibility
-  const [cameraError, setCameraError] = useState<string | null>(null) // State for camera errors
+  const [showScanner, setShowScanner] = useState(false)
+  const [cameraError, setCameraError] = useState<string | null>(null)
+  const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null)
+  const [pendingToken, setPendingToken] = useState<string | null>(null)
+  const [photoCountdown, setPhotoCountdown] = useState<number>(0)
+  const [scannerSupported, setScannerSupported] = useState(true)
+
+  // Refs for camera control
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+  const rafRef = useRef<number | null>(null)
+  const hasScannedRef = useRef(false) // Lock to prevent double-scans
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     if (!isLoading && (!user || (user.membershipType !== "volunteer" && user.email !== "admin@kallol.org"))) {
@@ -50,23 +49,33 @@ export default function VolunteerPage() {
     }
   }, [user, isLoading, router])
 
+  // Check if BarcodeDetector is available
+  useEffect(() => {
+    if (typeof window !== "undefined" && !("BarcodeDetector" in window)) {
+      setScannerSupported(false)
+    }
+  }, [])
+
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   }
 
-  const staggerChildren = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+  // Capture a frame from the live camera video element
+  const capturePhotoFromVideo = (): string | null => {
+    const video = videoRef.current
+    if (!video || !video.videoWidth) return null
+    const canvas = document.createElement("canvas")
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return null
+    ctx.drawImage(video, 0, 0)
+    return canvas.toDataURL("image/jpeg", 0.7)
   }
 
   const handleValidation = useCallback(
-    async (token: string) => {
+    async (token: string, photoBase64?: string | null) => {
       if (!token.trim()) {
         setScanResult({ status: "invalid", message: "No QR code data detected." })
         return
@@ -74,10 +83,10 @@ export default function VolunteerPage() {
 
       setIsProcessingScan(true)
       setScanResult({ status: "scanning", message: "Validating QR code..." })
-      setScannedToken(token) // Update input field with scanned token
+      setScannedToken(token)
 
       try {
-        const result = await validateQrCode(token.trim())
+        const result = await validateQrCode(token.trim(), photoBase64 || undefined)
         if (result.success) {
           setScanResult({
             status: "valid",
@@ -88,7 +97,7 @@ export default function VolunteerPage() {
           })
           toast({
             title: "QR Code Validated",
-            description: result.message,
+            description: photoBase64 ? result.message + " (Photo captured for verification)" : result.message,
             variant: "success",
           })
         } else {
@@ -117,33 +126,149 @@ export default function VolunteerPage() {
     [toast],
   )
 
-  const handleScanResult = (result: any, error: any) => {
-    if (result && result.text) {
-      handleValidation(result.text)
-      setShowScanner(false) // Hide scanner after successful scan
-    }
-    // Removed the else if (error) block to prevent displaying "no QR code detected" messages
-    // Errors related to invalid QR codes will still be handled by handleValidation.
-  }
+  // Start a 3-second countdown to capture a verification photo after QR is detected
+  const startPhotoCountdown = useCallback(
+    (token: string) => {
+      setPendingToken(token)
+      setPhotoCountdown(3)
 
-  const handleCameraError = (error: any) => {
-    console.error("Camera Error:", error)
-    if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
-      setCameraError(
-        "Camera access denied. Please grant camera permissions in your browser settings and refresh the page.",
-      )
-    } else if (error.name === "NotFoundError") {
-      setCameraError("No camera found on this device. Please ensure a camera is connected and enabled.")
-    } else if (error.name === "NotReadableError") {
-      setCameraError("Camera is already in use or not accessible. Please close other apps using the camera.")
-    } else if (error.name === "OverconstrainedError") {
-      setCameraError("Camera constraints not supported. Try a different device or browser.")
-    } else {
-      setCameraError(`An unexpected camera error occurred: ${error.message || error.name}.`)
+      // Clear any existing countdown
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current)
+      }
+
+      countdownIntervalRef.current = setInterval(() => {
+        setPhotoCountdown((prev) => {
+          if (prev <= 1) {
+            if (countdownIntervalRef.current) {
+              clearInterval(countdownIntervalRef.current)
+              countdownIntervalRef.current = null
+            }
+            // Time's up - capture the photo
+            const photo = capturePhotoFromVideo()
+            setCapturedPhoto(photo)
+            // Stop the camera
+            stopCamera()
+            setShowScanner(false)
+            // Validate with photo
+            setTimeout(() => handleValidation(token, photo), 200)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    },
+    [handleValidation],
+  )
+
+  // Stop the camera stream and scanning loop
+  const stopCamera = useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
     }
-    setScanResult({ status: "error", message: "Camera error. Please check permissions or try again." })
-    setShowScanner(false) // Hide scanner on critical error
-  }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop())
+      streamRef.current = null
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null
+    }
+  }, [])
+
+  // Start the camera and QR scanning loop
+  const startCamera = useCallback(async () => {
+    hasScannedRef.current = false // Reset scan lock
+    setCameraError(null)
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+        audio: false,
+      })
+      streamRef.current = stream
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream
+        await videoRef.current.play()
+      }
+
+      // Start scanning loop using BarcodeDetector
+      const startScanning = async () => {
+        if (!("BarcodeDetector" in window)) {
+          setCameraError(
+            "Your browser does not support QR scanning. Please use Chrome, Edge, or Safari. You can still enter the token manually below.",
+          )
+          return
+        }
+
+        // @ts-ignore - BarcodeDetector is not in TypeScript types yet
+        const detector = new window.BarcodeDetector({
+          formats: ["qr_code"],
+        })
+
+        const scanLoop = async () => {
+          if (!videoRef.current || hasScannedRef.current) return
+
+          try {
+            const barcodes = await detector.detect(videoRef.current)
+            if (barcodes && barcodes.length > 0 && !hasScannedRef.current) {
+              const qrText = barcodes[0].rawValue
+              if (qrText) {
+                // Lock immediately to prevent double-scan
+                hasScannedRef.current = true
+                // Start countdown for photo
+                startPhotoCountdown(qrText)
+                return
+              }
+            }
+          } catch {
+            // Detection errors are normal (e.g., no barcode in frame), just continue
+          }
+
+          if (!hasScannedRef.current) {
+            rafRef.current = requestAnimationFrame(scanLoop)
+          }
+        }
+
+        scanLoop()
+      }
+
+      startScanning()
+    } catch (error: any) {
+      console.error("Camera Error:", error)
+      if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+        setCameraError(
+          "Camera access denied. Please grant camera permissions in your browser settings and try again.",
+        )
+      } else if (error.name === "NotFoundError") {
+        setCameraError("No camera found on this device. Please ensure a camera is connected and enabled.")
+      } else if (error.name === "NotReadableError") {
+        setCameraError("Camera is already in use or not accessible. Please close other apps using the camera.")
+      } else if (error.name === "OverconstrainedError") {
+        setCameraError("Camera constraints not supported. Try a different device or browser.")
+      } else {
+        setCameraError(`An unexpected camera error occurred: ${error.message || error.name}.`)
+      }
+    }
+  }, [startPhotoCountdown])
+
+  // Start/stop camera when scanner visibility changes
+  useEffect(() => {
+    if (showScanner && scannerSupported) {
+      startCamera()
+    } else {
+      stopCamera()
+    }
+
+    // Cleanup on unmount
+    return () => {
+      stopCamera()
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current)
+      }
+    }
+  }, [showScanner, scannerSupported, startCamera, stopCamera])
 
   if (isLoading) {
     return (
@@ -193,7 +318,6 @@ export default function VolunteerPage() {
           </TabsList>
 
           <TabsContent value="qr-validation">
-            {/* QR Code Validation Section */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -214,6 +338,11 @@ export default function VolunteerPage() {
                 <CardContent className="space-y-4">
                   <p className="text-gray-700">
                     Use your device's camera to scan the QR code on the donation receipt, or manually enter the token.
+                    <br />
+                    <span className="text-sm text-kallol-700 font-medium">
+                      <Camera className="inline h-4 w-4 mr-1" />
+                      A verification photo will be captured automatically after scanning.
+                    </span>
                   </p>
 
                   <div className="flex flex-col gap-4">
@@ -222,26 +351,45 @@ export default function VolunteerPage() {
                       <Button
                         onClick={() => {
                           setShowScanner(true)
-                          setCameraError(null) // Clear previous errors
+                          setCameraError(null)
                           setScanResult({ status: "idle", message: "Scan a QR code or enter a token to validate." })
+                          setCapturedPhoto(null)
+                          setPendingToken(null)
+                          setPhotoCountdown(0)
+                          hasScannedRef.current = false
                         }}
                         className="bg-kallol-700 hover:bg-kallol-800 text-white"
+                        disabled={!scannerSupported}
                       >
                         <Camera className="h-5 w-5 mr-2" />
                         Open QR Scanner
                       </Button>
                     )}
 
+                    {!scannerSupported && (
+                      <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-md p-3">
+                        <AlertTriangle className="inline h-4 w-4 mr-1" />
+                        Camera scanning is not supported in this browser. Use Chrome, Edge, or Safari, or enter the
+                        token manually below.
+                      </p>
+                    )}
+
                     {showScanner && (
-                      <div className="relative w-full h-64 bg-gray-200 rounded-md overflow-hidden flex items-center justify-center">
+                      <div className="relative w-full h-80 bg-black rounded-md overflow-hidden">
+                        {/* Hidden canvas for frame capture */}
+                        <canvas ref={canvasRef} className="hidden" />
+
                         {cameraError ? (
-                          <div className="text-center text-red-600 p-4 flex flex-col items-center">
+                          <div className="text-center text-red-600 p-4 flex flex-col items-center justify-center h-full">
                             <AlertTriangle className="h-8 w-8 mb-2" />
                             <p className="font-semibold">Camera Error:</p>
                             <p className="text-sm">{cameraError}</p>
                             <Button
                               variant="outline"
-                              onClick={() => setShowScanner(false)}
+                              onClick={() => {
+                                stopCamera()
+                                setShowScanner(false)
+                              }}
                               className="mt-4 border-red-700 text-red-700 hover:bg-red-50"
                             >
                               Close Scanner
@@ -249,26 +397,50 @@ export default function VolunteerPage() {
                           </div>
                         ) : (
                           <>
-                            <QrScanner
-                              key={showScanner ? "scanner-active" : "scanner-inactive"}
-                              onResult={handleScanResult}
-                              onError={handleCameraError}
-                              constraints={{ facingMode: "environment" }} // Prefer rear camera
-                              scanDelay={500} // Delay between scans
-                              containerStyle={{ width: "100%", height: "100%" }}
-                              videoStyle={{ objectFit: "cover" }}
+                            {/* Live camera video -- fills the entire box */}
+                            <video
+                              ref={videoRef}
+                              autoPlay
+                              playsInline
+                              muted
+                              className="w-full h-full object-cover"
+                              style={{ display: "block" }}
                             />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                              <div className="w-48 h-48 border-4 border-kallol-700 rounded-lg animate-pulse-border"></div>
+
+                            {/* Scan target frame overlay */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                              <div className="w-56 h-56 border-4 border-white/80 rounded-2xl shadow-lg">
+                                <div className="w-full h-full border-2 border-kallol-500/60 rounded-xl"></div>
+                              </div>
                             </div>
+
+                            {/* Helper text */}
+                            <p className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white text-sm bg-black/60 px-4 py-1 rounded-full pointer-events-none z-10">
+                              Align QR code within the frame
+                            </p>
+
+                            {/* Close button */}
                             <Button
                               variant="secondary"
                               size="sm"
-                              onClick={() => setShowScanner(false)}
+                              onClick={() => {
+                                stopCamera()
+                                setShowScanner(false)
+                              }}
                               className="absolute top-2 right-2 z-10"
                             >
                               <XCircle className="h-4 w-4 mr-1" /> Close
                             </Button>
+
+                            {/* Photo Countdown Overlay */}
+                            {photoCountdown > 0 && (
+                              <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center z-20">
+                                <p className="text-white text-lg font-semibold mb-2">
+                                  Point camera at person for verification
+                                </p>
+                                <div className="text-white text-7xl font-bold">{photoCountdown}</div>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
@@ -317,6 +489,19 @@ export default function VolunteerPage() {
                       {scanResult.status === "scanning" && <Loader2 className="h-5 w-5 animate-spin flex-shrink-0" />}
                       <div>
                         <p className="font-semibold">{scanResult.message}</p>
+                        {capturedPhoto && (
+                          <div className="mt-2 flex items-center gap-2">
+                            <img
+                              src={capturedPhoto}
+                              alt="Verification photo"
+                              className="w-20 h-20 object-cover rounded-md border border-gray-300"
+                            />
+                            <p className="text-xs text-gray-600 flex items-center">
+                              <ImageIcon className="h-3 w-3 mr-1" />
+                              Verification photo captured
+                            </p>
+                          </div>
+                        )}
                         {scanResult.donationDetails && (
                           <div className="mt-2 text-sm">
                             <p>

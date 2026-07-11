@@ -2,15 +2,17 @@
 
 import { PDFDocument, rgb, StandardFonts, PageSizes } from "pdf-lib"
 import qrcode from "qrcode"
-import { createClient } from "@supabase/supabase-js" // Import Supabase client
+import { createClient } from "@supabase/supabase-js"
+import { localDb, isSupabaseConfigured } from "@/lib/local-db"
 
 const KALLOL_LOGO_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Kallol%20Logo-nzQyFJe53XiKXnTvKn7jbus1vKTW0l.png"
 
-// Initialize Supabase client for server-side operations
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Initialize Supabase client only if env vars are configured
+// Otherwise, the local JSON-file database is used (see lib/local-db.ts)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
 
 // New interfaces for donation items and QR scan records
 interface DonationItem {
@@ -31,6 +33,7 @@ interface DonationRecord {
   lastName: string
   gotra: string
   phoneNumber: string
+  panNumber?: string
   totalAmount: string // Total amount of the donation
   paymentMethod: string
   message?: string
@@ -143,7 +146,11 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
   page.drawText(`Gotra: ${donation.gotra}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
   y -= 20
   page.drawText(`Phone: ${donation.phoneNumber}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-  y -= 40
+  y -= 20
+  if (donation.panNumber) {
+    page.drawText(`PAN: ${donation.panNumber}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
+    y -= 20
+  }
 
   // Donation Details
   page.drawText("Donation Details:", { x: margin, y: y, font: boldFont, size: 16, color: rgb(0, 0, 0) })
@@ -251,6 +258,7 @@ export async function submitDonation(
   const lastName = formData.get("lastName") as string
   const gotra = formData.get("gotra") as string
   const phoneNumber = formData.get("phoneNumber") as string
+  const panNumber = formData.get("panNumber") as string
   const totalAmount = Number.parseFloat(formData.get("totalAmount") as string)
   const paymentMethod = formData.get("paymentMethod") as string
   const message = formData.get("message") as string
@@ -284,6 +292,7 @@ export async function submitDonation(
     last_name: lastName,
     gotra: gotra,
     phone_number: phoneNumber,
+    pan_number: panNumber || null,
     total_amount: totalAmount.toFixed(2),
     payment_method: paymentMethod,
     message: message || null,
@@ -293,11 +302,19 @@ export async function submitDonation(
     qr_code_scans: [], // Initialize as empty
   }
 
-  const { data, error } = await supabase.from("donations").insert([newDonationData]).select().single()
+  let data: any
 
-  if (error) {
-    console.error("Error inserting donation:", error)
-    return { success: false, message: `Failed to record donation: ${error.message}` }
+  if (!supabase || !isSupabaseConfigured()) {
+    // --- LOCAL DB (development mode) ---
+    data = localDb.insert(newDonationData)
+  } else {
+    // --- SUPABASE (production) ---
+    const { data: supaData, error } = await supabase.from("donations").insert([newDonationData]).select().single()
+    if (error) {
+      console.error("Error inserting donation:", error)
+      return { success: false, message: `Failed to record donation: ${error.message}` }
+    }
+    data = supaData
   }
 
   const newDonationRecord: DonationRecord = {
@@ -306,6 +323,7 @@ export async function submitDonation(
     lastName: data.last_name,
     gotra: data.gotra,
     phoneNumber: data.phone_number,
+    panNumber: data.pan_number || undefined,
     totalAmount: data.total_amount,
     paymentMethod: data.payment_method,
     message: data.message || undefined,
@@ -333,19 +351,28 @@ export async function submitDonation(
 export async function getDonations() {
   await new Promise((resolve) => setTimeout(resolve, 500))
 
-  const { data, error } = await supabase.from("donations").select("*").order("timestamp", { ascending: false })
+  let rawData: any[]
 
-  if (error) {
-    console.error("Error fetching donations:", error)
-    return { successful: [], unsuccessful: [] }
+  if (!supabase || !isSupabaseConfigured()) {
+    // --- LOCAL DB (development mode) ---
+    rawData = localDb.getAll()
+  } else {
+    // --- SUPABASE (production) ---
+    const { data, error } = await supabase.from("donations").select("*").order("timestamp", { ascending: false })
+    if (error) {
+      console.error("Error fetching donations:", error)
+      return { successful: [], unsuccessful: [] }
+    }
+    rawData = data
   }
 
-  const allDonations: DonationRecord[] = data.map((d: any) => ({
+  const allDonations: DonationRecord[] = rawData.map((d: any) => ({
     id: d.id,
     firstName: d.first_name,
     lastName: d.last_name,
     gotra: d.gotra,
     phoneNumber: d.phone_number,
+    panNumber: d.pan_number || undefined,
     totalAmount: d.total_amount,
     paymentMethod: d.payment_method,
     message: d.message || undefined,
@@ -373,17 +400,27 @@ export async function getDonations() {
 export async function exportDonationsToCsv(type: "successful" | "unsuccessful") {
   await new Promise((resolve) => setTimeout(resolve, 100))
 
-  const { data, error } = await supabase
-    .from("donations")
-    .select(
-      "id, first_name, last_name, gotra, phone_number, total_amount, payment_method, message, status, timestamp, qr_code_token, donation_items, qr_code_scans",
-    )
-    .eq("status", type === "successful" ? "success" : "failure")
-    .order("timestamp", { ascending: false })
+  let data: any[]
 
-  if (error) {
-    console.error("Error fetching donations for CSV export:", error)
-    return ""
+  if (!supabase || !isSupabaseConfigured()) {
+    // --- LOCAL DB (development mode) ---
+    const allRecords = localDb.getAll()
+    data = allRecords.filter((d) => d.status === (type === "successful" ? "success" : "failure"))
+  } else {
+    // --- SUPABASE (production) ---
+    const result = await supabase
+      .from("donations")
+      .select(
+        "id, first_name, last_name, gotra, phone_number, pan_number, total_amount, payment_method, message, status, timestamp, qr_code_token, donation_items, qr_code_scans",
+      )
+      .eq("status", type === "successful" ? "success" : "failure")
+      .order("timestamp", { ascending: false })
+
+    if (result.error) {
+      console.error("Error fetching donations for CSV export:", result.error)
+      return ""
+    }
+    data = result.data
   }
 
   const filteredData = data.map((d: any) => ({
@@ -392,6 +429,7 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful") 
     lastName: d.last_name,
     gotra: d.gotra,
     phoneNumber: d.phone_number,
+    panNumber: d.pan_number || undefined,
     totalAmount: d.total_amount,
     paymentMethod: d.payment_method,
     message: d.message || "",
@@ -413,6 +451,7 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful") 
     "lastName",
     "gotra",
     "phoneNumber",
+    "panNumber",
     "totalAmount",
     "paymentMethod",
     "message",
@@ -430,6 +469,7 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful") 
       record.lastName,
       record.gotra,
       record.phoneNumber,
+      record.panNumber,
       record.totalAmount,
       record.paymentMethod,
       record.message,

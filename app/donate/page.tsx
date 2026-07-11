@@ -37,6 +37,7 @@ export default function DonatePage() {
   const [lastName, setLastName] = useState("")
   const [gotra, setGotra] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
+  const [panNumber, setPanNumber] = useState("")
   const [message, setMessage] = useState("")
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -117,6 +118,15 @@ export default function DonatePage() {
       errors.amount = "Please select or enter a valid donation amount."
     }
 
+    // PAN Number is required only if amount exceeds 50,000
+    if (finalAmount > 50000 && !panNumber.trim()) {
+      errors.panNumber = "PAN Number is required for donations above Rs. 50,000"
+    }
+    // Validate PAN format if provided (ABCDE1234F pattern)
+    if (panNumber.trim() && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panNumber.trim().toUpperCase())) {
+      errors.panNumber = "Invalid PAN format (expected: ABCDE1234F)"
+    }
+
     setFormErrors(errors)
 
     if (Object.keys(errors).length > 0) {
@@ -160,6 +170,7 @@ export default function DonatePage() {
       setLastName("")
       setGotra("")
       setPhoneNumber("")
+      setPanNumber("")
       setMessage("")
     } else {
       toast({
@@ -471,6 +482,34 @@ export default function DonatePage() {
                         <p className="text-red-500 text-sm mt-1 flex items-center">
                           <AlertCircle className="h-4 w-4 mr-1" />
                           {formErrors.phoneNumber}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <Label htmlFor="pan-number" className="text-sm font-medium text-gray-700">
+                        PAN Number{" "}
+                        {getRawCurrentAmount() > 50000 ? (
+                          <span className="text-red-500">*</span>
+                        ) : (
+                          <span className="text-gray-400 text-xs">(Required for donations above Rs. 50,000)</span>
+                        )}
+                      </Label>
+                      <Input
+                        id="pan-number"
+                        type="text"
+                        placeholder="ABCDE1234F"
+                        className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700 uppercase"
+                        value={panNumber}
+                        onChange={(e) => {
+                          setPanNumber(e.target.value.toUpperCase())
+                          setFormErrors((prev) => ({ ...prev, panNumber: "" }))
+                        }}
+                        name="panNumber"
+                      />
+                      {formErrors.panNumber && (
+                        <p className="text-red-500 text-sm mt-1 flex items-center">
+                          <AlertCircle className="h-4 w-4 mr-1" />
+                          {formErrors.panNumber}
                         </p>
                       )}
                     </div>

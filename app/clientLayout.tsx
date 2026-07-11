@@ -1,7 +1,6 @@
 "use client"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AuthProvider } from "@/hooks/use-auth"
@@ -23,18 +22,16 @@ export default function ClientLayout({
   }, [pathname])
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <ToastProvider>
-            <AuthProvider>
-              <Navbar />
-              {children}
-              <Footer />
-              <Toaster />
-            </AuthProvider>
-          </ToastProvider>
-        </ThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Navbar />
+            {children}
+            <Footer />
+            <Toaster />
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   )
