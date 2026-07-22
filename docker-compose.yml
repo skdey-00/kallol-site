@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: kallol_password
       POSTGRES_DB: kallol_db
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts:/docker-entrypoint-initdb.d
@@ -23,12 +23,12 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        DATABASE_URL: postgresql://kallol:kallol_password@postgres:5432/kallol_db
+        DATABASE_URL: postgresql://kallol:kallol_password@postgres:5434/kallol_db
     ports:
-      - "3000:3000"
+      - "3002:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://kallol:kallol_password@postgres:5432/kallol_db
+      - DATABASE_URL=postgresql://kallol:kallol_password@postgres:5434/kallol_db
     depends_on:
       postgres:
         condition: service_healthy
