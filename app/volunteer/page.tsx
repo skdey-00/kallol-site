@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/hooks/use-auth"
 import { useToast } from "@/hooks/use-toast"
 import { validateQrCode } from "@/actions/qr-validation"
+import jsQR from "jsqr"
 
 export default function VolunteerPage() {
   const { user, isLoading } = useAuth()
@@ -49,10 +50,17 @@ export default function VolunteerPage() {
     }
   }, [user, isLoading, router])
 
-  // Check if BarcodeDetector is available
+  // Check if camera API is available (required for any scanning).
+  // BarcodeDetector is NOT required — jsQR is the fallback.
+  // The only thing that kills camera access is a non-secure context
+  // (HTTP that isn't localhost/127.0.0.1).
   useEffect(() => {
-    if (typeof window !== "undefined" && !("BarcodeDetector" in window)) {
-      setScannerSupported(false)
+    if (typeof window !== "undefined") {
+      const hasCamera =
+        !!(navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === "function")
+      if (!hasCamera) {
+        setScannerSupported(false)
+      }
     }
   }, [])
 
@@ -193,37 +201,68 @@ export default function VolunteerPage() {
         await videoRef.current.play()
       }
 
-      // Start scanning loop using BarcodeDetector
+      // Start scanning loop — BarcodeDetector if available, jsQR fallback otherwise
       const startScanning = async () => {
-        if (!("BarcodeDetector" in window)) {
-          setCameraError(
-            "Your browser does not support QR scanning. Please use Chrome, Edge, or Safari. You can still enter the token manually below.",
-          )
+        // --- Fast path: native BarcodeDetector (Chrome, Edge, Safari) ---
+        if ("BarcodeDetector" in window) {
+          // @ts-ignore - BarcodeDetector is not in TypeScript types yet
+          const detector = new window.BarcodeDetector({
+            formats: ["qr_code"],
+          })
+
+          const scanLoop = async () => {
+            if (!videoRef.current || hasScannedRef.current) return
+
+            try {
+              const barcodes = await detector.detect(videoRef.current)
+              if (barcodes && barcodes.length > 0 && !hasScannedRef.current) {
+                const qrText = barcodes[0].rawValue
+                if (qrText) {
+                  hasScannedRef.current = true
+                  startPhotoCountdown(qrText)
+                  return
+                }
+              }
+            } catch {
+              // Detection errors are normal (e.g., no barcode in frame), just continue
+            }
+
+            if (!hasScannedRef.current) {
+              rafRef.current = requestAnimationFrame(scanLoop)
+            }
+          }
+
+          scanLoop()
           return
         }
 
-        // @ts-ignore - BarcodeDetector is not in TypeScript types yet
-        const detector = new window.BarcodeDetector({
-          formats: ["qr_code"],
-        })
+        // --- Fallback path: jsQR (Firefox, older browsers, any camera-enabled browser) ---
+        const scanCanvas = document.createElement("canvas")
+        const scanCtx = scanCanvas.getContext("2d", { willReadFrequently: true })
+        if (!scanCtx) {
+          setCameraError("Unable to initialize QR scanner. Please enter the token manually below.")
+          return
+        }
 
-        const scanLoop = async () => {
+        const scanLoop = () => {
           if (!videoRef.current || hasScannedRef.current) return
 
-          try {
-            const barcodes = await detector.detect(videoRef.current)
-            if (barcodes && barcodes.length > 0 && !hasScannedRef.current) {
-              const qrText = barcodes[0].rawValue
-              if (qrText) {
-                // Lock immediately to prevent double-scan
-                hasScannedRef.current = true
-                // Start countdown for photo
-                startPhotoCountdown(qrText)
-                return
-              }
+          const video = videoRef.current
+          if (video.videoWidth > 0 && video.videoHeight > 0) {
+            scanCanvas.width = video.videoWidth
+            scanCanvas.height = video.videoHeight
+            scanCtx.drawImage(video, 0, 0, scanCanvas.width, scanCanvas.height)
+
+            const imageData = scanCtx.getImageData(0, 0, scanCanvas.width, scanCanvas.height)
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+              inversionAttempts: "dontInvert",
+            })
+
+            if (code && code.data && !hasScannedRef.current) {
+              hasScannedRef.current = true
+              startPhotoCountdown(code.data)
+              return
             }
-          } catch {
-            // Detection errors are normal (e.g., no barcode in frame), just continue
           }
 
           if (!hasScannedRef.current) {
@@ -369,8 +408,9 @@ export default function VolunteerPage() {
                     {!scannerSupported && (
                       <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-md p-3">
                         <AlertTriangle className="inline h-4 w-4 mr-1" />
-                        Camera scanning is not supported in this browser. Use Chrome, Edge, or Safari, or enter the
-                        token manually below.
+                        Camera access requires a secure connection (HTTPS or localhost). If you're
+                        opening this site via an IP address over HTTP, camera features won't work.
+                        You can still enter the token manually below.
                       </p>
                     )}
 

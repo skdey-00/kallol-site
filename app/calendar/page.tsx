@@ -1,164 +1,45 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { CalendarIcon, Clock, MapPin, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useAuth } from "@/hooks/use-auth"
+import { getEvents } from "@/actions/events"
+
+interface CalendarEvent {
+  id: string
+  title: string
+  date: string
+  time: string
+  location: string
+  category: string
+  description: string
+}
 
 export default function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
-  const { user } = useAuth()
+  const [events, setEvents] = useState<CalendarEvent[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      const data = await getEvents()
+      setEvents(data)
+      setLoading(false)
+    }
+    loadEvents()
+  }, [])
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   }
 
-  // Sample events data
-  const events = [
-    {
-      id: 1,
-      title: "Kali Puja Celebration",
-      date: "2025-11-12",
-      time: "6:00 PM - 10:00 PM",
-      location: "Kali Mandir, Bangur Nagar",
-      category: "religious",
-      description: "Grand celebration of Kali Puja with traditional rituals and cultural performances.",
-    },
-    {
-      id: 2,
-      title: "Bengali Cultural Night",
-      date: "2025-10-25",
-      time: "7:00 PM - 11:00 PM",
-      location: "Kali Mandir Community Hall",
-      category: "cultural",
-      description: "Evening of Bengali music, dance, and poetry.",
-    },
-    {
-      id: 3,
-      title: "Durga Puja",
-      date: "2025-10-10",
-      time: "All Day",
-      location: "Kali Mandir, Bangur Nagar",
-      category: "religious",
-      description: "Five-day celebration of Goddess Durga with elaborate decorations and rituals.",
-    },
-    {
-      id: 4,
-      title: "Saraswati Puja",
-      date: "2026-02-14",
-      time: "10:00 AM - 2:00 PM",
-      location: "Kali Mandir, Bangur Nagar",
-      category: "religious",
-      description: "Worship of Goddess Saraswati, deity of knowledge and arts.",
-    },
-    {
-      id: 5,
-      title: "Poila Boishakh (Bengali New Year)",
-      date: "2025-04-14",
-      time: "9:00 AM - 6:00 PM",
-      location: "Kali Mandir Community Hall",
-      category: "cultural",
-      description: "Celebration of Bengali New Year with traditional food and performances.",
-    },
-    {
-      id: 6,
-      title: "Rabindra Jayanti",
-      date: "2025-05-09",
-      time: "5:00 PM - 9:00 PM",
-      location: "Kallol Auditorium",
-      category: "cultural",
-      description: "Commemoration of Rabindranath Tagore's birth anniversary.",
-    },
-    {
-      id: 7,
-      title: "Bengali Language Workshop",
-      date: "2025-09-18",
-      time: "10:00 AM - 1:00 PM",
-      location: "Kallol Learning Center",
-      category: "educational",
-      description: "Learn Bengali language basics with experienced instructors.",
-    },
-    {
-      id: 8,
-      title: "Community Meeting",
-      date: "2025-08-30",
-      time: "5:00 PM - 7:00 PM",
-      location: "Kali Mandir Meeting Room",
-      category: "community",
-      description: "Monthly community meeting to discuss upcoming events and initiatives.",
-    },
-    ...(user
-      ? [
-          {
-            id: 9,
-            title: "Member Meeting - New Year Planning",
-            date: "2025-01-15",
-            time: "7:00 PM - 9:00 PM",
-            location: "Kali Mandir Meeting Room",
-            category: "member-meeting",
-            description: "Exclusive member meeting to plan events for 2025 and discuss budget allocation.",
-          },
-          {
-            id: 10,
-            title: "Member Meeting - Saraswati Puja Planning",
-            date: "2025-02-10",
-            time: "6:30 PM - 8:30 PM",
-            location: "Kali Mandir Meeting Room",
-            category: "member-meeting",
-            description: "Planning meeting for Saraswati Puja celebration and educational activities.",
-          },
-        ]
-      : []),
-    ...(user?.membershipType === "executive"
-      ? [
-          {
-            id: 11,
-            title: "Executive Committee Strategic Planning",
-            date: "2025-01-20",
-            time: "8:00 PM - 10:00 PM",
-            location: "Executive Conference Room",
-            category: "committee-meeting",
-            description: "Exclusive executive committee meeting for strategic planning and leadership decisions.",
-          },
-          {
-            id: 12,
-            title: "Executive Committee Budget Review",
-            date: "2025-03-15",
-            time: "7:30 PM - 9:30 PM",
-            location: "Executive Conference Room",
-            category: "committee-meeting",
-            description: "Quarterly budget review and financial planning session for executive committee.",
-          },
-          {
-            id: 13,
-            title: "Executive Committee Leadership Meeting",
-            date: "2025-05-20",
-            time: "8:00 PM - 10:00 PM",
-            location: "Executive Conference Room",
-            category: "committee-meeting",
-            description: "Executive leadership meeting to discuss organizational structure and key decisions.",
-          },
-        ]
-      : []),
-  ]
-
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
   ]
 
   const getCategoryColor = (category: string) => {
@@ -269,7 +150,14 @@ export default function CalendarPage() {
             Events in {months[currentMonth.getMonth()]}
           </h2>
 
-          {currentMonthEvents.length > 0 ? (
+          {loading ? (
+            <Card className="border-gray-200 bg-gray-50">
+              <CardContent className="p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kallol-700 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading events...</p>
+              </CardContent>
+            </Card>
+          ) : currentMonthEvents.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {currentMonthEvents.map((event) => (
                 <Card key={event.id} className="border-gray-200 hover:shadow-lg transition-shadow duration-300">
@@ -278,10 +166,7 @@ export default function CalendarPage() {
                       <Badge className={`${getCategoryColor(event.category)} border`}>{event.category}</Badge>
                       <div className="text-right">
                         <div className="text-sm font-medium text-gray-900">
-                          {new Date(event.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
+                          {new Date(event.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                       </div>
                     </div>
@@ -315,7 +200,7 @@ export default function CalendarPage() {
           )}
         </motion.div>
 
-        {/* Upcoming Events Summary */}
+        {/* All Upcoming Events Summary */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -324,44 +209,48 @@ export default function CalendarPage() {
           className="mb-12"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-            All Upcoming <span className="text-kallol-700">Events</span>
+            All <span className="text-kallol-700">Events</span>
           </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {events.map((event) => (
-              <Card key={event.id} className="border-gray-200 hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <Badge className={`${getCategoryColor(event.category)} border`}>{event.category}</Badge>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-kallol-700">
-                        {new Date(event.date).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
+          {loading ? (
+            <Card className="border-gray-200 bg-gray-50">
+              <CardContent className="p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kallol-700 mx-auto"></div>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {events.map((event) => (
+                <Card key={event.id} className="border-gray-200 hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <Badge className={`${getCategoryColor(event.category)} border`}>{event.category}</Badge>
+                      <div className="text-right">
+                        <div className="text-sm font-medium text-kallol-700">
+                          {new Date(event.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
 
-                  <div className="space-y-2 mb-3">
-                    <div className="flex items-center text-gray-600">
-                      <Clock className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.time}</span>
+                    <div className="space-y-2 mb-3">
+                      <div className="flex items-center text-gray-600">
+                        <Clock className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.time}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <MapPin className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.location}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center text-gray-600">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.location}</span>
-                    </div>
-                  </div>
 
-                  <p className="text-gray-700">{event.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    <p className="text-gray-700">{event.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Event Categories Legend */}
@@ -392,22 +281,14 @@ export default function CalendarPage() {
                   <Badge className="bg-purple-100 text-purple-800 border-purple-200 border mr-2">Community</Badge>
                   <span className="text-sm text-gray-600">Meetings & Social Events</span>
                 </div>
-                {user && (
-                  <div className="flex items-center">
-                    <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 border mr-2">
-                      Member Meetings
-                    </Badge>
-                    <span className="text-sm text-gray-600">Exclusive Member Meetings</span>
-                  </div>
-                )}
-                {user?.membershipType === "executive" && (
-                  <div className="flex items-center">
-                    <Badge className="bg-orange-100 text-orange-800 border-orange-200 border mr-2">
-                      Committee Meetings
-                    </Badge>
-                    <span className="text-sm text-gray-600">Executive Committee Only</span>
-                  </div>
-                )}
+                <div className="flex items-center">
+                  <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 border mr-2">Member Meetings</Badge>
+                  <span className="text-sm text-gray-600">Exclusive Member Meetings</span>
+                </div>
+                <div className="flex items-center">
+                  <Badge className="bg-orange-100 text-orange-800 border-orange-200 border mr-2">Committee Meetings</Badge>
+                  <span className="text-sm text-gray-600">Executive Committee Only</span>
+                </div>
               </div>
             </CardContent>
           </Card>

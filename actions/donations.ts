@@ -2,17 +2,16 @@
 
 import { PDFDocument, rgb, StandardFonts, PageSizes } from "pdf-lib"
 import qrcode from "qrcode"
-import { createClient } from "@supabase/supabase-js"
+import { insert, findAll, findOne } from "@/lib/db"
 import { localDb, isSupabaseConfigured } from "@/lib/local-db"
 
 const KALLOL_LOGO_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Kallol%20Logo-nzQyFJe53XiKXnTvKn7jbus1vKTW0l.png"
 
-// Initialize Supabase client only if env vars are configured
-// Otherwise, the local JSON-file database is used (see lib/local-db.ts)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
+// Check if PostgreSQL database is configured
+function isDatabaseConfigured(): boolean {
+  return !!process.env.DATABASE_URL
+}
 
 // New interfaces for donation items and QR scan records
 interface DonationItem {
@@ -245,7 +244,7 @@ async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUr
 }
 
 /**
- * Handles donation submission and stores it in Supabase.
+ * Handles donation submission and stores it in PostgreSQL database.
  * @param formData The form data containing donation details.
  * @returns A success/error message and optionally the base64 PDF receipt.
  */
@@ -304,17 +303,17 @@ export async function submitDonation(
 
   let data: any
 
-  if (!supabase || !isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     // --- LOCAL DB (development mode) ---
     data = localDb.insert(newDonationData)
   } else {
-    // --- SUPABASE (production) ---
-    const { data: supaData, error } = await supabase.from("donations").insert([newDonationData]).select().single()
-    if (error) {
+    // --- POSTGRESQL (production) ---
+    try {
+      data = await insert("donations", newDonationData)
+    } catch (error) {
       console.error("Error inserting donation:", error)
-      return { success: false, message: `Failed to record donation: ${error.message}` }
+      return { success: false, message: `Failed to record donation: ${error instanceof Error ? error.message : "Unknown error"}` }
     }
-    data = supaData
   }
 
   const newDonationRecord: DonationRecord = {
@@ -345,7 +344,7 @@ export async function submitDonation(
 }
 
 /**
- * Retrieves all successful and unsuccessful donation records from Supabase.
+ * Retrieves all successful and unsuccessful donation records from PostgreSQL database.
  * @returns An object containing arrays of successful and unsuccessful donations.
  */
 export async function getDonations() {
@@ -353,17 +352,17 @@ export async function getDonations() {
 
   let rawData: any[]
 
-  if (!supabase || !isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     // --- LOCAL DB (development mode) ---
     rawData = localDb.getAll()
   } else {
-    // --- SUPABASE (production) ---
-    const { data, error } = await supabase.from("donations").select("*").order("timestamp", { ascending: false })
-    if (error) {
+    // --- POSTGRESQL (production) ---
+    try {
+      rawData = await findAll("donations", "timestamp", "DESC")
+    } catch (error) {
       console.error("Error fetching donations:", error)
       return { successful: [], unsuccessful: [] }
     }
-    rawData = data
   }
 
   const allDonations: DonationRecord[] = rawData.map((d: any) => ({
@@ -393,7 +392,7 @@ export async function getDonations() {
 }
 
 /**
- * Exports donation records to a CSV string from Supabase.
+ * Exports donation records to a CSV string from PostgreSQL database.
  * @param type The type of donations to export ('successful' or 'unsuccessful').
  * @returns A CSV formatted string.
  */
@@ -402,25 +401,19 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful") 
 
   let data: any[]
 
-  if (!supabase || !isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     // --- LOCAL DB (development mode) ---
     const allRecords = localDb.getAll()
     data = allRecords.filter((d) => d.status === (type === "successful" ? "success" : "failure"))
   } else {
-    // --- SUPABASE (production) ---
-    const result = await supabase
-      .from("donations")
-      .select(
-        "id, first_name, last_name, gotra, phone_number, pan_number, total_amount, payment_method, message, status, timestamp, qr_code_token, donation_items, qr_code_scans",
-      )
-      .eq("status", type === "successful" ? "success" : "failure")
-      .order("timestamp", { ascending: false })
-
-    if (result.error) {
-      console.error("Error fetching donations for CSV export:", result.error)
+    // --- POSTGRESQL (production) ---
+    try {
+      const allRecords = await findAll("donations", "timestamp", "DESC")
+      data = allRecords.filter((d) => d.status === (type === "successful" ? "success" : "failure"))
+    } catch (error) {
+      console.error("Error fetching donations for CSV export:", error)
       return ""
     }
-    data = result.data
   }
 
   const filteredData = data.map((d: any) => ({

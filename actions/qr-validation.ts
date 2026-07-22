@@ -1,12 +1,12 @@
 "use server"
 
-import { createClient } from "@supabase/supabase-js"
+import { findOne, update, query } from "@/lib/db"
 import { localDb, isSupabaseConfigured } from "@/lib/local-db"
 
-// Initialize Supabase client only if env vars are configured
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
+// Check if PostgreSQL database is configured
+function isDatabaseConfigured(): boolean {
+  return !!process.env.DATABASE_URL
+}
 
 // New interfaces for donation items and QR scan records (consistent with donations.ts)
 interface DonationItem {
@@ -57,20 +57,16 @@ export async function validateQrCode(
 
   let donationData: any | null
 
-  if (!supabase || !isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     // --- LOCAL DB (development mode) ---
     donationData = localDb.getByToken(token)
   } else {
-    // --- SUPABASE (production) ---
-    const { data, error } = await supabase
-      .from("donations")
-      .select("*")
-      .eq("qr_code_token", token)
-      .single()
-    if (error || !data) {
+    // --- POSTGRESQL (production) ---
+    try {
+      donationData = await findOne("donations", "qr_code_token", token)
+    } catch (error) {
+      console.error("Error finding donation by token:", error)
       donationData = null
-    } else {
-      donationData = data
     }
   }
 
@@ -78,7 +74,7 @@ export async function validateQrCode(
     return { success: false, message: "Invalid QR Code. No matching donation found." }
   }
 
-  // Map Supabase data to DonationRecord interface
+  // Map database data to DonationRecord interface
   const donation: DonationRecord = {
     id: donationData.id,
     firstName: donationData.first_name,
@@ -174,38 +170,50 @@ export async function validateQrCode(
   const itemIndexToScan = itemToScan.index
 
   // Record the scan.
-  let photoPath: string | undefined
+  let photoId: string | undefined
   if (photoBase64) {
-    if (!supabase || !isSupabaseConfigured()) {
+    if (!isDatabaseConfigured()) {
       // --- LOCAL DB (development mode) ---
-      photoPath = localDb.savePhoto(photoBase64)
+      const photoPath = localDb.savePhoto(photoBase64)
+      photoId = photoPath // Use path as ID for local mode
     } else {
-      // --- SUPABASE (production) ---
-      // TODO: Upload to Supabase Storage bucket
-      photoPath = localDb.savePhoto(photoBase64) // fallback for now
+      // --- POSTGRESQL (production) ---
+      try {
+        // Convert base64 to buffer
+        const base64Data = photoBase64.replace(/^data:image\/\w+;base64,/, "")
+        const photoBuffer = Buffer.from(base64Data, "base64")
+        const filename = `scan_${Date.now()}_${itemIndexToScan}.jpg`
+
+        // Insert photo into database
+        const photoResult = await query(
+          `INSERT INTO scan_photos (donation_id, filename, mime_type, photo_data) VALUES ($1, $2, $3, $4) RETURNING id`,
+          [donation.id, filename, "image/jpeg", photoBuffer]
+        )
+        photoId = photoResult.rows[0]?.id
+      } catch (error) {
+        console.error("Error saving photo to database:", error)
+        // Continue without photo if upload fails
+      }
     }
   }
 
   const newScanRecord: QrScanRecord = {
     timestamp: new Date().toISOString(),
     itemIndex: itemIndexToScan,
-    photoPath,
+    photoPath: photoId,
   }
   const updatedQrCodeScans = [...donation.qrCodeScans, newScanRecord]
 
-  if (!supabase || !isSupabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
     // --- LOCAL DB (development mode) ---
     localDb.updateScans(donation.id, updatedQrCodeScans)
   } else {
-    // --- SUPABASE (production) ---
-    const { error: updateError } = await supabase
-      .from("donations")
-      .update({ qr_code_scans: updatedQrCodeScans })
-      .eq("id", donation.id)
-
-    if (updateError) {
-      console.error("Error updating donation with new scan:", updateError)
-      return { success: false, message: `Failed to record scan: ${updateError.message}` }
+    // --- POSTGRESQL (production) ---
+    try {
+      await update("donations", donation.id, { qr_code_scans: updatedQrCodeScans })
+    } catch (error) {
+      console.error("Error updating donation with new scan:", error)
+      return { success: false, message: `Failed to record scan: ${error instanceof Error ? error.message : "Unknown error"}` }
     }
   }
 

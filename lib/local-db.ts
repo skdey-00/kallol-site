@@ -3,9 +3,9 @@ import { join } from "path"
 import { randomUUID } from "crypto"
 
 /**
- * Local JSON-file database — drop-in stand-in for Supabase during development.
- * When NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are both set,
- * the action files use real Supabase instead. When they're absent, this kicks in.
+ * Local JSON-file database — drop-in stand-in for PostgreSQL during development.
+ * When DATABASE_URL is set, the action files use PostgreSQL instead.
+ * When it's absent, this local file-based fallback kicks in.
  *
  * Data is stored in data/local-donations.json at the project root.
  */
@@ -95,7 +95,7 @@ export const localDb = {
   /**
    * Save a photo (base64 JPEG data URL) to disk and return the URL path.
    * Photos are stored in public/scan-photos/ so they're served directly by Next.js.
-   * For production with Supabase, this would upload to Supabase Storage instead.
+   * For production with PostgreSQL, photos are stored as BLOB data in the database.
    */
   savePhoto(photoBase64: string): string {
     const base64Data = photoBase64.replace(/^data:image\/\w+;base64,/, "")
@@ -108,7 +108,7 @@ export const localDb = {
   },
 }
 
-/** Returns true if Supabase env vars are configured. */
+/** Returns true if PostgreSQL database is configured. */
 export function isSupabaseConfigured(): boolean {
-  return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  return !!process.env.DATABASE_URL
 }
