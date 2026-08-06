@@ -1,0 +1,912 @@
+[
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-160.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-160.webp",
+    "local": "/assets/Group-160-7cb5c7f7.webp",
+    "contentType": "image/webp",
+    "bytes": "323666"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_2297.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_2297.webp",
+    "local": "/assets/IMG_2297-73f3e209.webp",
+    "contentType": "image/webp",
+    "bytes": "518656"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1643-1.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1643-1.webp",
+    "local": "/assets/JTP_1643-1-82a95cb9.webp",
+    "contentType": "image/webp",
+    "bytes": "282082"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9920-1.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9920-1.webp",
+    "local": "/assets/5B8A9920-1-30c87be2.webp",
+    "contentType": "image/webp",
+    "bytes": "207652"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9864-1.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9864-1.webp",
+    "local": "/assets/5B8A9864-1-11a3d049.webp",
+    "contentType": "image/webp",
+    "bytes": "241758"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0782-1.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0782-1.webp",
+    "local": "/assets/5B8A0782-1-2a544d2e.webp",
+    "contentType": "image/webp",
+    "bytes": "469086"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/home-about.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/home-about.png",
+    "local": "/assets/home-about-06f92df6.png",
+    "contentType": "image/png",
+    "bytes": "766763"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Kali-Mandir-Tile.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Kali-Mandir-Tile.png",
+    "local": "/assets/Kali-Mandir-Tile-20c642f6.png",
+    "contentType": "image/png",
+    "bytes": "668188"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Events.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Events.png",
+    "local": "/assets/Events-308ea450.png",
+    "contentType": "image/png",
+    "bytes": "572109"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/library.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/library.png",
+    "local": "/assets/library-de30773d.png",
+    "contentType": "image/png",
+    "bytes": "525332"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-12.14.56_2df50f9d.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-12.14.56_2df50f9d.jpg",
+    "local": "/assets/WhatsApp-Image-2025-09-01-at-12.14.56_2df50f9d-77660215.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "83506"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Amabasya_Puja_Tile.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Amabasya_Puja_Tile.png",
+    "local": "/assets/Amabasya_Puja_Tile-f954983b.png",
+    "contentType": "image/png",
+    "bytes": "435755"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Durga_Puja_Tile.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Durga_Puja_Tile.png",
+    "local": "/assets/Durga_Puja_Tile-289a4e35.png",
+    "contentType": "image/png",
+    "bytes": "421010"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Lakshmi_Puja_Tile.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Lakshmi_Puja_Tile.png",
+    "local": "/assets/Lakshmi_Puja_Tile-2a79392d.png",
+    "contentType": "image/png",
+    "bytes": "406745"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Kali_Puja_Tile.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Kali_Puja_Tile.png",
+    "local": "/assets/Kali_Puja_Tile-35f6bb42.png",
+    "contentType": "image/png",
+    "bytes": "404950"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Sarashwati_Puja_Tile.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Sarashwati_Puja_Tile.png",
+    "local": "/assets/Sarashwati_Puja_Tile-ed17e914.png",
+    "contentType": "image/png",
+    "bytes": "417002"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/SpecialPuja.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/SpecialPuja.png",
+    "local": "/assets/SpecialPuja-3da3ae1b.png",
+    "contentType": "image/png",
+    "bytes": "354125"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f311/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f311/72.png",
+    "local": "/assets/72-94945e81.png",
+    "contentType": "image/png",
+    "bytes": "1119"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f64f/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f64f/72.png",
+    "local": "/assets/72-3208b99e.png",
+    "contentType": "image/png",
+    "bytes": "1299"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f31f/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f31f/72.png",
+    "local": "/assets/72-4154f8cb.png",
+    "contentType": "image/png",
+    "bytes": "1120"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f6d5/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f6d5/72.png",
+    "local": "/assets/72-abfaee60.png",
+    "contentType": "image/png",
+    "bytes": "1777"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f4cd/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f4cd/72.png",
+    "local": "/assets/72-a706523c.png",
+    "contentType": "image/png",
+    "bytes": "658"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0782.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0782.webp",
+    "local": "/assets/5B8A0782-a468d641.webp",
+    "contentType": "image/webp",
+    "bytes": "469086"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Conference-Hall-1024x666.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Conference-Hall.jpg",
+    "local": "/assets/Conference-Hall-6ce31122.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "255617"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Kallol-Facility-2-1024x611.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Kallol-Facility-2.png",
+    "local": "/assets/Kallol-Facility-2-a121bd7f.png",
+    "contentType": "image/png",
+    "bytes": "2384302"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Medical.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Medical.webp",
+    "local": "/assets/Medical-a397b286.webp",
+    "contentType": "image/webp",
+    "bytes": "51288"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Medical2.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Medical2.webp",
+    "local": "/assets/Medical2-08d303d4.webp",
+    "contentType": "image/webp",
+    "bytes": "59350"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Medical3.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Medical3.webp",
+    "local": "/assets/Medical3-6563eaf4.webp",
+    "contentType": "image/webp",
+    "bytes": "71922"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-21-57-53-1024x461.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-21-57-53.png",
+    "local": "/assets/PHOTO-2025-08-04-21-57-53-20108055.png",
+    "contentType": "image/png",
+    "bytes": "2017130"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-21-57-53-1-1-1024x461.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-21-57-53-1-1.png",
+    "local": "/assets/PHOTO-2025-08-04-21-57-53-1-1-b22ff382.png",
+    "contentType": "image/png",
+    "bytes": "551077"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/0-1-800x520.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/0-1.jpg",
+    "local": "/assets/0-1-73b501a4.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "268555"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/2-3-800x520.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/2-3.jpg",
+    "local": "/assets/2-3-4be37b47.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "200764"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/3-3-800x520.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/3-3.jpg",
+    "local": "/assets/3-3-5af316e1.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "117384"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/4-3-800x520.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/4-3.jpg",
+    "local": "/assets/4-3-3786d51f.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "176953"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/5-2-800x520.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/5-2.jpg",
+    "local": "/assets/5-2-02af2b02.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "408777"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/6-2-800x520.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/6-2.jpg",
+    "local": "/assets/6-2-72e067a0.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "95727"
+  },
+  {
+    "source": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/ad.jpg",
+    "original": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/ad.jpg",
+    "local": "/assets/ad-460acc02.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "59995"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/kali-mandir-banner1.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/kali-mandir-banner1.png",
+    "local": "/assets/kali-mandir-banner1-dc6a1673.png",
+    "contentType": "image/png",
+    "bytes": "686579"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Amabasya_Puja.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Amabasya_Puja.png",
+    "local": "/assets/Amabasya_Puja-80fa0792.png",
+    "contentType": "image/png",
+    "bytes": "441607"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/plugins/iThemelandCo-Woo-Product-Table/assets/image/loading_bs.gif",
+    "original": "https://kallolmumbai.com/wp-content/plugins/iThemelandCo-Woo-Product-Table/assets/image/loading_bs.gif",
+    "local": "/assets/loading_bs-7297578e.gif",
+    "contentType": "image/gif",
+    "bytes": "50561"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Amabasya_Puja_HeaderBg.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Amabasya_Puja_HeaderBg.png",
+    "local": "/assets/Amabasya_Puja_HeaderBg-8bc1dc90.png",
+    "contentType": "image/png",
+    "bytes": "609289"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/2-5.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/2-5.jpg",
+    "local": "/assets/2-5-995c0b2f.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "162906"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/ministry-graph-1.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/ministry-graph-1.png",
+    "local": "/assets/ministry-graph-1-1a5c2000.png",
+    "contentType": "image/png",
+    "bytes": "24804"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/7-1-570x420.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/7-1.jpg",
+    "local": "/assets/7-1-f8ec52f8.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "56826"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/3-5-570x420.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/3-5.jpg",
+    "local": "/assets/3-5-be5c0533.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "80634"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/4-6.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/4-6.jpg",
+    "local": "/assets/4-6-7a26a9d3.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "85490"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/puja-gallery-img-1.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/puja-gallery-img-1.png",
+    "local": "/assets/puja-gallery-img-1-47b57039.png",
+    "contentType": "image/png",
+    "bytes": "754971"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/puja-gallery-img-1-1.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/puja-gallery-img-1-1.png",
+    "local": "/assets/puja-gallery-img-1-1-733f5225.png",
+    "contentType": "image/png",
+    "bytes": "708455"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/2728/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/2728/72.png",
+    "local": "/assets/72-ee25d0fe.png",
+    "contentType": "image/png",
+    "bytes": "1153"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1fa94/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1fa94/72.png",
+    "local": "/assets/72-6a284fe5.png",
+    "contentType": "image/png",
+    "bytes": "4110"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f4f2/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f4f2/72.png",
+    "local": "/assets/72-43912d47.png",
+    "contentType": "image/png",
+    "bytes": "1046"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/lakshmipuja.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/lakshmipuja.png",
+    "local": "/assets/lakshmipuja-473705d3.png",
+    "contentType": "image/png",
+    "bytes": "689323"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PoilaBoishak.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PoilaBoishak.png",
+    "local": "/assets/PoilaBoishak-ee6e477f.png",
+    "contentType": "image/png",
+    "bytes": "593122"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Frame-171.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Frame-171.png",
+    "local": "/assets/Frame-171-a8d979d0.png",
+    "contentType": "image/png",
+    "bytes": "468536"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-20-23-46.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-20-23-46.jpg",
+    "local": "/assets/PHOTO-2025-08-04-20-23-46-ddf7af40.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "186755"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Final_1_ranbindra_opt1-1-1.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Final_1_ranbindra_opt1-1-1.png",
+    "local": "/assets/Final_1_ranbindra_opt1-1-1-55e1cfa0.png",
+    "contentType": "image/png",
+    "bytes": "983008"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-19-48-05.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-19-48-05.png",
+    "local": "/assets/PHOTO-2025-08-04-19-48-05-ff3dcc67.png",
+    "contentType": "image/png",
+    "bytes": "435433"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-21-57-53-1.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-04-21-57-53-1.png",
+    "local": "/assets/PHOTO-2025-08-04-21-57-53-1-2f0ed437.png",
+    "contentType": "image/png",
+    "bytes": "610795"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-05-22-10-53-1.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/PHOTO-2025-08-05-22-10-53-1.jpg",
+    "local": "/assets/PHOTO-2025-08-05-22-10-53-1-9180e7aa.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "166180"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1443-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1443-1.png",
+    "local": "/assets/JTP_1443-1-d8c870f0.png",
+    "contentType": "image/png",
+    "bytes": "1019532"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1247-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1247-1.png",
+    "local": "/assets/JTP_1247-1-f92ffbb3.png",
+    "contentType": "image/png",
+    "bytes": "595635"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1234-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1234-1.png",
+    "local": "/assets/JTP_1234-1-4771bcc1.png",
+    "contentType": "image/png",
+    "bytes": "665167"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1231-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1231-1.png",
+    "local": "/assets/JTP_1231-1-5f76e9da.png",
+    "contentType": "image/png",
+    "bytes": "689785"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1217-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1217-1.png",
+    "local": "/assets/JTP_1217-1-c1e031ce.png",
+    "contentType": "image/png",
+    "bytes": "800380"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1201-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1201-1.png",
+    "local": "/assets/JTP_1201-1-2ae97e60.png",
+    "contentType": "image/png",
+    "bytes": "712678"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9678-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9678-1.png",
+    "local": "/assets/IMG_9678-1-70926bbd.png",
+    "contentType": "image/png",
+    "bytes": "889406"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9746-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9746-1.png",
+    "local": "/assets/IMG_9746-1-2c72c36f.png",
+    "contentType": "image/png",
+    "bytes": "865445"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1491-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1491-1.png",
+    "local": "/assets/JTP_1491-1-90f6da1f.png",
+    "contentType": "image/png",
+    "bytes": "730730"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1498-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1498-1.png",
+    "local": "/assets/JTP_1498-1-3fbbf405.png",
+    "contentType": "image/png",
+    "bytes": "865480"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1643-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1643-1.png",
+    "local": "/assets/JTP_1643-1-ddea36c8.png",
+    "contentType": "image/png",
+    "bytes": "725247"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1254-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/JTP_1254-1.png",
+    "local": "/assets/JTP_1254-1-4e9a7330.png",
+    "contentType": "image/png",
+    "bytes": "739785"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9461-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9461-1.png",
+    "local": "/assets/IMG_9461-1-755be556.png",
+    "contentType": "image/png",
+    "bytes": "880187"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9475-1-Copy-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9475-1-Copy.png",
+    "local": "/assets/IMG_9475-1-Copy-424567f0.png",
+    "contentType": "image/png",
+    "bytes": "686522"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9489-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9489-1.png",
+    "local": "/assets/IMG_9489-1-f0f90b0b.png",
+    "contentType": "image/png",
+    "bytes": "803783"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9527-1-Copy-Copy-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9527-1-Copy-Copy.png",
+    "local": "/assets/IMG_9527-1-Copy-Copy-35876ad6.png",
+    "contentType": "image/png",
+    "bytes": "878111"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9542-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9542-1.png",
+    "local": "/assets/IMG_9542-1-e12ebe37.png",
+    "contentType": "image/png",
+    "bytes": "824439"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9569-1-Copy-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9569-1-Copy.png",
+    "local": "/assets/IMG_9569-1-Copy-91ec220e.png",
+    "contentType": "image/png",
+    "bytes": "869253"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9593-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9593-1.png",
+    "local": "/assets/IMG_9593-1-452ddc43.png",
+    "contentType": "image/png",
+    "bytes": "870062"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9655-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9655-1.png",
+    "local": "/assets/IMG_9655-1-c38d28b8.png",
+    "contentType": "image/png",
+    "bytes": "855376"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9657-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9657-1.png",
+    "local": "/assets/IMG_9657-1-2b181274.png",
+    "contentType": "image/png",
+    "bytes": "855913"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9326-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9326-1.png",
+    "local": "/assets/IMG_9326-1-97a0e10a.png",
+    "contentType": "image/png",
+    "bytes": "903753"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9312-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/IMG_9312-1.png",
+    "local": "/assets/IMG_9312-1-d83d3edb.png",
+    "contentType": "image/png",
+    "bytes": "674210"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/Group-155-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/Group-155.png",
+    "local": "/assets/Group-155-370a5d6a.png",
+    "contentType": "image/png",
+    "bytes": "769085"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9995-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9995-1.png",
+    "local": "/assets/5B8A9995-1-3415c755.png",
+    "contentType": "image/png",
+    "bytes": "744282"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9964-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9964-1.png",
+    "local": "/assets/5B8A9964-1-4261bc3b.png",
+    "contentType": "image/png",
+    "bytes": "857302"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9986-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9986-1.png",
+    "local": "/assets/5B8A9986-1-28f6ab31.png",
+    "contentType": "image/png",
+    "bytes": "864976"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9956-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9956-1.png",
+    "local": "/assets/5B8A9956-1-19a619fe.png",
+    "contentType": "image/png",
+    "bytes": "684845"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9948-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9948-1.png",
+    "local": "/assets/5B8A9948-1-346cc0b0.png",
+    "contentType": "image/png",
+    "bytes": "793751"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9934-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9934-1.png",
+    "local": "/assets/5B8A9934-1-ef8dec2f.png",
+    "contentType": "image/png",
+    "bytes": "685097"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9914-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9914-1.png",
+    "local": "/assets/5B8A9914-1-5f4e4123.png",
+    "contentType": "image/png",
+    "bytes": "771631"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9863-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9863-1.png",
+    "local": "/assets/5B8A9863-1-132dcd6a.png",
+    "contentType": "image/png",
+    "bytes": "971487"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9858-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9858-1.png",
+    "local": "/assets/5B8A9858-1-918edc82.png",
+    "contentType": "image/png",
+    "bytes": "684957"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9856-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9856-1.png",
+    "local": "/assets/5B8A9856-1-94a23956.png",
+    "contentType": "image/png",
+    "bytes": "584731"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9855-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9855-1.png",
+    "local": "/assets/5B8A9855-1-e5c66122.png",
+    "contentType": "image/png",
+    "bytes": "850119"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9768-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9768-1.png",
+    "local": "/assets/5B8A9768-1-1f0a19d8.png",
+    "contentType": "image/png",
+    "bytes": "764327"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9821-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A9821-1.png",
+    "local": "/assets/5B8A9821-1-3f5f9c1c.png",
+    "contentType": "image/png",
+    "bytes": "735427"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0204-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0204-1.png",
+    "local": "/assets/5B8A0204-1-6bc4ecb3.png",
+    "contentType": "image/png",
+    "bytes": "822630"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0194-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0194-1.png",
+    "local": "/assets/5B8A0194-1-111ec3d3.png",
+    "contentType": "image/png",
+    "bytes": "745739"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0189-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0189-1.png",
+    "local": "/assets/5B8A0189-1-648c2144.png",
+    "contentType": "image/png",
+    "bytes": "775335"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0163-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0163-1.png",
+    "local": "/assets/5B8A0163-1-e595cee8.png",
+    "contentType": "image/png",
+    "bytes": "723079"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0151_DG1-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0151_DG1-1.png",
+    "local": "/assets/5B8A0151_DG1-1-96522c27.png",
+    "contentType": "image/png",
+    "bytes": "723396"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0146-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0146-1.png",
+    "local": "/assets/5B8A0146-1-997bf37f.png",
+    "contentType": "image/png",
+    "bytes": "715670"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0047-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0047-1.png",
+    "local": "/assets/5B8A0047-1-1bfd2947.png",
+    "contentType": "image/png",
+    "bytes": "704990"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0036-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0036-1.png",
+    "local": "/assets/5B8A0036-1-3e6e6fa5.png",
+    "contentType": "image/png",
+    "bytes": "792234"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0027-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0027-1.png",
+    "local": "/assets/5B8A0027-1-247c07c0.png",
+    "contentType": "image/png",
+    "bytes": "704962"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0010-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/07/5B8A0010-1.png",
+    "local": "/assets/5B8A0010-1-fc7f37cc.png",
+    "contentType": "image/png",
+    "bytes": "747112"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-166-1-300x200.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-166-1.png",
+    "local": "/assets/Group-166-1-79b670d5.png",
+    "contentType": "image/png",
+    "bytes": "865556"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-164-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-164.webp",
+    "local": "/assets/Group-164-127aae59.webp",
+    "contentType": "image/webp",
+    "bytes": "264758"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-167-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-167.webp",
+    "local": "/assets/Group-167-19ea704c.webp",
+    "contentType": "image/webp",
+    "bytes": "228182"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-156-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-156.webp",
+    "local": "/assets/Group-156-aca08dbd.webp",
+    "contentType": "image/webp",
+    "bytes": "311140"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Frame-151-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Frame-151.webp",
+    "local": "/assets/Frame-151-22f15f6b.webp",
+    "contentType": "image/webp",
+    "bytes": "262292"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-168-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-168.webp",
+    "local": "/assets/Group-168-4ef147b5.webp",
+    "contentType": "image/webp",
+    "bytes": "209332"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-169-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-169.webp",
+    "local": "/assets/Group-169-81cdfa8b.webp",
+    "contentType": "image/webp",
+    "bytes": "133788"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-170-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-170.webp",
+    "local": "/assets/Group-170-4eaa805c.webp",
+    "contentType": "image/webp",
+    "bytes": "205978"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-171-300x200.webp",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Group-171.webp",
+    "local": "/assets/Group-171-eb8298b5.webp",
+    "contentType": "image/webp",
+    "bytes": "155856"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/09/image-7.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/09/image-7.png",
+    "local": "/assets/image-7-279fa7e2.png",
+    "contentType": "image/png",
+    "bytes": "487806"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Frame-150.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Frame-150.png",
+    "local": "/assets/Frame-150-9cd8eeb5.png",
+    "contentType": "image/png",
+    "bytes": "2030387"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f33c/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f33c/72.png",
+    "local": "/assets/72-67613556.png",
+    "contentType": "image/png",
+    "bytes": "3682"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f54a_fe0f/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f54a_fe0f/72.png",
+    "local": "/assets/72-f8a4752f.png",
+    "contentType": "image/png",
+    "bytes": "1356"
+  },
+  {
+    "source": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f4da/72.png",
+    "original": "https://fonts.gstatic.com/s/e/notoemoji/16.0/1f4da/72.png",
+    "local": "/assets/72-da5b39bf.png",
+    "contentType": "image/png",
+    "bytes": "2495"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2025/08/Saras.png",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2025/08/Saras.png",
+    "local": "/assets/Saras-b12c15b3.png",
+    "contentType": "image/png",
+    "bytes": "1565662"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/600x600.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/600x600.jpg",
+    "local": "/assets/600x600-7bf40504.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "72096"
+  },
+  {
+    "source": "https://secure.gravatar.com/avatar/72497f475e4f76d0b28f57c73a084ece576d170874eba3ee2609d9afe4b71aab?s=100&d=mm&r=g",
+    "original": "https://secure.gravatar.com/avatar/72497f475e4f76d0b28f57c73a084ece576d170874eba3ee2609d9afe4b71aab",
+    "local": "/assets/72497f475e4f76d0b28f57c73a084ece576d170874eba3ee2609d9afe4b71aab-b2deee95.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "2757"
+  },
+  {
+    "source": "https://secure.gravatar.com/avatar/7baef7fd5fdc68cef13cf7e69d829bde6c8ba4deff07d83fa5b908955dd35cfd?s=100&d=mm&r=g",
+    "original": "https://secure.gravatar.com/avatar/7baef7fd5fdc68cef13cf7e69d829bde6c8ba4deff07d83fa5b908955dd35cfd",
+    "local": "/assets/7baef7fd5fdc68cef13cf7e69d829bde6c8ba4deff07d83fa5b908955dd35cfd-cd1cbcc4.png",
+    "contentType": "image/png",
+    "bytes": "10133"
+  },
+  {
+    "source": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/event-speaker-img-2.jpg",
+    "original": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/event-speaker-img-2.jpg",
+    "local": "/assets/event-speaker-img-2-980d15c7.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "8327"
+  },
+  {
+    "source": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/event-speaker-img-1.jpg",
+    "original": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/event-speaker-img-1.jpg",
+    "local": "/assets/event-speaker-img-1-701959c9.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "7380"
+  },
+  {
+    "source": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/event-speaker-img-3.jpg",
+    "original": "https://metropolitanhost.com/themes/themeforest/wp/maharatri/wp-content/uploads/2021/11/event-speaker-img-3.jpg",
+    "local": "/assets/event-speaker-img-3-506e1cb9.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "6251"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/8-1.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/8-1.jpg",
+    "local": "/assets/8-1-2edac4a0.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "107052"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/1-3.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/1-3.jpg",
+    "local": "/assets/1-3-b4c4e2f8.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "90346"
+  },
+  {
+    "source": "https://kallolmumbai.com/wp-content/uploads/2021/09/9-1.jpg",
+    "original": "https://kallolmumbai.com/wp-content/uploads/2021/09/9-1.jpg",
+    "local": "/assets/9-1-6701ed1e.jpg",
+    "contentType": "image/jpeg",
+    "bytes": "63790"
+  }
+]
