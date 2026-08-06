@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function PoilaBaishakPage() {
@@ -8,10 +9,10 @@ export default function PoilaBaishakPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/PoilaBoishak-ee6e477f.png" alt="Poila Baishak" className="w-full h-full object-cover" />
+            <Image src="/assets/PoilaBoishak-ee6e477f.png" alt="Poila Baishak" fill className="w-full h-full object-cover" priority />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Poila Boishakh - Bengali New Year</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Poila Boishakh - Bengali New Year</h2>
             <p className="text-gray-700 leading-relaxed text-justify">
               The arrival of Poila Boishakh, the Bengali New Year, is marked with much fanfare and festivity at Kallol.
               The day begins with prayers for prosperity and is followed by a colorful cultural program featuring

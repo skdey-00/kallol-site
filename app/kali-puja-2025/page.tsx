@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,10 +11,10 @@ export default function KaliPujaPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/Frame-150-9cd8eeb5.png" alt="Kali Puja 2025" className="w-full h-full object-cover" />
+            <Image src="/assets/Frame-150-9cd8eeb5.png" alt="Kali Puja 2025" fill className="w-full h-full object-cover" priority />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Mahakali Puja: Invoking the Fierce Divine Mother</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Mahakali Puja: Invoking the Fierce Divine Mother</h2>
             <p className="text-gray-700 leading-relaxed text-justify">
               The Mahakali Puja, held annually with deep reverence and grandeur, is a powerful celebration of Maa Kali,
               the fierce and compassionate manifestation of the Divine Mother who destroys evil and protects her
@@ -33,7 +34,7 @@ export default function KaliPujaPage() {
 
         <Card className="border-gray-200 mb-8">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-6">Mahakali Puja Schedule</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Mahakali Puja Schedule</h3>
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
               <table className="w-full text-sm">
                 <thead>

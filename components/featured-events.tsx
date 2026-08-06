@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react"
@@ -8,6 +9,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 export function FeaturedEvents() {
+  // Remove the `useState` and `useEffect` for `publicImages`.
+  // Remove the `featuredEventImage` constant.
+  // Update the `events` array to directly use the static image paths.
+  // Remove the conditional rendering for `base64Image` as all images will now be static paths.
+
   const events = [
     {
       id: 1,
@@ -74,8 +80,8 @@ export function FeaturedEvents() {
     <section className="py-16 px-4 md:px-6 lg:px-8 bg-gray-50">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#44233b] mb-4 md:mb-0">
-            Featured <span className="text-kallol-700">Puja &amp; Events</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-0">
+            Upcoming <span className="text-kallol-700">Events</span>
           </h2>
           <div className="flex items-center space-x-2">
             <Button
@@ -110,11 +116,11 @@ export function FeaturedEvents() {
               <Card className="overflow-hidden border-gray-200 hover:shadow-xl transition-shadow duration-300">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   <div className="relative h-64 lg:h-80">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={events[currentIndex].image}
+                    <Image
+                      src={events[currentIndex].image || "/placeholder.svg"}
                       alt={events[currentIndex].title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                   <CardContent className="p-8 flex flex-col justify-center">
@@ -122,7 +128,7 @@ export function FeaturedEvents() {
                       <CalendarIcon className="h-5 w-5 mr-2" />
                       <span className="text-sm font-medium">{events[currentIndex].date}</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-[#44233b] mb-4">{events[currentIndex].title}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{events[currentIndex].title}</h3>
                     <p className="text-gray-700 mb-6 leading-relaxed">{events[currentIndex].description}</p>
                     <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white shadow-md self-start">
                       <Link href="/upcoming-events">Learn More</Link>
@@ -134,6 +140,7 @@ export function FeaturedEvents() {
           </AnimatePresence>
         </div>
 
+        {/* Event indicators */}
         <div className="flex justify-center mt-6 space-x-2">
           {events.map((_, index) => (
             <button

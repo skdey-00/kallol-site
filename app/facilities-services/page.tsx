@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function FacilitiesPage() {
@@ -21,10 +22,10 @@ export default function FacilitiesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-56">
-              <img src="/assets/Conference-Hall-6ce31122.jpg" alt="Kallol Conference Hall" className="w-full h-full object-cover" />
+              <Image src="/assets/Conference-Hall-6ce31122.jpg" alt="Kallol Conference Hall" fill className="w-full h-full object-cover" priority />
             </div>
             <CardContent className="p-8">
-              <h3 className="text-xl font-bold text-[#44233b] mb-4">Kallol Conference Hall</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Kallol Conference Hall</h3>
               <p className="text-gray-700 leading-relaxed">
                 Air-conditioned conference hall with the capacity of up to 35 people. Suitable for conferences, seminars,
                 events, family functions, etc. Kallol charges a moderate donation based on the duration of booking.
@@ -37,10 +38,10 @@ export default function FacilitiesPage() {
 
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-56">
-              <img src="/assets/Kallol-Facility-2-a121bd7f.png" alt="Kallol Campus" className="w-full h-full object-cover" />
+              <Image src="/assets/Kallol-Facility-2-a121bd7f.png" alt="Kallol Campus" fill className="w-full h-full object-cover" priority />
             </div>
             <CardContent className="p-8">
-              <h3 className="text-xl font-bold text-[#44233b] mb-4">Kallol Campus</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Kallol Campus</h3>
               <p className="text-gray-700 leading-relaxed">
                 Kallol has a large campus and offers its campus on rent for functions, seminars, events, etc. The campus
                 is available for booking at moderate charges.

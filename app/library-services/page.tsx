@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function LibraryPage() {
@@ -8,10 +9,10 @@ export default function LibraryPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/library-de30773d.png" alt="Kallol Library" className="w-full h-full object-cover" />
+            <Image src="/assets/library-de30773d.png" alt="Kallol Library" fill className="w-full h-full object-cover" priority />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
               Kallol Library: A Literary Treasure Trove
             </h2>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">

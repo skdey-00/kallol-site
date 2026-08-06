@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function SpecialPujaPage() {
@@ -9,10 +10,10 @@ export default function SpecialPujaPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-52">
-              <img src="/assets/SpecialPuja-3da3ae1b.png" alt="Special Puja" className="w-full h-full object-cover" />
+              <Image src="/assets/SpecialPuja-3da3ae1b.png" alt="Special Puja" fill className="w-full h-full object-cover" priority />
             </div>
             <CardContent className="p-8">
-              <h3 className="text-xl font-bold text-[#44233b] mb-3">Shree Shree Satyanarayan Puja</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Shree Shree Satyanarayan Puja</h3>
               <p className="text-gray-700 leading-relaxed">
                 Kallol organizes Shri Shri Satyanarayan Puja on special occasions like Poila Baisakh, etc. Please refer
                 to the annual Puja / Event calendar to know the specific Puja date.
@@ -22,10 +23,10 @@ export default function SpecialPujaPage() {
 
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-52">
-              <img src="/assets/kali-mandir-banner1-dc6a1673.png" alt="Shanidev Puja" className="w-full h-full object-cover" />
+              <Image src="/assets/kali-mandir-banner1-dc6a1673.png" alt="Shanidev Puja" fill className="w-full h-full object-cover" priority />
             </div>
             <CardContent className="p-8">
-              <h3 className="text-xl font-bold text-[#44233b] mb-3">Shree Shree Shanidev Puja</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Shree Shree Shanidev Puja</h3>
               <p className="text-gray-700 leading-relaxed">
                 Kallol organizes Shree Shanidev Puja (Boro Thakur Puja) at the campus of Kallol. The Puja starts at 7:30
                 PM in the evening. Our annual calendar has the Shree Shanidev Puja schedule. All interested devotees can
@@ -37,7 +38,7 @@ export default function SpecialPujaPage() {
 
         <Card className="border-gray-200 mt-8">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-6">Other Pujas Organized at Kallol Kali Temple</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Other Pujas Organized at Kallol Kali Temple</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 "Monthly Amavasya Puja",

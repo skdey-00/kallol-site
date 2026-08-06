@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,10 +11,10 @@ export default function DurgaPujaPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/image-7-279fa7e2.png" alt="Durga Puja 2025" className="w-full h-full object-cover" />
+            <Image src="/assets/image-7-279fa7e2.png" alt="Durga Puja 2025" fill className="w-full h-full object-cover" priority />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">The Pinnacle of Bengali Celebration</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">The Pinnacle of Bengali Celebration</h2>
             <p className="text-gray-700 leading-relaxed text-justify">
               Durga Puja marks the pinnacle of spiritual and cultural celebration for the Bengali community, a radiant
               festival that epitomizes the triumph of good over evil and ushers in a season of joy and unity. The
@@ -32,7 +33,7 @@ export default function DurgaPujaPage() {
 
         <Card className="border-gray-200 mb-8">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-6">Key Information</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Key Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <p className="text-gray-700 leading-relaxed mb-3">

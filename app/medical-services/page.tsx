@@ -1,4 +1,5 @@
 import { PageBanner } from "@/components/page-banner"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function MedicalPage() {
@@ -8,13 +9,13 @@ export default function MedicalPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-8">
           <div className="grid grid-cols-2 gap-4">
-            <img src="/assets/Medical-a397b286.webp" alt="Medical Services" className="w-full h-48 object-cover rounded-lg shadow-md" />
-            <img src="/assets/Medical2-08d303d4.webp" alt="Medical Services" className="w-full h-48 object-cover rounded-lg shadow-md" />
-            <img src="/assets/Medical3-6563eaf4.webp" alt="Medical Services" className="w-full h-48 object-cover rounded-lg shadow-md" />
-            <img src="/assets/PHOTO-2025-08-04-21-57-53-20108055.png" alt="Medical Camp" className="w-full h-48 object-cover rounded-lg shadow-md" />
+            <Image src="/assets/Medical-a397b286.webp" alt="Medical Services" fill className="w-full h-48 object-cover rounded-lg shadow-md" priority />
+            <Image src="/assets/Medical2-08d303d4.webp" alt="Medical Services" fill className="w-full h-48 object-cover rounded-lg shadow-md" priority />
+            <Image src="/assets/Medical3-6563eaf4.webp" alt="Medical Services" fill className="w-full h-48 object-cover rounded-lg shadow-md" priority />
+            <Image src="/assets/PHOTO-2025-08-04-21-57-53-20108055.png" alt="Medical Camp" fill className="w-full h-48 object-cover rounded-lg shadow-md" priority />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-[#44233b] mb-6">Homeopathic Dispensary</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Homeopathic Dispensary</h2>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">
               Kallol also continues to serve the community through its charitable homeopathic dispensary, which operates
               three days a week, on Tuesdays, Thursdays, and Saturdays. Open to all, the dispensary provides free
@@ -34,7 +35,7 @@ export default function MedicalPage() {
 
         <Card className="border-gray-200">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-4">Medical Camp at Kallol - March 2025</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Medical Camp at Kallol - March 2025</h3>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">
               In line with its commitment to community well-being, Kallol organized a successful Medical Camp in March
               2025 at its premises in Goregaon. The camp provided free health check-ups, consultations, and basic
