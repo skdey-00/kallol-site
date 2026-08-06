@@ -27,7 +27,7 @@ export default function ClientLayout({
         <ToastProvider>
           <AuthProvider>
             <Navbar />
-            {children}
+            <main className="pt-[104px] md:pt-[120px]">{children}</main>
             <Footer />
             <Toaster />
           </AuthProvider>
