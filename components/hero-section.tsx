@@ -1,94 +1,101 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import Image from "next/image"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
+const heroSlides = [
+  "/assets/Group-160-7cb5c7f7.webp",
+  "/assets/IMG_2297-73f3e209.webp",
+  "/assets/JTP_1643-1-82a95cb9.webp",
+  "/assets/5B8A9920-1-30c87be2.webp",
+  "/assets/5B8A9864-1-11a3d049.webp",
+  "/assets/5B8A0782-1-2a544d2e.webp",
+]
+
 export function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return
-
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect()
-      const x = (e.clientX - left) / width
-      const y = (e.clientY - top) / height
-
-      const moveX = (x - 0.5) * 20
-      const moveY = (y - 0.5) * 20
-
-      containerRef.current.style.backgroundPosition = `${50 + moveX * 0.5}% ${50 + moveY * 0.5}%`
-    }
-
-    document.addEventListener("mousemove", handleMouseMove)
-    return () => document.removeEventListener("mousemove", handleMouseMove)
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+    }, 5000)
+    return () => clearInterval(interval)
   }, [])
 
   return (
-    <section
-      ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden bengali-pattern"
-      style={{ backgroundSize: "400px 400px", transition: "background-position 0.3s ease-out" }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-kallol-500/10 to-kallol-700/10"></div>
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10 py-20 md:py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
+    <section className="relative w-full overflow-hidden bg-[#211521]" style={{ minHeight: "calc(100vh - 0px)" }}>
+      <div className="relative w-full" style={{ aspectRatio: "1240 / 578", minHeight: "330px" }}>
+        {heroSlides.map((slide, index) => (
+          <div
+            key={index}
+            className="absolute inset-0 transition-opacity duration-1000"
+            style={{
+              opacity: currentSlide === index ? 1 : 0,
+              zIndex: currentSlide === index ? 10 : 1,
+            }}
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Celebrating Bengali
-              <span className="text-kallol-700 block mt-2">Culture & Heritage</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0">
-              Join Kallol's vibrant community at the Kali Mandir in Bangur Nagar, dedicated to preserving and sharing
-              the rich traditions, arts, and festivals of Bengali culture.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button
-                asChild
-                className="bg-kallol-700 hover:bg-kallol-800 text-white px-8 py-6 rounded-md text-lg shadow-md"
-              >
-                <Link href="/upcoming-events">Upcoming Events</Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="border-2 border-kallol-700 text-kallol-700 hover:bg-kallol-50 px-8 py-6 rounded-md text-lg shadow-sm"
-              >
-                <Link href="/about">Learn More</Link>
-              </Button>
-            </div>
-          </motion.div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={slide}
+              alt={`Kallol Mumbai ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-20" />
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="relative h-[400px] md:h-[500px] w-full">
-              <div className="absolute top-0 right-0 w-full h-full bg-kallol-600/10 rounded-full blur-3xl"></div>
-              <div className="relative z-10 flex items-center justify-center h-full">
-                <div className="relative h-[300px] w-[300px] md:h-[400px] md:w-[400px]">
-                  <Image src="/images/kallol-logo.png" alt="Kallol Logo" fill className="object-contain" priority />
-                </div>
+        <div className="absolute inset-0 z-30 flex items-end">
+          <div className="container mx-auto px-4 md:px-6 pb-16 md:pb-20">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-2xl"
+            >
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                Kallol Kali Mandir
+                <span className="block text-2xl md:text-3xl lg:text-4xl mt-2 text-amber-200">
+                  Goregaon, Mumbai
+                </span>
+              </h1>
+              <p className="text-base md:text-xl text-white/90 mb-8 max-w-xl drop-shadow">
+                Devotion, Puja, Festivals, Community and Service. A cultural cornerstone for the Bengali diaspora in Mumbai for over six decades.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  asChild
+                  className="bg-kallol-700 hover:bg-kallol-800 text-white px-8 py-6 rounded-md text-lg shadow-md"
+                >
+                  <Link href="/upcoming-events">Puja &amp; Events</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-2 border-white text-white hover:bg-white/20 px-8 py-6 rounded-md text-lg shadow-sm bg-transparent"
+                >
+                  <Link href="/about">About Kallol</Link>
+                </Button>
               </div>
-              
-              
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-white to-transparent"></div>
+      {/* Slide indicators */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 flex gap-2">
+        {heroSlides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2.5 h-2.5 rounded-full transition-all ${
+              currentSlide === index ? "bg-white w-8" : "bg-white/50"
+            }`}
+            aria-label={`Slide ${index + 1}`}
+          />
+        ))}
+      </div>
     </section>
   )
 }

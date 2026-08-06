@@ -61,10 +61,10 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900">Email Us</h3>
                       <a
-                        href="mailto:kallolmandir@gmail.com"
+                        href="mailto:info@kallolmumbai.com"
                         className="text-gray-700 hover:text-kallol-700 transition-colors"
                       >
-                        kallolmandir@gmail.com
+                        info@kallolmumbai.com
                       </a>
                     </div>
                   </div>
@@ -72,8 +72,8 @@ export default function ContactPage() {
                     <Phone className="h-6 w-6 text-kallol-700 mr-4" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Call Us</h3>
-                      <a href="tel:+919876543210" className="text-gray-700 hover:text-kallol-700 transition-colors">
-                        +91 98765 43210
+                      <a href="tel:+918658852917" className="text-gray-700 hover:text-kallol-700 transition-colors">
+                        +91-8655852917
                       </a>
                     </div>
                   </div>
@@ -82,11 +82,11 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900">Visit Us</h3>
                       <p className="text-gray-700">
-                        Kali Mandir
+                        Kallol Kali Mandir
                         <br />
                         Bangur Nagar, Goregaon West
                         <br />
-                        Mumbai, Maharashtra, India
+                        Mumbai - 400104, Maharashtra, India
                       </p>
                     </div>
                   </div>
@@ -122,7 +122,7 @@ export default function ContactPage() {
                     size="icon"
                     className="border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent"
                   >
-                    <Link href="https://twitter.com/kallolkalimandir" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://x.com/KallolMumbai" target="_blank" rel="noopener noreferrer">
                       <Twitter className="h-6 w-6" />
                       <span className="sr-only">Twitter</span>
                     </Link>
@@ -176,7 +176,7 @@ export default function ContactPage() {
                 possible.
               </p>
               <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white shadow-md">
-                <Link href="mailto:kallolmandir@gmail.com">
+                <Link href="mailto:info@kallolmumbai.com">
                   <Mail className="h-4 w-4 mr-2" />
                   Email Us Directly
                 </Link>

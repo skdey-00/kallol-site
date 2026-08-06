@@ -3,10 +3,11 @@ import type { Metadata } from "next"
 import ClientLayout from "./clientLayout"
 
 export const metadata: Metadata = {
-  title: "Kallol - Bengali Cultural Organization | Kali Mandir Bangur Nagar",
+  title: "Kallol Mumbai - Kallol Kali Mandir, Goregaon | Devotion, Puja & Community Events",
   description:
-    "Join Kallol's vibrant Bengali community at Kali Mandir, Bangur Nagar. Celebrating Bengali culture through festivals, events, and traditions.",
-    generator: 'v0.dev'
+    "Kallol Kali Mandir, Goregaon, Mumbai - devotion, puja, festivals, community and service. A cultural cornerstone for the Bengali diaspora in Mumbai.",
+    generator: 'v0.dev',
+    icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 }
 
 export default function RootLayout({

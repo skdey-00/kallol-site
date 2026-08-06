@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react"
@@ -9,43 +8,38 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 export function FeaturedEvents() {
-  // Remove the `useState` and `useEffect` for `publicImages`.
-  // Remove the `featuredEventImage` constant.
-  // Update the `events` array to directly use the static image paths.
-  // Remove the conditional rendering for `base64Image` as all images will now be static paths.
-
   const events = [
     {
       id: 1,
-      title: "Kali Puja Celebration",
-      date: "November 12, 2025",
+      title: "Kali Puja & Deepavali",
+      date: "October 20, 2025",
       description:
-        "Join us for the grand celebration of Kali Puja at the Kali Mandir in Bangur Nagar with cultural performances and traditional rituals.",
-      image: "/images/kali-mandir-deity.jpg", // Directly reference the static image
+        "Shree Shree Mahakali Puja on Deepavali Amavasya. Join us for the grand celebration of Kali Puja at the Kali Mandir with traditional rituals and cultural performances.",
+      image: "/assets/Kali_Puja_Tile-35f6bb42.png",
     },
     {
       id: 2,
-      title: "Bengali New Year Festival",
-      date: "April 14, 2025",
+      title: "Durga Puja 2025",
+      date: "October 1-2, 2025",
       description:
-        "Celebrate Poila Boishakh with traditional music, dance performances, and authentic Bengali cuisine at the Kali Mandir community hall.",
-      image: "/images/cultural-event-placeholder.png", // Use new placeholder
+        "Maha Navami and Vijaya Dashami celebrations. Kumari Puja, Darpan Visarjan and Sindur Utsav. The biggest festival of the Bengali community.",
+      image: "/assets/Durga_Puja_Tile-289a4e35.png",
     },
     {
       id: 3,
-      title: "Rabindra Jayanti",
-      date: "May 9, 2025",
+      title: "Amavasya Puja",
+      date: "Monthly",
       description:
-        "Commemorate the birth anniversary of Rabindranath Tagore with poetry recitations, songs, and theatrical performances.",
-      image: "/images/event-placeholder-1.png", // Use new placeholder
+        "The monthly Amavasya Puja dedicated to Maa Kali draws thousands of devotees who seek divine blessings and partake in the sacred Khichdi Bhog.",
+      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
     },
     {
       id: 4,
-      title: "Saraswati Puja",
-      date: "February 14, 2025",
+      title: "Lakshmi Puja (Kojagari)",
+      date: "October 6, 2025",
       description:
-        "Participate in the worship of Goddess Saraswati, the deity of knowledge, music, and arts at the Kali Mandir.",
-      image: "/images/temple-exterior-placeholder.png", // Use new placeholder
+        "Shree Shree Kojagari Laxmi Puja on the night of the full moon. A celebration of prosperity and divine grace at Kallol Kali Mandir.",
+      image: "/assets/Lakshmi_Puja_Tile-2a79392d.png",
     },
   ]
 
@@ -80,8 +74,8 @@ export function FeaturedEvents() {
     <section className="py-16 px-4 md:px-6 lg:px-8 bg-gray-50">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-0">
-            Upcoming <span className="text-kallol-700">Events</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#44233b] mb-4 md:mb-0">
+            Featured <span className="text-kallol-700">Puja &amp; Events</span>
           </h2>
           <div className="flex items-center space-x-2">
             <Button
@@ -116,11 +110,11 @@ export function FeaturedEvents() {
               <Card className="overflow-hidden border-gray-200 hover:shadow-xl transition-shadow duration-300">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   <div className="relative h-64 lg:h-80">
-                    <Image
-                      src={events[currentIndex].image || "/placeholder.svg"}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={events[currentIndex].image}
                       alt={events[currentIndex].title}
-                      fill
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <CardContent className="p-8 flex flex-col justify-center">
@@ -128,7 +122,7 @@ export function FeaturedEvents() {
                       <CalendarIcon className="h-5 w-5 mr-2" />
                       <span className="text-sm font-medium">{events[currentIndex].date}</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{events[currentIndex].title}</h3>
+                    <h3 className="text-2xl font-bold text-[#44233b] mb-4">{events[currentIndex].title}</h3>
                     <p className="text-gray-700 mb-6 leading-relaxed">{events[currentIndex].description}</p>
                     <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white shadow-md self-start">
                       <Link href="/upcoming-events">Learn More</Link>
@@ -140,7 +134,6 @@ export function FeaturedEvents() {
           </AnimatePresence>
         </div>
 
-        {/* Event indicators */}
         <div className="flex justify-center mt-6 space-x-2">
           {events.map((_, index) => (
             <button

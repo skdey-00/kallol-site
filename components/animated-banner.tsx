@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
 export function AnimatedBanner() {
-  const [phrases, setPhrases] = useState(["Celebrating Bengali Culture", "Remembering traditional Bengali Rituals", "Building a community"])
+  const [phrases, setPhrases] = useState(["Devotion, Puja & Community", "Celebrating Bengali Culture & Heritage", "Serving the community for over six decades"])
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0)
 
   useEffect(() => {
