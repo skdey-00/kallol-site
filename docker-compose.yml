@@ -25,7 +25,7 @@ services:
       args:
         DATABASE_URL: postgresql://kallol:kallol_password@postgres:5434/kallol_db
     ports:
-      - "3002:3000"
+      - "3007:3000"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://kallol:kallol_password@postgres:5434/kallol_db
