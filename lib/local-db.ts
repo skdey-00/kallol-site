@@ -25,6 +25,9 @@ export interface LocalDonationRecord {
   qr_code_token?: string | null
   donation_items: any[]
   qr_code_scans: any[]
+  instamojo_payment_request_id?: string | null
+  instamojo_payment_id?: string | null
+  receipt_pdf_base64?: string | null
 }
 
 const DATA_DIR = join(process.cwd(), "data")
@@ -80,6 +83,22 @@ export const localDb = {
   getByToken(token: string): LocalDonationRecord | null {
     const records = readDB()
     return records.find((r) => r.qr_code_token === token) || null
+  },
+
+  /** Get a single record by Instamojo payment request ID. Returns null if not found. */
+  getByPaymentRequestId(paymentRequestId: string): LocalDonationRecord | null {
+    const records = readDB()
+    return records.find((r) => r.instamojo_payment_request_id === paymentRequestId) || null
+  },
+
+  /** Update arbitrary fields on a record by id. Returns the updated record or null. */
+  update(id: string, data: Partial<LocalDonationRecord>): LocalDonationRecord | null {
+    const records = readDB()
+    const index = records.findIndex((r) => r.id === id)
+    if (index === -1) return null
+    records[index] = { ...records[index], ...data, id: records[index].id }
+    writeDB(records)
+    return records[index]
   },
 
   /** Update qr_code_scans for a record by id. */
