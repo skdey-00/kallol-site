@@ -4,7 +4,19 @@ import type React from "react"
 
 import { useState, use } from "react"
 import { motion } from "framer-motion"
-import { Heart, CreditCard, Smartphone, QrCode, Copy, Check, AlertCircle, Loader2, Download, X } from "lucide-react"
+import {
+  Heart,
+  CreditCard,
+  Smartphone,
+  QrCode,
+  Copy,
+  Check,
+  AlertCircle,
+  Loader2,
+  Download,
+  X,
+  ShieldCheck,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,7 +24,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
-import { submitDonation } from "@/actions/donations"
+import { submitDonation, submitOnlineDonation } from "@/actions/donations"
 import { cn } from "@/lib/utils"
 import { pujaDonations, type DonationItem, type PujaDonationCategory, type OfferingItem } from "@/lib/puja-data" // Import types and data
 import { notFound } from "next/navigation"
@@ -35,16 +47,18 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
 
   const [selectedPujaItems, setSelectedPujaItems] = useState<DonationItem[]>([])
   const [selectedOfferings, setSelectedOfferings] = useState<OfferingItem[]>([])
-  const [paymentMethod, setPaymentMethod] = useState("upi")
+  const [paymentMethod, setPaymentMethod] = useState("online")
   const [copied, setCopied] = useState(false)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [gotra, setGotra] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
+  const [email, setEmail] = useState("")
   const [panNumber, setPanNumber] = useState("")
   const [message, setMessage] = useState("")
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false)
   const [receiptPdfBase64, setReceiptPdfBase64State] = useState<string | null>(null)
   const [generatedQrCodeToken, setGeneratedQrCodeToken] = useState<string | null>(null)
 
@@ -123,6 +137,13 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
     const finalAmount = getRawCurrentAmount()
     if (isNaN(finalAmount) || finalAmount <= 0) {
       errors.amount = "Please select at least one puja item or an offering." // Updated error message
+    } else if (paymentMethod === "online" && finalAmount < 9) {
+      errors.amount = "Online payments must be at least ₹9. Please use UPI or Paytm for smaller amounts."
+    }
+
+    // Email format check (optional, online payments only)
+    if (paymentMethod === "online" && email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      errors.email = "Please enter a valid email address"
     }
 
     // PAN Number is required only if amount exceeds 50,000
@@ -165,6 +186,23 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
     })
     formData.set("donationItems", JSON.stringify(combinedDonationItems)) // Pass combined items
 
+    // Pay Online: create the payment request, then hand off to Instamojo's checkout.
+    if (paymentMethod === "online") {
+      const onlineResult = await submitOnlineDonation(formData)
+      if (onlineResult.success && onlineResult.paymentUrl) {
+        setIsRedirecting(true)
+        window.location.href = onlineResult.paymentUrl
+        return
+      }
+      toast({
+        title: "Payment Could Not Be Started",
+        description: onlineResult.message,
+        variant: "error",
+      })
+      setIsSubmitting(false)
+      return
+    }
+
     const result = await submitDonation(formData)
 
     if (result.success) {
@@ -186,6 +224,7 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
       setLastName("")
       setGotra("")
       setPhoneNumber("")
+      setEmail("")
       setPanNumber("")
       setMessage("")
     } else {
@@ -386,7 +425,14 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
                   <div>
                     <Label className="text-base font-medium text-gray-900 mb-4 block">Payment Method</Label>
                     <Tabs value={paymentMethod} onValueChange={setPaymentMethod} className="w-full">
-                      <TabsList className="grid w-full grid-cols-2 bg-gray-100">
+                      <TabsList className="grid w-full grid-cols-3 bg-gray-100">
+                        <TabsTrigger
+                          value="online"
+                          className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white"
+                        >
+                          <ShieldCheck className="h-4 w-4 mr-2" />
+                          Pay Online
+                        </TabsTrigger>
                         <TabsTrigger
                           value="upi"
                           className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white"
@@ -402,6 +448,21 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
                           Paytm
                         </TabsTrigger>
                       </TabsList>
+
+                      <TabsContent value="online" className="mt-4">
+                        <Card className="border-kallol-200 bg-kallol-50">
+                          <CardContent className="p-4">
+                            <div className="text-center">
+                              <ShieldCheck className="h-12 w-12 mx-auto mb-3 text-kallol-700" />
+                              <h3 className="font-semibold text-gray-900 mb-2">Pay Online Securely</h3>
+                              <p className="text-sm text-gray-700">
+                                Pay securely with UPI, cards, netbanking or wallets via our payment partner Instamojo.
+                                You&apos;ll be redirected to complete the payment.
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
 
                       <TabsContent value="upi" className="mt-4">
                         <Card className="border-kallol-200 bg-kallol-50">
@@ -560,6 +621,31 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
                         </p>
                       )}
                     </div>
+                    {paymentMethod === "online" && (
+                      <div>
+                        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                          Email (Optional)
+                        </Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="you@example.com"
+                          className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value)
+                            setFormErrors((prev) => ({ ...prev, email: "" }))
+                          }}
+                          name="email"
+                        />
+                        {formErrors.email && (
+                          <p className="text-red-500 text-sm mt-1 flex items-center">
+                            <AlertCircle className="h-4 w-4 mr-1" />
+                            {formErrors.email}
+                          </p>
+                        )}
+                      </div>
+                    )}
                     <div>
                       <Label htmlFor="pan-number" className="text-sm font-medium text-gray-700">
                         PAN Number{" "}
@@ -607,12 +693,16 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
                   <Button
                     type="submit"
                     className="w-full bg-kallol-700 hover:bg-kallol-800 text-white py-3 text-lg shadow-md"
-                    disabled={isSubmitting || (selectedPujaItems.length === 0 && selectedOfferings.length === 0)}
+                    disabled={
+                      isSubmitting ||
+                      isRedirecting ||
+                      (selectedPujaItems.length === 0 && selectedOfferings.length === 0)
+                    }
                   >
-                    {isSubmitting ? (
+                    {isSubmitting || isRedirecting ? (
                       <>
                         <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Processing...
+                        {isRedirecting ? "Redirecting to secure payment..." : "Processing..."}
                       </>
                     ) : (
                       <>
