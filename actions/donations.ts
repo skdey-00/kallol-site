@@ -1,246 +1,25 @@
 "use server"
 
-import { PDFDocument, rgb, StandardFonts, PageSizes } from "pdf-lib"
 import qrcode from "qrcode"
-import { insert, findAll, findOne } from "@/lib/db"
-import { localDb, isSupabaseConfigured } from "@/lib/local-db"
-
-const KALLOL_LOGO_URL =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Kallol%20Logo-nzQyFJe53XiKXnTvKn7jbus1vKTW0l.png"
+import {
+  buildQrCode,
+  finalizeInstamojoPayment,
+  findAllDonations,
+  findDonationById,
+  findDonationByPaymentRequestId,
+  generateDonationReceiptPdf,
+  insertDonation,
+  mapDonationRecord,
+  updateDonation,
+  type DonationItem,
+  type DonationRecord,
+} from "@/lib/donation-service"
+import { localDb } from "@/lib/local-db"
+import { isInstamojoConfigured, createPaymentRequest, fetchPaymentRequest, verifyMac } from "@/lib/instamojo"
 
 // Check if PostgreSQL database is configured
 function isDatabaseConfigured(): boolean {
   return !!process.env.DATABASE_URL
-}
-
-// New interfaces for donation items and QR scan records
-interface DonationItem {
-  purpose: string
-  category: string
-  amount: string // Amount for this specific item
-  date?: string // Added date property
-}
-
-interface QrScanRecord {
-  timestamp: string
-  itemIndex: number // Index of the item in the original `donationItems` array that this scan corresponds to
-}
-
-interface DonationRecord {
-  id: string
-  firstName: string
-  lastName: string
-  gotra: string
-  phoneNumber: string
-  panNumber?: string
-  totalAmount: string // Total amount of the donation
-  paymentMethod: string
-  message?: string
-  status: string
-  timestamp: string
-  qrCodeToken?: string
-  donationItems: DonationItem[] // Array of items the donation covers
-  qrCodeScans: QrScanRecord[] // Array of successful scans, each linked to an item
-}
-
-/**
- * Generates a PDF receipt for a given donation record.
- * @param donation The donation record.
- * @param qrCodeDataUrl The data URL of the QR code image.
- * @returns A base64 encoded string of the PDF.
- */
-async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUrl?: string): Promise<string> {
-  const pdfDoc = await PDFDocument.create()
-  const page = pdfDoc.addPage(PageSizes.A4_LANDSCAPE)
-
-  let logoImageBytes: ArrayBuffer | undefined
-  try {
-    const logoResponse = await fetch(KALLOL_LOGO_URL)
-    logoImageBytes = await logoResponse.arrayBuffer()
-  } catch (error) {
-    console.error("Failed to fetch Kallol logo:", error)
-  }
-
-  let kallolLogo = null
-  if (logoImageBytes) {
-    try {
-      kallolLogo = await pdfDoc.embedPng(logoImageBytes)
-    } catch (error) {
-      console.error("Failed to embed Kallol logo:", error)
-    }
-  }
-
-  let qrCodeImage = null
-  if (qrCodeDataUrl) {
-    // Only embed QR code if data URL is provided
-    try {
-      const qrCodeBytes = Buffer.from(qrCodeDataUrl.split(",")[1], "base64")
-      qrCodeImage = await pdfDoc.embedPng(qrCodeBytes)
-    } catch (error) {
-      console.error("Failed to embed QR code:", error)
-    }
-  }
-
-  const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
-  const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
-
-  const { width, height } = page.getSize()
-  const margin = 50
-  let y = height - margin
-
-  // Kallol Logo (top-left)
-  if (kallolLogo) {
-    const logoWidth = 120
-    const logoHeight = (kallolLogo.height / kallolLogo.width) * logoWidth
-    page.drawImage(kallolLogo, {
-      x: margin,
-      y: y - logoHeight + 20, // Adjust position to be top-left
-      width: logoWidth,
-      height: logoHeight,
-    })
-    y -= logoHeight + 20 // Move y down past the logo
-  }
-
-  // Title
-  page.drawText("Donation Receipt", {
-    x: width / 2 - boldFont.widthOfTextAtSize("Donation Receipt", 30) / 2,
-    y: y,
-    font: boldFont,
-    size: 30,
-    color: rgb(139 / 255, 42 / 255, 42 / 255), // Kallol Red
-  })
-  y -= 40
-
-  // Receipt Details
-  page.drawText(`Receipt ID: ${donation.id}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-  y -= 20
-  page.drawText(`Date: ${new Date(donation.timestamp).toLocaleDateString()}`, {
-    x: margin,
-    y: y,
-    font,
-    size: 12,
-    color: rgb(0, 0, 0),
-  })
-  y -= 20
-  page.drawText(`Time: ${new Date(donation.timestamp).toLocaleTimeString()}`, {
-    x: margin,
-    y: y,
-    font,
-    size: 12,
-    color: rgb(0, 0, 0),
-  })
-  y -= 40
-
-  // Donor Information
-  page.drawText("Donor Information:", { x: margin, y: y, font: boldFont, size: 16, color: rgb(0, 0, 0) })
-  y -= 25
-  page.drawText(`Name: ${donation.firstName} ${donation.lastName}`, {
-    x: margin,
-    y: y,
-    font,
-    size: 12,
-    color: rgb(0, 0, 0),
-  })
-  y -= 20
-  page.drawText(`Gotra: ${donation.gotra}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-  y -= 20
-  page.drawText(`Phone: ${donation.phoneNumber}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-  y -= 20
-  if (donation.panNumber) {
-    page.drawText(`PAN: ${donation.panNumber}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-    y -= 20
-  }
-
-  // Donation Details
-  page.drawText("Donation Details:", { x: margin, y: y, font: boldFont, size: 16, color: rgb(0, 0, 0) })
-  y -= 25
-  page.drawText(`Total Amount: Rs.${donation.totalAmount}`, {
-    x: margin,
-    y: y,
-    font: boldFont,
-    size: 18,
-    color: rgb(139 / 255, 42 / 255, 42 / 255),
-  })
-  y -= 25
-  page.drawText(`Payment Method: ${donation.paymentMethod.toUpperCase()}`, {
-    x: margin,
-    y: y,
-    font,
-    size: 12,
-    color: rgb(0, 0, 0),
-  })
-  y -= 20
-
-  // List donation items
-  if (donation.donationItems && donation.donationItems.length > 0) {
-    page.drawText("Items Donated For:", { x: margin, y: y, font: boldFont, size: 12, color: rgb(0, 0, 0) })
-    y -= 15
-    donation.donationItems.forEach((item) => {
-      const itemText =
-        `- ${item.purpose} (${item.category}): Rs.${item.amount}` +
-        (item.date ? ` (Date: ${new Date(item.date).toLocaleDateString()})` : "")
-      page.drawText(itemText, {
-        x: margin + 10,
-        y: y,
-        font,
-        size: 10,
-        color: rgb(0, 0, 0),
-      })
-      y -= 15
-    })
-  }
-  y -= 20
-
-  if (donation.message) {
-    page.drawText(`Message: ${donation.message}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-    y -= 20
-  }
-  y -= 40
-
-  // Thank You Message (positioned to the left, above QR code)
-  const thankYouText1 = "Thank you for your generous contribution to Kallol!"
-  const thankYouText2 = "Your support helps us preserve Bengali culture and maintain the Kali Mandir."
-  const thankYouX = margin
-  const thankYouY = margin + 100 // Position above QR code, adjusted for landscape
-
-  page.drawText(thankYouText1, {
-    x: thankYouX,
-    y: thankYouY,
-    font: boldFont,
-    size: 14,
-    color: rgb(0, 0, 0),
-  })
-
-  page.drawText(thankYouText2, {
-    x: thankYouX,
-    y: thankYouY - 20,
-    font,
-    size: 10,
-    color: rgb(0, 0, 0),
-  })
-
-  // QR Code (bottom-right) - Only draw if qrCodeImage is available
-  if (qrCodeImage) {
-    const qrSize = 100
-    const qrX = width - margin - qrSize
-    const qrY = margin
-    page.drawImage(qrCodeImage, {
-      x: qrX,
-      y: qrY,
-      width: qrSize,
-      height: qrSize,
-    })
-    page.drawText("Scan for verification", {
-      x: qrX + qrSize / 2 - font.widthOfTextAtSize("Scan for verification", 8) / 2, // Center text below QR
-      y: qrY - 15,
-      font,
-      size: 8,
-      color: rgb(0.5, 0.5, 0.5),
-    })
-  }
-
-  const pdfBytes = await pdfDoc.save()
-  return Buffer.from(pdfBytes).toString("base64")
 }
 
 /**
@@ -275,16 +54,8 @@ export async function submitDonation(
 
   const isPaymentSuccessful = Math.random() > 0.2 // Simulate payment success/failure
 
-  let qrCodeToken: string | undefined = undefined
-  let qrCodeDataUrl: string | undefined = undefined
-
   // Determine if QR code should be generated
-  const shouldGenerateQrCode = donationItems.some((item) => item.category !== "General Offering")
-
-  if (shouldGenerateQrCode) {
-    qrCodeToken = crypto.randomUUID() // Generate unique token for QR code
-    qrCodeDataUrl = await qrcode.toDataURL(qrCodeToken, { errorCorrectionLevel: "H", margin: 1, scale: 4 })
-  }
+  const { token: qrCodeToken, dataUrl: qrCodeDataUrl } = await buildQrCode(donationItems)
 
   const newDonationData = {
     first_name: firstName,
@@ -296,47 +67,26 @@ export async function submitDonation(
     payment_method: paymentMethod,
     message: message || null,
     status: isPaymentSuccessful ? "success" : "failure",
-    qr_code_token: qrCodeToken || null, // Store null if no QR code is generated
+    qr_code_token: qrCodeToken, // Store null if no QR code is generated
     donation_items: donationItems, // Supabase will store this as JSONB
     qr_code_scans: [], // Initialize as empty
   }
 
   let data: any
 
-  if (!isDatabaseConfigured()) {
-    // --- LOCAL DB (development mode) ---
-    data = localDb.insert(newDonationData)
-  } else {
-    // --- POSTGRESQL (production) ---
-    try {
-      data = await insert("donations", newDonationData)
-    } catch (error) {
-      console.error("Error inserting donation:", error)
-      return { success: false, message: `Failed to record donation: ${error instanceof Error ? error.message : "Unknown error"}` }
-    }
+  try {
+    data = await insertDonation(newDonationData)
+  } catch (error) {
+    console.error("Error inserting donation:", error)
+    return { success: false, message: `Failed to record donation: ${error instanceof Error ? error.message : "Unknown error"}` }
   }
 
-  const newDonationRecord: DonationRecord = {
-    id: data.id,
-    firstName: data.first_name,
-    lastName: data.last_name,
-    gotra: data.gotra,
-    phoneNumber: data.phone_number,
-    panNumber: data.pan_number || undefined,
-    totalAmount: data.total_amount,
-    paymentMethod: data.payment_method,
-    message: data.message || undefined,
-    status: data.status,
-    timestamp: data.timestamp,
-    qrCodeToken: data.qr_code_token || undefined, // Ensure it's undefined if null from DB
-    donationItems: data.donation_items,
-    qrCodeScans: data.qr_code_scans,
-  }
+  const newDonationRecord: DonationRecord = mapDonationRecord(data)
 
   if (isPaymentSuccessful) {
     console.log("Successful Donation:", newDonationRecord)
-    const receiptPdfBase64 = await generateDonationReceiptPdf(newDonationRecord, qrCodeDataUrl)
-    return { success: true, message: "Donation confirmed successfully!", receiptPdfBase64, qrCodeToken }
+    const receiptPdfBase64 = await generateDonationReceiptPdf(newDonationRecord, qrCodeDataUrl || undefined)
+    return { success: true, message: "Donation confirmed successfully!", receiptPdfBase64, qrCodeToken: qrCodeToken || undefined }
   } else {
     console.log("Unsuccessful Donation:", newDonationRecord)
     return { success: false, message: "Payment failed. Please try again." }
@@ -344,76 +94,210 @@ export async function submitDonation(
 }
 
 /**
- * Retrieves all successful and unsuccessful donation records from PostgreSQL database.
- * @returns An object containing arrays of successful and unsuccessful donations.
+ * Creates a pending donation and an Instamojo payment request for the "Pay Online" flow.
+ * The donor is redirected to the returned payment URL to complete payment.
+ * @param formData The form data containing donation details.
+ * @returns A payment URL to redirect the donor to, or an error message.
+ */
+export async function submitOnlineDonation(
+  formData: FormData,
+): Promise<{ success: boolean; message: string; paymentUrl?: string }> {
+  if (!isInstamojoConfigured()) {
+    return { success: false, message: "Online payments are not configured. Please use UPI or Paytm instead." }
+  }
+
+  const firstName = formData.get("firstName") as string
+  const lastName = formData.get("lastName") as string
+  const gotra = formData.get("gotra") as string
+  const rawPhone = formData.get("phoneNumber") as string
+  const email = (formData.get("email") as string)?.trim() || undefined
+  const panNumber = formData.get("panNumber") as string
+  const totalAmount = Number.parseFloat(formData.get("totalAmount") as string)
+  const message = formData.get("message") as string
+
+  // Instamojo amount limits
+  if (!Number.isFinite(totalAmount) || totalAmount < 9 || totalAmount > 200000) {
+    return { success: false, message: "Online payments must be between ₹9 and ₹2,00,000. Please use UPI or Paytm for other amounts." }
+  }
+
+  const phoneNumber = normalizePhoneNumber(rawPhone)
+  if (!phoneNumber) {
+    return { success: false, message: "Please enter a valid 10-digit Indian phone number." }
+  }
+
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { success: false, message: "Please enter a valid email address." }
+  }
+
+  const donationItemsString = formData.get("donationItems") as string
+  let donationItems: DonationItem[] = []
+  if (donationItemsString) {
+    try {
+      donationItems = JSON.parse(donationItemsString)
+    } catch (e) {
+      console.error("Failed to parse donationItems:", e)
+      return { success: false, message: "Invalid donation items data." }
+    }
+  }
+
+  // Create the donation as pending first, so we have a row to link the payment to.
+  const newDonationData = {
+    id: crypto.randomUUID(),
+    first_name: firstName,
+    last_name: lastName,
+    gotra: gotra,
+    phone_number: rawPhone,
+    pan_number: panNumber || null,
+    total_amount: totalAmount.toFixed(2),
+    payment_method: "instamojo",
+    message: message || null,
+    status: "pending",
+    qr_code_token: null,
+    donation_items: donationItems,
+    qr_code_scans: [],
+  }
+
+  let donationId: string
+  try {
+    const data = await insertDonation(newDonationData)
+    donationId = data.id
+  } catch (error) {
+    console.error("Error inserting pending donation:", error)
+    return { success: false, message: "Failed to record donation. Please try again." }
+  }
+
+  try {
+    const siteUrl = getSiteUrl()
+    const paymentRequest = await createPaymentRequest({
+      amount: totalAmount,
+      buyerName: `${firstName} ${lastName}`.trim(),
+      phone: phoneNumber,
+      email,
+      purpose: "Donation to Kallol",
+      redirectUrl: `${siteUrl}/api/donations/instamojo/return`,
+      webhookUrl: `${siteUrl}/api/donations/instamojo/webhook`,
+      transactionId: donationId,
+    })
+
+    await updateDonation(donationId, { instamojo_payment_request_id: paymentRequest.id })
+    return { success: true, message: "Redirecting to payment…", paymentUrl: paymentRequest.longurl }
+  } catch (error) {
+    console.error("Error creating Instamojo payment request:", error)
+    await updateDonation(donationId, { status: "failure" }).catch(() => {})
+    return { success: false, message: "Could not start the online payment. Please try again or use UPI/Paytm." }
+  }
+}
+
+/**
+ * Verifies the MAC on the Instamojo redirect params, reconciles the payment
+ * server-side via the Instamojo API, finalizes the donation, and returns the
+ * donation id for the thank-you redirect. Called by the return route handler.
+ */
+export async function handleInstamojoReturn(params: {
+  paymentRequestId: string
+  paymentId: string | null
+  statusParam: string | null
+  macProvided: string | null
+}): Promise<{ donationId: string | null; verified: boolean }> {
+  const salt = process.env.INSTAMOJO_SALT || ""
+
+  // Note: on redirects Instamojo sends `payment_status`; on webhooks it sends `status`.
+  const macParams: Record<string, string> = {
+    payment_request_id: params.paymentRequestId,
+    payment_id: params.paymentId || "",
+    payment_status: params.statusParam || "",
+  }
+  const macValid = params.macProvided ? verifyMac(macParams, salt, params.macProvided) : false
+
+  let verified = macValid
+  if (macValid) {
+    // Redirect params alone are never trusted — reconcile with the Instamojo API.
+    try {
+      const paymentRequest = await fetchPaymentRequest(params.paymentRequestId)
+      const payment = paymentRequest.payments?.find((p) => p.payment_id === params.paymentId)
+      const gatewayStatus = payment ? payment.status : paymentRequest.status === "Completed" ? "Credit" : "Failed"
+      await finalizeInstamojoPayment(params.paymentRequestId, params.paymentId, gatewayStatus)
+    } catch (error) {
+      console.error("Failed to reconcile Instamojo payment:", error)
+      verified = false
+    }
+  }
+
+  const raw = await findDonationByPaymentRequestId(params.paymentRequestId)
+  return { donationId: raw?.id || null, verified }
+}
+
+/**
+ * Verifies the MAC on the Instamojo webhook POST and finalizes the donation.
+ * Returns true when the callback was accepted (MAC valid and donation known).
+ */
+export async function handleInstamojoWebhook(fields: Record<string, string>): Promise<boolean> {
+  const salt = process.env.INSTAMOJO_SALT || ""
+  const mac = fields.mac
+  if (!mac || !verifyMac(fields, salt, mac)) {
+    return false
+  }
+
+  const paymentRequestId = fields.payment_request_id
+  const paymentId = fields.payment_id || null
+  // Webhook status is "Credit" for success, "Failed" otherwise.
+  const gatewayStatus = fields.status || "Failed"
+
+  const result = await finalizeInstamojoPayment(paymentRequestId, paymentId, gatewayStatus)
+  return result !== null
+}
+
+/**
+ * Retrieves all successful, unsuccessful, and pending donation records.
+ * @returns An object containing arrays of successful, unsuccessful, and pending donations.
  */
 export async function getDonations() {
   await new Promise((resolve) => setTimeout(resolve, 500))
 
   let rawData: any[]
 
-  if (!isDatabaseConfigured()) {
-    // --- LOCAL DB (development mode) ---
-    rawData = localDb.getAll()
-  } else {
-    // --- POSTGRESQL (production) ---
-    try {
-      rawData = await findAll("donations", "timestamp", "DESC")
-    } catch (error) {
-      console.error("Error fetching donations:", error)
-      return { successful: [], unsuccessful: [] }
-    }
+  try {
+    rawData = await findAllDonations()
+  } catch (error) {
+    console.error("Error fetching donations:", error)
+    return { successful: [], unsuccessful: [], pending: [] }
   }
 
-  const allDonations: DonationRecord[] = rawData.map((d: any) => ({
-    id: d.id,
-    firstName: d.first_name,
-    lastName: d.last_name,
-    gotra: d.gotra,
-    phoneNumber: d.phone_number,
-    panNumber: d.pan_number || undefined,
-    totalAmount: d.total_amount,
-    paymentMethod: d.payment_method,
-    message: d.message || undefined,
-    status: d.status,
-    timestamp: d.timestamp,
-    qrCodeToken: d.qr_code_token || undefined,
-    donationItems: d.donation_items,
-    qrCodeScans: d.qr_code_scans,
-  }))
+  const allDonations: DonationRecord[] = rawData.map(mapDonationRecord)
 
   const successful = allDonations.filter((d) => d.status === "success")
   const unsuccessful = allDonations.filter((d) => d.status === "failure")
+  const pending = allDonations.filter((d) => d.status === "pending")
 
   return {
     successful,
     unsuccessful,
+    pending,
   }
 }
 
 /**
- * Exports donation records to a CSV string from PostgreSQL database.
- * @param type The type of donations to export ('successful' or 'unsuccessful').
+ * Exports donation records to a CSV string.
+ * @param type The type of donations to export ('successful', 'unsuccessful' or 'pending').
  * @returns A CSV formatted string.
  */
-export async function exportDonationsToCsv(type: "successful" | "unsuccessful") {
+export async function exportDonationsToCsv(type: "successful" | "unsuccessful" | "pending") {
   await new Promise((resolve) => setTimeout(resolve, 100))
+
+  const statusByType: Record<typeof type, string> = {
+    successful: "success",
+    unsuccessful: "failure",
+    pending: "pending",
+  }
 
   let data: any[]
 
-  if (!isDatabaseConfigured()) {
-    // --- LOCAL DB (development mode) ---
-    const allRecords = localDb.getAll()
-    data = allRecords.filter((d) => d.status === (type === "successful" ? "success" : "failure"))
-  } else {
-    // --- POSTGRESQL (production) ---
-    try {
-      const allRecords = await findAll("donations", "timestamp", "DESC")
-      data = allRecords.filter((d) => d.status === (type === "successful" ? "success" : "failure"))
-    } catch (error) {
-      console.error("Error fetching donations for CSV export:", error)
-      return ""
-    }
+  try {
+    const allRecords = await findAllDonations()
+    data = allRecords.filter((d) => d.status === statusByType[type])
+  } catch (error) {
+    console.error("Error fetching donations for CSV export:", error)
+    return ""
   }
 
   const filteredData = data.map((d: any) => ({
@@ -482,4 +366,49 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful") 
   )
 
   return [headers, ...rows].join("\n")
+}
+
+/**
+ * Fetches a single donation by id for the thank-you page (no receipt blob).
+ */
+export async function getDonationById(id: string): Promise<DonationRecord | null> {
+  const raw = await findDonationById(id)
+  return raw ? mapDonationRecord(raw) : null
+}
+
+/**
+ * Returns the stored receipt PDF (base64) for a donation, regenerating it if
+ * the payment succeeded but the receipt was never generated.
+ */
+export async function getDonationReceipt(id: string): Promise<{ base64: string; fileName: string } | null> {
+  const raw = await findDonationById(id)
+  if (!raw || raw.status !== "success") return null
+
+  let base64: string | null = raw.receipt_pdf_base64 || null
+  if (!base64) {
+    const donationItems: DonationItem[] = raw.donation_items || []
+    let dataUrl: string | undefined = undefined
+    if (raw.qr_code_token) {
+      dataUrl = await qrcode.toDataURL(raw.qr_code_token, { errorCorrectionLevel: "H", margin: 1, scale: 4 })
+    } else {
+      const { dataUrl: freshUrl } = await buildQrCode(donationItems)
+      dataUrl = freshUrl || undefined
+    }
+    base64 = await generateDonationReceiptPdf(mapDonationRecord(raw), dataUrl)
+    await updateDonation(id, { receipt_pdf_base64: base64 }).catch(() => {})
+  }
+
+  return { base64, fileName: `kallol-donation-receipt-${id}.pdf` }
+}
+
+/** Normalizes an Indian phone number to 10 digits (strips +91 / 0 / separators). */
+function normalizePhoneNumber(raw: string): string | null {
+  const digits = raw.replace(/[\s\-().]/g, "")
+  const stripped = digits.replace(/^(\+91|91|0)/, "")
+  return /^\d{10}$/.test(stripped) ? stripped : null
+}
+
+/** Public site URL used to build the Instamojo redirect/webhook URLs. */
+function getSiteUrl(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3002").replace(/\/+$/, "")
 }

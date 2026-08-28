@@ -102,7 +102,8 @@ export default function AdminPage() {
   const [donationData, setDonationData] = useState<{
     successful: DonationRecord[]
     unsuccessful: DonationRecord[]
-  }>({ successful: [], unsuccessful: [] })
+    pending: DonationRecord[]
+  }>({ successful: [], unsuccessful: [], pending: [] })
   const [loadingDonations, setLoadingDonations] = useState(false)
 
   // Event management states
@@ -159,7 +160,7 @@ export default function AdminPage() {
     visible: { opacity: 1, y: 0 },
   }
 
-  const handleDownloadCsv = async (type: "successful" | "unsuccessful") => {
+  const handleDownloadCsv = async (type: "successful" | "unsuccessful" | "pending") => {
     const csvData = await exportDonationsToCsv(type)
     if (!csvData) {
       toast({ title: "No Data to Export", description: `There are no ${type} donations to download.`, variant: "warning" })
@@ -386,6 +387,35 @@ export default function AdminPage() {
                       )}
                     </CardContent>
                   </Card>
+
+                  {donationData.pending.length > 0 && (
+                    <Card className="border-yellow-200 bg-yellow-50 lg:col-span-2">
+                      <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <div>
+                          <CardTitle className="text-xl font-bold text-yellow-800">Pending Donations</CardTitle>
+                          <p className="text-sm text-yellow-700 mt-1">
+                            Online payments awaiting confirmation (donor left checkout or the gateway hasn&apos;t
+                            notified us yet).
+                          </p>
+                        </div>
+                        <Button variant="outline" size="sm" onClick={() => handleDownloadCsv("pending")} className="border-yellow-700 text-yellow-700 hover:bg-yellow-100">
+                          <Download className="h-4 w-4 mr-2" />
+                          Download CSV
+                        </Button>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+                          {donationData.pending.map((donation) => (
+                            <div key={donation.id} className="p-3 bg-white rounded-md border border-yellow-100 shadow-sm">
+                              <p className="font-semibold text-gray-900">{donation.firstName} {donation.lastName} ({donation.gotra})</p>
+                              <p className="text-sm text-gray-700">Amount: <span className="font-medium">Rs.{donation.totalAmount}</span> via {donation.paymentMethod}</p>
+                              <p className="text-xs text-gray-500">{new Date(donation.timestamp).toLocaleString()}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
               )}
             </motion.div>
