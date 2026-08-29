@@ -10,7 +10,9 @@ import { createHmac, timingSafeEqual } from "crypto"
  * Env vars:
  * - INSTAMOJO_CLIENT_ID / INSTAMOJO_CLIENT_SECRET — App ID + secret from
  *   instamojo.com → Dashboard → API & Plugins (used for the OAuth token).
- * - INSTAMOJO_SALT — private salt, used for MAC verification of redirects/webhooks.
+ * - INSTAMOJO_SALT — optional private salt; when set, webhook MACs are enforced
+ *   and redirect MACs checked opportunistically. Security does not depend on it:
+ *   every callback is reconciled server-side against the API.
  * - INSTAMOJO_ENDPOINT — base URL override (set to https://test.instamojo.com for sandbox).
  */
 
@@ -18,7 +20,7 @@ const BASE_URL = (process.env.INSTAMOJO_ENDPOINT || "https://www.instamojo.com")
 
 /** Returns true when all credentials needed for online payments are present. */
 export function isInstamojoConfigured(): boolean {
-  return !!(process.env.INSTAMOJO_CLIENT_ID && process.env.INSTAMOJO_CLIENT_SECRET && process.env.INSTAMOJO_SALT)
+  return !!(process.env.INSTAMOJO_CLIENT_ID && process.env.INSTAMOJO_CLIENT_SECRET)
 }
 
 // --- OAuth token (client credentials grant), cached in module scope ---

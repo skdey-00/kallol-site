@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
 
     const accepted = await handleInstamojoWebhook(fields)
     if (!accepted) {
-      // Bad MAC or unknown payment request — 400 so Instamojo retries while we investigate.
+      // Bad MAC (when salt is set), unknown payment request, or a transient API
+      // failure — 400 so Instamojo retries.
       console.error("Instamojo webhook rejected for payment request:", fields.payment_request_id)
       return NextResponse.json({ error: "Verification failed" }, { status: 400 })
     }
