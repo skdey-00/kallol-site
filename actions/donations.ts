@@ -189,9 +189,14 @@ export async function submitOnlineDonation(
 }
 
 /**
- * Verifies the MAC on the Instamojo redirect params, reconciles the payment
- * server-side via the Instamojo API, finalizes the donation, and returns the
- * donation id for the thank-you redirect. Called by the return route handler.
+ * Reconciles the payment server-side via the Instamojo API (redirect params are
+ * never trusted), finalizes the donation, and returns the donation id for the
+ * thank-you redirect. Called by the return route handler.
+ *
+ * `verified` reflects whether the server-side reconciliation succeeded — the
+ * outcome shown to the donor always comes from Instamojo's API, so forged URLs
+ * can't influence it. The URL MAC is checked opportunistically when a salt is
+ * configured; a mismatch is logged but never blocks a reconciled payment.
  */
 export async function handleInstamojoReturn(params: {
   paymentRequestId: string
@@ -207,20 +212,19 @@ export async function handleInstamojoReturn(params: {
     payment_id: params.paymentId || "",
     payment_status: params.statusParam || "",
   }
-  const macValid = params.macProvided ? verifyMac(macParams, salt, params.macProvided) : false
+  if (salt && params.macProvided && !verifyMac(macParams, salt, params.macProvided)) {
+    console.warn("Instamojo return: MAC mismatch for payment request", params.paymentRequestId)
+  }
 
-  let verified = macValid
-  if (macValid) {
-    // Redirect params alone are never trusted — reconcile with the Instamojo API.
-    try {
-      const paymentRequest = await fetchPaymentRequest(params.paymentRequestId)
-      const payment = paymentRequest.payments?.find((p) => p.payment_id === params.paymentId)
-      const gatewayStatus = payment ? payment.status : paymentRequest.status === "Completed" ? "Credit" : "Failed"
-      await finalizeInstamojoPayment(params.paymentRequestId, params.paymentId, gatewayStatus)
-    } catch (error) {
-      console.error("Failed to reconcile Instamojo payment:", error)
-      verified = false
-    }
+  let verified = false
+  try {
+    const paymentRequest = await fetchPaymentRequest(params.paymentRequestId)
+    const payment = paymentRequest.payments?.find((p) => p.payment_id === params.paymentId)
+    const gatewayStatus = payment ? payment.status : paymentRequest.status === "Completed" ? "Credit" : "Failed"
+    await finalizeInstamojoPayment(params.paymentRequestId, params.paymentId, gatewayStatus)
+    verified = true
+  } catch (error) {
+    console.error("Failed to reconcile Instamojo payment:", error)
   }
 
   const raw = await findDonationByPaymentRequestId(params.paymentRequestId)
@@ -228,23 +232,43 @@ export async function handleInstamojoReturn(params: {
 }
 
 /**
- * Verifies the MAC on the Instamojo webhook POST and finalizes the donation.
- * Returns true when the callback was accepted (MAC valid and donation known).
+ * Handles the Instamojo webhook POST and finalizes the donation. Returns true
+ * when the callback was accepted (donation known and reconciled with the API).
+ *
+ * The POSTed `status` is never trusted — anyone hitting the endpoint could
+ * claim "Credit". When a salt is configured the MAC must verify; either way the
+ * payment is then re-fetched from the Instamojo API and the status derived from
+ * that response, so a forged webhook can only trigger extra lookups.
  */
 export async function handleInstamojoWebhook(fields: Record<string, string>): Promise<boolean> {
   const salt = process.env.INSTAMOJO_SALT || ""
   const mac = fields.mac
-  if (!mac || !verifyMac(fields, salt, mac)) {
+  if (salt && (!mac || !verifyMac(fields, salt, mac))) {
     return false
   }
 
   const paymentRequestId = fields.payment_request_id
   const paymentId = fields.payment_id || null
-  // Webhook status is "Credit" for success, "Failed" otherwise.
-  const gatewayStatus = fields.status || "Failed"
 
-  const result = await finalizeInstamojoPayment(paymentRequestId, paymentId, gatewayStatus)
-  return result !== null
+  // Cheap guard first: unknown payment requests never reach the API.
+  const raw = await findDonationByPaymentRequestId(paymentRequestId)
+  if (!raw) {
+    console.error("Instamojo webhook for unknown payment request:", paymentRequestId)
+    return false
+  }
+
+  // Reconcile with the API instead of trusting the POSTed `status` field.
+  try {
+    const paymentRequest = await fetchPaymentRequest(paymentRequestId)
+    const payment = paymentRequest.payments?.find((p) => p.payment_id === paymentId)
+    const gatewayStatus = payment ? payment.status : paymentRequest.status === "Completed" ? "Credit" : "Failed"
+    const result = await finalizeInstamojoPayment(paymentRequestId, paymentId, gatewayStatus)
+    return result !== null
+  } catch (error) {
+    console.error("Failed to reconcile Instamojo webhook payment:", error)
+    // Transient API failure — return false so Instamojo retries the webhook.
+    return false
+  }
 }
 
 /**
