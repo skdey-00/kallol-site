@@ -5,7 +5,8 @@ import { handleInstamojoReturn } from "@/actions/donations"
  * Instamojo redirect target after payment (configured as `redirect_url`).
  * The browser lands here with `payment_request_id`, `payment_id`, `payment_status`
  * and `mac` query params. We verify, reconcile server-side, then redirect the
- * donor to the thank-you page.
+ * buyer to the thank-you page — shop checkout orders (checkout_kind = 'shop')
+ * go to /checkout/thank-you, donations to /donate/thank-you.
  */
 export async function GET(request: NextRequest) {
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin).replace(/\/+$/, "")
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${siteUrl}/donate`)
     }
 
-    const { donationId, verified } = await handleInstamojoReturn({
+    const { donationId, verified, checkoutKind } = await handleInstamojoReturn({
       paymentRequestId,
       paymentId,
       statusParam,
@@ -34,7 +35,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${siteUrl}/donate`)
     }
 
-    const thankYouUrl = new URL(`${siteUrl}/donate/thank-you`)
+    const thankYouPath = checkoutKind === "shop" ? "/checkout/thank-you" : "/donate/thank-you"
+    const thankYouUrl = new URL(`${siteUrl}${thankYouPath}`)
     thankYouUrl.searchParams.set("id", donationId)
     if (!verified) {
       thankYouUrl.searchParams.set("error", "verification")

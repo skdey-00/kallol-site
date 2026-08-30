@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from "@/hooks/use-auth"
+import { useCart } from "@/hooks/use-cart"
 
 const navGroups = [
   {
@@ -37,6 +38,7 @@ const navGroups = [
     href: "/calendar",
     children: [
       { name: "2025 Puja Calendar", href: "/calendar" },
+      { name: "Puja Offerings", href: "/shop" },
       { name: "Online Puja Booking", href: "/donate" },
       { name: "Other Donation", href: "/donate" },
     ],
@@ -65,6 +67,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { user, logout } = useAuth()
+  const { totalItems, hydrated } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -162,6 +165,18 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
+            <Link
+              href="/cart"
+              aria-label={`Cart${hydrated && totalItems > 0 ? ` (${totalItems} items)` : ""}`}
+              className="relative px-2 py-2 text-gray-800 hover:text-kallol-700 transition-colors"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {hydrated && totalItems > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-kallol-700 px-1 text-[10px] font-bold text-white">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
             <Button
               asChild
               className="bg-kallol-700 hover:bg-red-500 text-white ml-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wide"
@@ -231,6 +246,19 @@ export function Navbar() {
                     {link.name}
                   </Link>
                 ))}
+                <Link
+                  href="/cart"
+                  className="text-gray-800 hover:text-kallol-700 py-2 transition-colors font-semibold border-b border-gray-50 flex items-center gap-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  Cart
+                  {hydrated && totalItems > 0 && (
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-kallol-700 px-1.5 text-[10px] font-bold text-white">
+                      {totalItems}
+                    </span>
+                  )}
+                </Link>
                 <Button
                   asChild
                   className="bg-kallol-700 hover:bg-red-500 text-white mt-4 rounded-full py-3 font-bold uppercase"

@@ -4,6 +4,7 @@ import "./globals.css"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AuthProvider } from "@/hooks/use-auth"
+import { CartProvider } from "@/hooks/use-cart"
 import { ToastProvider, Toaster } from "@/hooks/use-toast"
 import { usePathname } from "next/navigation"
 import React from "react"
@@ -26,9 +27,11 @@ export default function ClientLayout({
       <body className={inter.className}>
         <ToastProvider>
           <AuthProvider>
-            <Navbar />
-            <main className="pt-[104px] md:pt-[120px]">{children}</main>
-            <Footer />
+            <CartProvider>
+              <Navbar />
+              <main className="pt-[104px] md:pt-[120px]">{children}</main>
+              <Footer />
+            </CartProvider>
             <Toaster />
           </AuthProvider>
         </ToastProvider>
