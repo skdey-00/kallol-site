@@ -1,4 +1,5 @@
 import { Pool, QueryResult } from "pg"
+import { ensureMigrations } from "@/lib/migrations"
 
 let pool: Pool | null = null
 
@@ -32,6 +33,13 @@ export function getPool(): Pool {
  * Execute a SQL query
  */
 export async function query<T = any>(text: string, params?: any[]): Promise<QueryResult<T>> {
+  // Idempotent runtime migrations run once per process before the first query.
+  await ensureMigrations()
+  return executeQuery<T>(text, params)
+}
+
+/** Executes a query without triggering migrations (used by migrations themselves). */
+export async function executeQuery<T = any>(text: string, params?: any[]): Promise<QueryResult<T>> {
   const start = Date.now()
   try {
     const pool = getPool()
