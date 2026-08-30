@@ -28,6 +28,14 @@ export interface LocalDonationRecord {
   instamojo_payment_request_id?: string | null
   instamojo_payment_id?: string | null
   receipt_pdf_base64?: string | null
+  // Shop checkout (checkout_kind = 'shop') billing fields; NULL for donations.
+  email?: string | null
+  address_line1?: string | null
+  address_line2?: string | null
+  city?: string | null
+  state?: string | null
+  pincode?: string | null
+  checkout_kind?: string | null
 }
 
 const DATA_DIR = join(process.cwd(), "data")
@@ -51,21 +59,21 @@ export const localDb = {
   /** Insert a new record. Auto-generates id + timestamp. Returns the full record. */
   insert(data: Partial<LocalDonationRecord>): LocalDonationRecord {
     const records = readDB()
+    // Spread the supplied fields over the defaults so no column (e.g. Instamojo
+    // ids or shop checkout billing fields) is silently dropped at insert time.
     const newRecord: LocalDonationRecord = {
       id: data.id || randomUUID(),
-      first_name: data.first_name || "",
-      last_name: data.last_name || "",
-      gotra: data.gotra || "",
-      phone_number: data.phone_number || "",
-      pan_number: data.pan_number || null,
-      total_amount: data.total_amount || "0",
-      payment_method: data.payment_method || "",
-      message: data.message || null,
-      status: data.status || "success",
-      timestamp: data.timestamp || new Date().toISOString(),
-      qr_code_token: data.qr_code_token || null,
-      donation_items: data.donation_items || [],
-      qr_code_scans: data.qr_code_scans || [],
+      first_name: "",
+      last_name: "",
+      gotra: "",
+      phone_number: "",
+      total_amount: "0",
+      payment_method: "",
+      status: "success",
+      timestamp: new Date().toISOString(),
+      donation_items: [],
+      qr_code_scans: [],
+      ...data,
     }
     records.push(newRecord)
     writeDB(records)

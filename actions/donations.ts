@@ -16,6 +16,7 @@ import {
 } from "@/lib/donation-service"
 import { localDb } from "@/lib/local-db"
 import { isInstamojoConfigured, createPaymentRequest, fetchPaymentRequest, verifyMac } from "@/lib/instamojo"
+import { normalizePhoneNumber, getSiteUrl } from "@/lib/checkout-validation"
 
 // Check if PostgreSQL database is configured
 function isDatabaseConfigured(): boolean {
@@ -203,7 +204,7 @@ export async function handleInstamojoReturn(params: {
   paymentId: string | null
   statusParam: string | null
   macProvided: string | null
-}): Promise<{ donationId: string | null; verified: boolean }> {
+}): Promise<{ donationId: string | null; verified: boolean; checkoutKind: string | null }> {
   const salt = process.env.INSTAMOJO_SALT || ""
 
   // Note: on redirects Instamojo sends `payment_status`; on webhooks it sends `status`.
@@ -228,7 +229,7 @@ export async function handleInstamojoReturn(params: {
   }
 
   const raw = await findDonationByPaymentRequestId(params.paymentRequestId)
-  return { donationId: raw?.id || null, verified }
+  return { donationId: raw?.id || null, verified, checkoutKind: raw?.checkout_kind || null }
 }
 
 /**
@@ -339,6 +340,13 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful" |
     qrCodeToken: d.qr_code_token || "",
     donationItems: d.donation_items,
     qrCodeScans: d.qr_code_scans,
+    email: d.email || "",
+    addressLine1: d.address_line1 || "",
+    addressLine2: d.address_line2 || "",
+    city: d.city || "",
+    state: d.state || "",
+    pincode: d.pincode || "",
+    checkoutKind: d.checkout_kind || "donation",
   }))
 
   if (filteredData.length === 0) {
@@ -361,6 +369,13 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful" |
     "qrCodeToken",
     "donationItems",
     "qrCodeScans",
+    "email",
+    "addressLine1",
+    "addressLine2",
+    "city",
+    "state",
+    "pincode",
+    "checkoutKind",
   ].join(",")
 
   const rows = filteredData.map((record) =>
@@ -379,6 +394,13 @@ export async function exportDonationsToCsv(type: "successful" | "unsuccessful" |
       record.qrCodeToken,
       JSON.stringify(record.donationItems),
       JSON.stringify(record.qrCodeScans),
+      record.email,
+      record.addressLine1,
+      record.addressLine2,
+      record.city,
+      record.state,
+      record.pincode,
+      record.checkoutKind,
     ]
       .map((value) => {
         if (typeof value === "string" && (value.includes(",") || value.includes('"'))) {
@@ -423,16 +445,4 @@ export async function getDonationReceipt(id: string): Promise<{ base64: string; 
   }
 
   return { base64, fileName: `kallol-donation-receipt-${id}.pdf` }
-}
-
-/** Normalizes an Indian phone number to 10 digits (strips +91 / 0 / separators). */
-function normalizePhoneNumber(raw: string): string | null {
-  const digits = raw.replace(/[\s\-().]/g, "")
-  const stripped = digits.replace(/^(\+91|91|0)/, "")
-  return /^\d{10}$/.test(stripped) ? stripped : null
-}
-
-/** Public site URL used to build the Instamojo redirect/webhook URLs. */
-function getSiteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3002").replace(/\/+$/, "")
 }

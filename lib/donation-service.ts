@@ -22,6 +22,7 @@ export interface DonationItem {
   purpose: string
   category: string
   amount: string // Amount for this specific item
+  quantity?: number // Shop checkout line quantity (donations omit this)
   date?: string
 }
 
@@ -46,6 +47,14 @@ export interface DonationRecord {
   donationItems: DonationItem[] // Array of items the donation covers
   qrCodeScans: QrScanRecord[] // Array of successful scans, each linked to an item
   receiptPdfBase64?: string
+  // Shop checkout (checkoutKind = 'shop') billing fields; undefined for donations.
+  email?: string
+  addressLine1?: string
+  addressLine2?: string
+  city?: string
+  state?: string
+  pincode?: string
+  checkoutKind?: string | null
 }
 
 export function mapDonationRecord(d: any): DonationRecord {
@@ -64,6 +73,13 @@ export function mapDonationRecord(d: any): DonationRecord {
     qrCodeToken: d.qr_code_token || undefined,
     donationItems: d.donation_items,
     qrCodeScans: d.qr_code_scans,
+    email: d.email || undefined,
+    addressLine1: d.address_line1 || undefined,
+    addressLine2: d.address_line2 || undefined,
+    city: d.city || undefined,
+    state: d.state || undefined,
+    pincode: d.pincode || undefined,
+    checkoutKind: d.checkout_kind || null,
   }
 }
 
@@ -223,8 +239,11 @@ export async function generateDonationReceiptPdf(donation: DonationRecord, qrCod
     color: rgb(0, 0, 0),
   })
   y -= 20
-  page.drawText(`Gotra: ${donation.gotra}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
-  y -= 20
+  // Shop orders make gotra optional — skip the line when empty.
+  if (donation.gotra) {
+    page.drawText(`Gotra: ${donation.gotra}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
+    y -= 20
+  }
   page.drawText(`Phone: ${donation.phoneNumber}`, { x: margin, y: y, font, size: 12, color: rgb(0, 0, 0) })
   y -= 20
   if (donation.panNumber) {
@@ -259,6 +278,7 @@ export async function generateDonationReceiptPdf(donation: DonationRecord, qrCod
     donation.donationItems.forEach((item) => {
       const itemText =
         `- ${item.purpose} (${item.category}): Rs.${item.amount}` +
+        (item.quantity ? ` x ${item.quantity}` : "") +
         (item.date ? ` (Date: ${new Date(item.date).toLocaleDateString()})` : "")
       page.drawText(itemText, {
         x: margin + 10,
