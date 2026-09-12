@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { PageBanner } from "@/components/page-banner"
 import { Card, CardContent } from "@/components/ui/card"
 
@@ -51,6 +52,17 @@ export default function LibraryPage() {
             </p>
           </CardContent>
         </Card>
+
+        <p className="text-gray-700 mt-8 text-sm">
+          Also part of Kallol&apos;s community services:{" "}
+          <Link href="/medical-services" className="text-kallol-700 font-medium hover:underline">
+            Medical Services
+          </Link>
+          {" · "}
+          <Link href="/facilities-services" className="text-kallol-700 font-medium hover:underline">
+            Facilities &amp; Services
+          </Link>
+        </p>
       </div>
     </main>
   )

@@ -7,13 +7,13 @@ export default function AmavasyaPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
       <PageBanner
-        title="Amavasya Puja 2025"
+        title="Amavasya Puja"
         subtitle="New Moon Devotion & Khichdi Bhog"
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/Amabasya_Puja-80fa0792.png" alt="Amavasya Puja" className="w-full h-full object-cover" />
+            <img src="/assets/Amabasya_Puja-80fa0792.png" alt="Amavasya Puja at Kallol Kali Mandir" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Amavasya Puja - A Divine Gathering</h2>
@@ -28,7 +28,7 @@ export default function AmavasyaPujaPage() {
               and personal way.
             </p>
             <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white rounded-full">
-              <Link href="/donate">Donate Now</Link>
+              <Link href="/shop">View Puja Offerings</Link>
             </Button>
           </div>
         </div>

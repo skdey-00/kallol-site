@@ -2,6 +2,10 @@ import { PageBanner } from "@/components/page-banner"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function CommitteePage() {
+  // TODO(site-admin): verify this committee roster against the latest Kallol
+  // committee list and update names/positions/contacts if a new committee has
+  // taken office. No newer roster exists in this repository, so the existing
+  // verified list is intentionally left unchanged (do not invent members).
   const members = [
     { name: "Mr. Pranab Karmakar", position: "Honorable Secretary", contact: "9821086390" },
     { name: "Mr. Ashish Datta", position: "Honorable President", contact: "9920860491" },

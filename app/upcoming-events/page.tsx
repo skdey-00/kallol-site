@@ -26,102 +26,112 @@ export default function UpcomingEventsPage() {
     },
   }
 
+  // Recurring pujas at Kallol — dated per the Calendar of Events, Bengali Year
+  // (Bangabda) 1433 (October 2026 - September 2027).
   const upcomingEvents = [
     {
       id: 1,
-      title: "Durga Puja - Maha Navami",
-      date: "October 1, 2025",
-      time: "All Day",
+      title: "Amavasya Puja",
+      date: "Every new moon (monthly) — 8:00 PM",
+      time: "08:00 PM",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Durga Puja Maha Navami with Kumari Puja. The biggest festival of the Bengali community.",
-      image: "/assets/Durga_Puja_Tile-289a4e35.png",
+        "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog distribution. Exact dates are listed on the Puja Calendar.",
+      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
       category: "religious",
       featured: true,
+      href: "/amavasya-puja",
     },
     {
       id: 2,
-      title: "Durga Puja - Vijaya Dashami",
-      date: "October 2, 2025",
-      time: "All Day",
+      title: "Shree Shree Shanidev Puja",
+      date: "Dec 26, Mar 27, Jun 27 & Sep 26 — 7:30 PM",
+      time: "07:30 PM",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Vijaya Dashami with Darpan Visarjan and Sindur Utsav. The grand finale of Durga Puja.",
-      image: "/assets/Durga_Puja_Tile-289a4e35.png",
+        "Shree Shree Shanidev Puja (Boro Thakur Puja) at the Kallol campus at 7:30 PM. Next: December 26, 2026.",
+      image: "/assets/kali-mandir-banner1-dc6a1673.png",
       category: "religious",
-      featured: true,
+      featured: false,
+      href: "/special-puja",
     },
     {
       id: 3,
-      title: "Kojagari Purnima - Lakshmi Puja",
-      date: "October 6, 2025",
-      time: "09:00 PM",
+      title: "Durga Puja 2026",
+      date: "Oct 16 - Oct 21, 2026 (Sashti to Dashami)",
+      time: "All Day",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Shree Shree Kojagari Laxmi Puja at 9:00 PM. A celebration of prosperity and divine grace.",
-      image: "/assets/Lakshmi_Puja_Tile-2a79392d.png",
+        "Maha Sashti (Oct 16) through Vijaya Dashami (Oct 21): Sandhi Puja on Oct 19 (7:26-8:14 AM), Maha Navami with Kumari Puja and Hom on Oct 20, Darpan Visarjan & Sindur Utsav on Oct 21. The biggest festival of the Bengali community.",
+      image: "/assets/Durga_Puja_Tile-289a4e35.png",
       category: "religious",
       featured: true,
+      href: "/durga-puja",
     },
     {
       id: 4,
-      title: "Deepavali Amavasya - Kali Puja",
-      date: "October 20, 2025",
-      time: "11:00 PM",
+      title: "Kali Puja (Deepawali Amavasya)",
+      date: "Sunday, Nov 8, 2026 — 11:00 PM",
+      time: "11:00 PM onwards",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Shree Shree Mahakali Puja on Deepavali Amavasya at 11:00 PM. The most important Kali Puja of the year.",
+        "Shree Shree Mahakali Puja on Deepawali Amavasya, the most important Kali Puja of the year, starting at 11:00 PM.",
       image: "/assets/Kali_Puja_Tile-35f6bb42.png",
       category: "religious",
       featured: true,
+      href: "/kali-puja",
     },
     {
       id: 5,
-      title: "Amavasya Puja",
-      date: "November 19, 2025",
+      title: "Lakshmi Puja (Kojagari Purnima)",
+      date: "Sunday, Oct 25, 2026",
       time: "08:00 PM",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog distribution.",
-      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
+        "Shree Shree Kojagari Laxmi Puja on the night of the full moon. A celebration of prosperity and divine grace.",
+      image: "/assets/Lakshmi_Puja_Tile-2a79392d.png",
       category: "religious",
-      featured: false,
+      featured: true,
+      href: "/lakshmi-puja",
     },
     {
       id: 6,
-      title: "Amavasya Puja",
-      date: "December 19, 2025",
-      time: "08:00 PM",
+      title: "Saraswati Puja",
+      date: "Thursday, Feb 11, 2027",
+      time: "All Day",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog distribution.",
-      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
+        "Saraswati Puja, the worship of Goddess of knowledge, music and arts, celebrated each spring (21 Magh, Bangabda 1433).",
+      image: "/assets/Sarashwati_Puja_Tile-ed17e914.png",
       category: "religious",
       featured: false,
+      href: "/saraswati-puja",
     },
     {
       id: 7,
-      title: "Saraswati Puja",
-      date: "January 23, 2026",
-      time: "All Day",
+      title: "Poila Boishakh (Bengali New Year)",
+      date: "Thursday, Apr 15, 2027",
+      time: "09:00 AM onwards",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Saraswati Puja, the worship of Goddess of knowledge, music and arts.",
-      image: "/assets/Sarashwati_Puja_Tile-ed17e914.png",
-      category: "religious",
-      featured: true,
+        "Bengali New Year 1434 with Dashopachar Puja at 9:00 AM, Satyanarayan Puja at 6:00 PM and Kallol Anniversary, followed by a cultural program and authentic Bengali cuisine.",
+      image: "/assets/PoilaBoishak-ee6e477f.png",
+      category: "cultural",
+      featured: false,
+      href: "/poila-baishak",
     },
     {
       id: 8,
-      title: "Dol Purnima (Holi Utsav)",
-      date: "March 3, 2026",
-      time: "All Day",
+      title: "Rabindra Jayanti",
+      date: "Early May (25 Boishakh) — date to be announced",
+      time: "Evening",
       location: "Kallol Kali Mandir, Bangur Nagar",
       description:
-        "Dol Purnima / Holi Utsav celebration with the community.",
-      image: "/assets/SpecialPuja-3da3ae1b.png",
+        "Cultural evening of Rabindra Sangeet, recitations and performances honouring Gurudev Rabindranath Tagore.",
+      image: "/assets/Final_1_ranbindra_opt1-1-1-55e1cfa0.png",
       category: "cultural",
       featured: false,
+      href: "/rabindranath-tagore-birthday",
     },
   ]
 
@@ -187,8 +197,11 @@ export default function UpcomingEventsPage() {
                         <span className="text-sm">{event.location}</span>
                       </div>
                       <p className="text-gray-700 mb-4 flex-grow">{event.description}</p>
-                      <Button className="bg-kallol-700 hover:bg-kallol-800 text-white mt-auto self-start shadow-md">
-                        Event Details
+                      <Button
+                        asChild
+                        className="bg-kallol-700 hover:bg-kallol-800 text-white mt-auto self-start shadow-md"
+                      >
+                        <Link href={event.href}>Event Details</Link>
                       </Button>
                     </CardContent>
                   </div>
@@ -252,7 +265,7 @@ export default function UpcomingEventsPage() {
                     </div>
                     <p className="text-gray-700 mb-4 flex-grow line-clamp-3">{event.description}</p>
                     <Link
-                      href={`/upcoming-events`}
+                      href={event.href}
                       className="text-kallol-700 inline-flex items-center font-medium mt-auto hover:underline"
                     >
                       View Details

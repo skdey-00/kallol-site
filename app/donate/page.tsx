@@ -355,14 +355,7 @@ export default function DonatePage() {
                           <Smartphone className="h-4 w-4 mr-2" />
                           UPI
                         </TabsTrigger>
-                        <TabsTrigger
-                          value="paytm"
-                          className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white"
-                        >
-                          <CreditCard className="h-4 w-4 mr-2" />
-                          Paytm
-                        </TabsTrigger>
-                      </TabsList>
+                        </TabsList>
 
                       <TabsContent value="online" className="mt-4">
                         <Card className="border-kallol-200 bg-kallol-50">
@@ -408,35 +401,7 @@ export default function DonatePage() {
                         </Card>
                       </TabsContent>
 
-                      <TabsContent value="paytm" className="mt-4">
-                        <Card className="border-kallol-200 bg-kallol-50">
-                          <CardContent className="p-4">
-                            <div className="text-center">
-                              <CreditCard className="h-16 w-16 mx-auto mb-4 text-kallol-700" />
-                              <h3 className="font-semibold text-gray-900 mb-2">Paytm Payment</h3>
-                              <p className="text-sm text-gray-700 mb-4">Send money to our Paytm number</p>
-                              <div className="bg-white p-3 rounded-md border border-kallol-200 mb-4">
-                                <div className="flex items-center justify-between">
-                                  <span className="font-mono text-sm">+91 98765 43210</span>
-                                  <Button
-                                    type="button"
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => copyToClipboard("+91 98765 43210")}
-                                    className="border-kallol-700 text-kallol-700 hover:bg-kallol-50"
-                                  >
-                                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                                  </Button>
-                                </div>
-                              </div>
-                              <p className="text-xs text-gray-600">
-                                Amount: <span className="font-semibold">{getCurrentAmount()}</span>
-                              </p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </TabsContent>
-                    </Tabs>
+                                          </Tabs>
                   </div>
 
                   {/* Donor Information */}

@@ -27,15 +27,17 @@ export const pujaDonations: PujaDonationCategory[] = [
     id: "durga-puja",
     name: "Durga Puja",
     description: "Support the grand annual Durga Puja celebration, the largest festival for Bengalis.",
+    // Durga Puja 2026 (Bangabda 1433 calendar): Maha Sashti Oct 16, Saptami
+    // Oct 17, Ashtami Oct 18, Ashtami & Sandhi Puja Oct 19 (7:26-8:14 AM),
+    // Navami Oct 20 (Kumari Puja & Hom), Vijaya Dashami Oct 21.
     items: [
-      { purpose: "Saptami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2025-09-29" },
-      { purpose: "Saptami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2025-09-29" },
-      { purpose: "Ashtami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2025-09-30" },
-      { purpose: "Ashtami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2025-09-30" },
-      { purpose: "Navami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2025-10-01" },
-      { purpose: "Navami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2025-10-01" },
-      { purpose: "Sandhi Puja", category: "Durga Puja", amount: 21000, date: "2025-10-02" },
-      { purpose: "Dummy Puja", category: "Durga Puja", amount: 2000, date: new Date().toISOString().split("T")[0] },
+      { purpose: "Saptami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-17" },
+      { purpose: "Saptami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-17" },
+      { purpose: "Ashtami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-18" },
+      { purpose: "Ashtami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-18" },
+      { purpose: "Navami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
+      { purpose: "Navami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
+      { purpose: "Sandhi Puja", category: "Durga Puja", amount: 21000, date: "2026-10-19" },
     ],
     offerings: [
       { name: "Durga Protima", amount: 100001, description: "Complete Durga idol for the puja" },
@@ -56,8 +58,9 @@ export const pujaDonations: PujaDonationCategory[] = [
     id: "kali-puja",
     name: "Kali Puja",
     description: "Contribute to the sacred Kali Puja, held at our Kali Mandir.",
+    // Kali Puja 2026 (Bangabda 1433 calendar): Deepawali Amavasya, Nov 8, 2026 (Monday), 11:00 PM.
     items: [
-      { purpose: "Special Puja", category: "Kali Puja", amount: 2000, date: "2025-11-12" },
+      { purpose: "Special Puja", category: "Kali Puja", amount: 2000, date: "2026-11-08" },
     ],
     offerings: [
       { name: "Saree for Mahakali Puja ", amount: 35000, description: "Traditional attire for Goddess Kali" },
@@ -69,8 +72,9 @@ export const pujaDonations: PujaDonationCategory[] = [
     id: "saraswati-puja",
     name: "Saraswati Puja",
     description: "Help us celebrate Saraswati Puja, dedicated to the Goddess of knowledge and arts.",
+    // Saraswati Puja 2027 (Bangabda 1433 calendar): Feb 11, 2027 (Thursday).
     items: [
-      { purpose: "Special Puja", category: "Saraswati Puja", amount: 2000, date: "2026-02-14" },
+      { purpose: "Special Puja", category: "Saraswati Puja", amount: 2000, date: "2027-02-11" },
     ],
     offerings: [
       { name: "Saraswati Maa Dress", amount: 20000, description: "Beautiful attire for Goddess Saraswati" },
@@ -80,8 +84,9 @@ export const pujaDonations: PujaDonationCategory[] = [
     id: "lakshmi-puja",
     name: "Lakshmi Puja",
     description: "Support the worship of Goddess Lakshmi for prosperity and well-being.",
+    // Kojagari Lakshmi Puja 2026 (Bangabda 1433 calendar): Kojagari Purnima, Oct 25, 2026 (Sunday).
     items: [
-      { purpose: "Special Puja", category: "Lakshmi Puja", amount: 2000, date: "2025-10-28" },
+      { purpose: "Special Puja", category: "Lakshmi Puja", amount: 2000, date: "2026-10-25" },
 
     ],
     offerings: [

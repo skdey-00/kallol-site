@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 export default function SaraswatiPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Saraswati Puja 2025" subtitle="Honoring the Goddess of Wisdom" />
+      <PageBanner title="Saraswati Puja" subtitle="Honoring the Goddess of Wisdom" />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/Saras-b12c15b3.png" alt="Saraswati Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/Saras-b12c15b3.png" alt="Saraswati Puja at Kallol" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">
@@ -36,7 +36,12 @@ export default function SaraswatiPujaPage() {
           <CardContent className="p-8">
             <h3 className="text-xl font-bold text-[#44233b] mb-6">Puja Schedule</h3>
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
-              <p className="text-gray-700"><strong>January 23, 2026 (Friday)</strong> - Saraswati Puja</p>
+              <p className="text-gray-700">
+                <strong>Upcoming:</strong> Thursday, February 11, 2027 (21 Magh, Bangabda 1433)
+              </p>
+              <p className="text-xs text-gray-500 mt-2">
+                Last celebrated: January 23, 2026 (Friday).
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -59,7 +64,7 @@ export default function SaraswatiPujaPage() {
             </div>
             <div className="text-center mt-6">
               <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white rounded-full">
-                <Link href="/donate">Book Puja Offerings</Link>
+                <Link href="/donate/saraswati-puja">Book Puja Offerings</Link>
               </Button>
             </div>
           </CardContent>

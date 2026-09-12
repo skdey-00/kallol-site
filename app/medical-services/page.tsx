@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { PageBanner } from "@/components/page-banner"
 import { Card, CardContent } from "@/components/ui/card"
 
@@ -34,7 +35,7 @@ export default function MedicalPage() {
 
         <Card className="border-gray-200">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-4">Medical Camp at Kallol - March 2025</h3>
+            <h3 className="text-xl font-bold text-[#44233b] mb-4">Medical Camp at Kallol — Past Initiative (Archive)</h3>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">
               In line with its commitment to community well-being, Kallol organized a successful Medical Camp in March
               2025 at its premises in Goregaon. The camp provided free health check-ups, consultations, and basic
@@ -48,6 +49,21 @@ export default function MedicalPage() {
             </p>
           </CardContent>
         </Card>
+
+        <p className="text-gray-700 mt-8 text-sm">
+          Also part of Kallol&apos;s community services:{" "}
+          <Link href="/library-services" className="text-kallol-700 font-medium hover:underline">
+            Library
+          </Link>
+          {" · "}
+          <Link href="/facilities-services" className="text-kallol-700 font-medium hover:underline">
+            Facilities &amp; Services
+          </Link>
+          {" · "}
+          <Link href="/medical-camp" className="text-kallol-700 font-medium hover:underline">
+            Medical Camp 2025 (archive)
+          </Link>
+        </p>
       </div>
     </main>
   )

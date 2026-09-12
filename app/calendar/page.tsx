@@ -26,7 +26,25 @@ export default function CalendarPage() {
   useEffect(() => {
     const loadEvents = async () => {
       const data = await getEvents()
-      setEvents(data)
+      // Only show today-and-forward events so past (archived) pujas are never
+      // presented as the current schedule. Historical events remain stored in
+      // data/local-events.json as the archive record.
+      const today = new Date()
+      const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+      const upcoming = data.filter((event) => new Date(event.date) >= todayStart)
+      setEvents(upcoming)
+      // If the current month has no events (e.g. the published calendar starts
+      // next month), open the calendar on the first month that has events.
+      if (upcoming.length > 0) {
+        const first = new Date(upcoming[0].date)
+        const currentMonthHasEvents = upcoming.some((event) => {
+          const d = new Date(event.date)
+          return d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear()
+        })
+        if (!currentMonthHasEvents) {
+          setCurrentMonth(new Date(first.getFullYear(), first.getMonth(), 1))
+        }
+      }
       setLoading(false)
     }
     loadEvents()
@@ -99,7 +117,8 @@ export default function CalendarPage() {
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Stay updated with all our cultural events, religious celebrations, and community programs at the Kali Mandir
-            in Bangur Nagar.
+            in Bangur Nagar. Dates below are from the published Calendar of Events — Bengali Year (Bangabda) 1433,
+            English Year 2026 – 2027.
           </p>
         </motion.div>
 

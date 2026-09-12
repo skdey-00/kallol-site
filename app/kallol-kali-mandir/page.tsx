@@ -61,6 +61,81 @@ export default function KaliMandirPage() {
           </Card>
         </div>
 
+        <Card className="border-gray-200 mb-12">
+          <CardContent className="p-8">
+            <h3 className="text-xl font-bold text-[#44233b] mb-6">Mandir Timings</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
+                <h4 className="font-bold text-kallol-700 mb-3">Morning</h4>
+                <p className="text-gray-700 text-sm">6:00 AM to 12:30 PM</p>
+                <p className="text-gray-500 text-xs mt-1">(Mon, Wed, Thu &amp; Fri)</p>
+                <p className="text-gray-700 text-sm mt-3">6:00 AM to 1:00 PM</p>
+                <p className="text-gray-500 text-xs mt-1">(Tue, Sat &amp; Sun)</p>
+              </div>
+              <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
+                <h4 className="font-bold text-kallol-700 mb-3">Evening</h4>
+                <p className="text-gray-700 text-sm">5:00 PM to 9:00 PM</p>
+                <p className="text-gray-500 text-xs mt-1">(Mon, Wed, Thu &amp; Fri)</p>
+                <p className="text-gray-700 text-sm mt-3">5:00 PM to 9:30 PM</p>
+                <p className="text-gray-500 text-xs mt-1">(Tue, Sat &amp; Sun)</p>
+              </div>
+              <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
+                <h4 className="font-bold text-kallol-700 mb-3">Aarti</h4>
+                <p className="text-gray-700 text-sm">7:30 PM</p>
+                <p className="text-gray-500 text-xs mt-1">(1st Apr to 30th Sep)</p>
+                <p className="text-gray-700 text-sm mt-3">7:00 PM</p>
+                <p className="text-gray-500 text-xs mt-1">(1st Oct to 31st Mar)</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-4">
+              During Ambubachi (Jun 22 - 26, 2027), Maa Kali&apos;s idol remains covered; the Mandir stays open as per
+              timings above.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-gray-200 mb-12">
+          <CardContent className="p-8">
+            <h3 className="text-xl font-bold text-[#44233b] mb-2">Offerings Invited</h3>
+            <p className="text-gray-500 text-xs mb-6">Effective 1st April 2026 to 31st March 2027</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-kallol-200">
+                    <th className="text-left py-2 text-kallol-700">Offering</th>
+                    <th className="text-right py-2 text-kallol-700">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-700">
+                  {[
+                    ["Flower Decoration (Interior part only)", "Rs. 3,000/-"],
+                    ["Flower Decoration (Entire Mandir)", "Rs. 5,000/-"],
+                    ["Water offering (Jal-Daan) on Community feeding days", "Rs. 7,000/-"],
+                    ["Amavasya Special Puja", "Rs. 500/-"],
+                    ["Anna Bhog (Daily offerings)", "Rs. 1,000/-"],
+                    ["Amavasya General Bhog (Bhandara)", "Rs. 35,000/-"],
+                    ["Shree Shree Shanidev Puja", "Rs. 5,000/-"],
+                    ["Saree Offering for Maa Kali (except Durga Pujas & Kali Puja)", "Rs. 10,000/-"],
+                  ].map(([offering, amount]) => (
+                    <tr key={offering} className="border-b border-gray-100">
+                      <td className="py-2.5">{offering}</td>
+                      <td className="py-2.5 text-right font-medium whitespace-nowrap">{amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <ul className="text-gray-600 text-xs space-y-1 mt-4">
+              <li>&#10022; Please provide Name/s &amp; Gotra along with offering.</li>
+              <li>&#10022; Saree offerings for draping Maa Kali may be booked (subject to availability).</li>
+              <li>&#10022; Saree offerings for special occasions will be as publicised from time to time.</li>
+            </ul>
+            <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-6 rounded-full text-sm">
+              <Link href="/donate">Book Offerings Online</Link>
+            </Button>
+          </CardContent>
+        </Card>
+
         <Card className="border-gray-200 bg-gradient-to-r from-kallol-50 to-gray-50">
           <CardContent className="p-8 md:p-12">
             <h3 className="text-2xl font-bold text-[#44233b] mb-6 text-center">Why Kallol Kali Mandir is Special</h3>

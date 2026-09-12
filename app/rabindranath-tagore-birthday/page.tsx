@@ -47,8 +47,8 @@ export default function RabindraJayantiPage() {
 
         <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100 mt-8 text-center">
           <p className="text-gray-700 italic">
-            "We will update the page with next Rabindra Jayanti program schedule by early April 2026. Please do join us
-            in the next Rabindra Jayanti celebration at Kallol campus."
+            "We will update this page with the next Rabindra Jayanti program schedule closer to the celebration.
+            Please do join us in the next Rabindra Jayanti celebration at Kallol campus."
           </p>
         </div>
       </div>

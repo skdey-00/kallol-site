@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 export default function LakshmiPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Lakshmi Puja 2025" subtitle="Illumination & Prosperity Unfold" />
+      <PageBanner title="Lakshmi Puja" subtitle="Illumination & Prosperity Unfold" />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/lakshmipuja-473705d3.png" alt="Lakshmi Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/lakshmipuja-473705d3.png" alt="Lakshmi Puja at Kallol" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Invoking the Goddess of Prosperity</h2>
@@ -32,18 +32,22 @@ export default function LakshmiPujaPage() {
           <CardContent className="p-8">
             <h3 className="text-xl font-bold text-[#44233b] mb-6">Kojagari Lakshmi Puja Schedule</h3>
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
+              <p className="text-gray-700 text-sm mb-4">
+                <strong>Upcoming:</strong> Sunday, October 25, 2026 (Kojagari Purnima, 7 Kartik)
+              </p>
               <table className="w-full text-sm">
+                <caption className="text-left text-xs text-gray-500 pb-2">
+                  Ritual timings as observed on Kojagari Purnima (subject to confirmation on the day)
+                </caption>
                 <thead>
                   <tr className="border-b border-kallol-200">
-                    <th className="text-left py-2 text-kallol-700">Date</th>
                     <th className="text-left py-2 text-kallol-700">Day</th>
                     <th className="text-left py-2 text-kallol-700">Events &amp; Timings</th>
                   </tr>
                 </thead>
                 <tbody className="text-gray-700">
                   <tr>
-                    <td className="py-3">Oct 6, 2025</td>
-                    <td className="py-3">Monday</td>
+                    <td className="py-3">Sunday</td>
                     <td className="py-3">
                       <div>Kojagari Laxmi Puja - 08:00 PM</div>
                       <div>Pushpanjali - 09:30 PM</div>
@@ -56,7 +60,7 @@ export default function LakshmiPujaPage() {
               </table>
             </div>
             <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-6 rounded-full">
-              <Link href="/donate">Book Puja Offerings</Link>
+              <Link href="/donate/lakshmi-puja">Book Puja Offerings</Link>
             </Button>
           </CardContent>
         </Card>

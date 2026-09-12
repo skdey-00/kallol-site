@@ -28,8 +28,12 @@ export default function PoilaBaishakPage() {
         <Card className="border-gray-200 mt-8">
           <CardContent className="p-8">
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100 text-center">
-              <p className="text-gray-700"><strong>April 15, 2025 (Tuesday)</strong> at 05:00 PM</p>
-              <p className="text-gray-600 text-sm mt-2">Satyanarayan Puja, Bengali New Year &amp; Club Anniversary</p>
+              <p className="text-gray-700">
+                <strong>Next celebration:</strong> Thursday, April 15, 2027 (Poila Baisakh 1434)
+              </p>
+              <p className="text-gray-600 text-sm mt-2">
+                Dashopachar Puja at 9:00 AM · Satyanarayan Puja at 6:00 PM · Bengali New Year &amp; Kallol Anniversary
+              </p>
             </div>
           </CardContent>
         </Card>
