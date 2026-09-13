@@ -1,30 +1,37 @@
 import Link from "next/link"
+import { Reveal } from "./reveal"
 import type { EventView } from "./types"
 
 /**
- * Puja & Events index — six puja tiles with next-date chips derived from
- * the events store (grouped multi-day festivals collapse to a range).
- * Prioritization: Durga Puja and Kali Puja lead (the community's biggest
- * festival and Kallol's namesake); recurring Amavasya shows a
- * "Monthly" chip instead of a fabricated single date.
+ * PUJA INDEX — the year, indexed (Phase 5B).
+ *
+ * Not six equal cards. Two major entries (Durga Puja — the
+ * community's greatest festival; Kali Puja — Kallol's namesake)
+ * carry photography at portrait scale. The remaining four are a
+ * ruled index list: type + hairline + date chip carry them, no
+ * images — size follows significance.
+ *
+ * Dates derive from the events store exactly as before (grouped
+ * multi-day festivals collapse to a range; recurring Amavasya
+ * shows "Monthly", never a fabricated single date).
  */
 interface PujaEntry {
   title: string
   href: string
-  image: string
-  alt: string
-  /** Find the next dated instance of this puja in the events store */
+  image?: string
+  alt?: string
+  note: string
   match: (title: string) => boolean
-  /** Chip label when the puja is recurring or has no dated instance */
   fallback?: string
 }
 
-const PUJAS: PujaEntry[] = [
+const MAJORS: PujaEntry[] = [
   {
     title: "Durga Puja",
     href: "/durga-puja",
     image: "/assets/Durga_Puja_Tile-289a4e35.png",
     alt: "Goddess Durga protima at Kallol's Durga Puja",
+    note: "Six days of the community's greatest festival — dhaak, dhunuchi, Khichdi Bhog.",
     match: (t) => t.includes("Durga Puja"),
   },
   {
@@ -32,41 +39,44 @@ const PUJAS: PujaEntry[] = [
     href: "/kali-puja",
     image: "/assets/Kali_Puja_Tile-35f6bb42.png",
     alt: "Maa Kali at the Kallol Kali Mandir on Kali Puja night",
+    note: "The Deepawali Amavasya Mahakali Puja at the mandir that gives Kallol its name.",
     match: (t) => t.includes("Kali Puja") || t.includes("Mahakali"),
   },
+]
+
+const MINORS: PujaEntry[] = [
   {
     title: "Lakshmi Puja",
     href: "/lakshmi-puja",
-    image: "/assets/Lakshmi_Puja_Tile-2a79392d.png",
-    alt: "Kojagari Lakshmi Puja at Kallol",
+    note: "Kojagari Purnima",
     match: (t) => t.includes("Laxmi") || t.includes("Lakshmi"),
   },
   {
     title: "Saraswati Puja",
     href: "/saraswati-puja",
-    image: "/assets/Sarashwati_Puja_Tile-ed17e914.png",
-    alt: "Saraswati Puja — the spring worship of Maa Saraswati at Kallol",
+    note: "Basanta Panchami — the puja Kallol was born of",
     match: (t) => t.includes("Saraswati"),
   },
   {
     title: "Amavasya Puja",
     href: "/amavasya-puja",
-    image: "/assets/Amabasya_Puja_Tile-f954983b.png",
-    alt: "Devotees at the monthly Amavasya Puja, Kallol Kali Mandir",
-    match: () => false, // monthly — never surface a single "next" date
+    note: "Monthly, every new moon — with Khichdi Bhog",
+    match: () => false,
     fallback: "Monthly · every new moon",
   },
   {
     title: "Special Pujas",
     href: "/special-puja",
-    image: "/assets/SpecialPuja-3da3ae1b.png",
-    alt: "Special pujas at Kallol — Satyanarayan, Shanidev and others",
-    match: () => false,
+    note: "Satyanarayan · Shanidev · Bipattarini & more",
+    match: (t) =>
+      t.includes("Shanidev") ||
+      t.includes("Satyanarayan") ||
+      t.includes("Bipattarini"),
     fallback: "Satyanarayan · Shanidev & more",
   },
 ]
 
-function chipLabel(events: EventView[], puja: PujaEntry): string {
+function dateFor(events: EventView[], puja: PujaEntry): string {
   const found = events.find((e) => puja.match(e.title))
   if (found) return found.dateLabel
   return puja.fallback ?? "Date to be announced"
@@ -75,76 +85,123 @@ function chipLabel(events: EventView[], puja: PujaEntry): string {
 export function PujaIndex({ events }: { events: EventView[] }) {
   return (
     <section aria-labelledby="puja-heading" className="bg-ivory">
-      <div className="container py-16 md:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <p className="section-eyebrow">Puja &amp; Events</p>
-            <h2 id="puja-heading" className="section-title mt-3">
-              The pujas of the Bengali year
-            </h2>
-            <p className="mt-4 text-body-lg text-ink-soft">
-              From the monthly Amavasya Puja to the great autumn festivals —
-              each with its own page of rituals, schedules and offerings.
-            </p>
+      <div className="container py-16 md:py-24 lg:py-28">
+        {/* Section head — typographic, ruled */}
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="section-eyebrow">Puja &amp; Events</p>
+              <h2
+                id="puja-heading"
+                className="reveal-up section-title mt-3"
+                style={{ ["--reveal-delay" as string]: "60ms" }}
+              >
+                The pujas of the Bengali year
+              </h2>
+            </div>
+            <Link
+              href="/upcoming-events"
+              className="link-editorial reveal-up text-sm font-semibold uppercase tracking-caps text-kallol-700 hover:text-kallol-800"
+              style={{ ["--reveal-delay" as string]: "120ms" }}
+            >
+              View all events
+            </Link>
           </div>
-          <Link href="/upcoming-events" className="btn-outline">
-            View all events
-          </Link>
-        </div>
+          <div
+            className="rule-draw mt-8 h-px bg-kallol-600/60"
+            aria-hidden="true"
+          />
+        </Reveal>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {PUJAS.map((puja) => (
+        {/* Major entries — asymmetric pair with photography */}
+        <Reveal className="mt-12 grid gap-10 md:grid-cols-2 lg:mt-16 lg:gap-12">
+          {MAJORS.map((puja, i) => (
             <Link
               key={puja.title}
               href={puja.href}
-              className="group card-kallol flex flex-col"
+              className={`group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory ${
+                i === 1 ? "md:mt-14" : ""
+              }`}
             >
-              <div className="relative overflow-hidden">
-                <img
-                  src={puja.image}
-                  alt={puja.alt}
-                  width={640}
-                  height={400}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-[3/2] w-full object-cover transition-transform duration-300 ease-calm group-hover:scale-[1.02]"
-                />
-                <span className="absolute bottom-2 left-2 right-2 truncate rounded-sm bg-ivory/95 px-2.5 py-1.5 text-caption uppercase tracking-caps text-kallol-800">
-                  {chipLabel(events, puja)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between p-5">
-                <h3 className="font-display text-h3 text-ink group-hover:text-kallol-700 transition-colors">
-                  {puja.title}
-                </h3>
-                <span
-                  aria-hidden="true"
-                  className="text-kallol-600 transition-transform duration-200 group-hover:translate-x-1"
-                >
-                  →
-                </span>
+              <div className="flex gap-6">
+                <div className="relative w-[38%] shrink-0 overflow-hidden">
+                  <img
+                    src={puja.image}
+                    alt={puja.alt}
+                    width={350}
+                    height={500}
+                    loading="lazy"
+                    decoding="async"
+                    className="reveal-img img-breathe aspect-[7/10] h-full w-full object-cover"
+                  />
+                </div>
+                <div className="flex flex-col justify-between py-1">
+                  <div>
+                    <p className="text-caption uppercase tracking-caps text-kallol-700">
+                      {dateFor(events, puja)}
+                    </p>
+                    <h3 className="mt-3 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
+                      {puja.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+                      {puja.note}
+                    </p>
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    className="mt-6 inline-block text-kallol-600 transition-transform duration-300 ease-calm group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </div>
               </div>
             </Link>
           ))}
-        </div>
+        </Reveal>
 
-        <p className="mt-6 text-sm text-ink-mute">
-          Cultural evenings —{" "}
-          <Link
-            href="/poila-baishak"
-            className="text-kallol-700 underline underline-offset-4 hover:text-kallol-800"
-          >
-            Poila Baishakh
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="/rabindranath-tagore-birthday"
-            className="text-kallol-700 underline underline-offset-4 hover:text-kallol-800"
-          >
-            Rabindra Jayanti
-          </Link>{" "}
-          — are celebrated alongside the pujas.
-        </p>
+        {/* Minor entries — the ruled index */}
+        <Reveal className="mt-14 md:mt-20">
+          <div className="rule-draw h-px bg-stone-line" aria-hidden="true" />
+          <ul>
+            {MINORS.map((puja, i) => (
+              <li key={puja.title}>
+                <Link
+                  href={puja.href}
+                  className="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-b border-stone-line py-5 transition-colors hover:bg-kallol-50/60"
+                >
+                  <span className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
+                    <span className="w-8 text-caption text-ink-faint">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-display text-h3 text-ink transition-colors group-hover:text-kallol-700">
+                      {puja.title}
+                    </span>
+                    <span className="hidden text-sm text-ink-mute md:inline">
+                      {puja.note}
+                    </span>
+                  </span>
+                  <span className="text-caption uppercase tracking-caps text-ink-mute transition-colors group-hover:text-kallol-700">
+                    {dateFor(events, puja)}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 text-sm text-ink-mute">
+            Cultural evenings —{" "}
+            <Link href="/poila-baishak" className="link-editorial text-kallol-700">
+              Poila Baishakh
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/rabindranath-tagore-birthday"
+              className="link-editorial text-kallol-700"
+            >
+              Rabindra Jayanti
+            </Link>{" "}
+            — are celebrated alongside the pujas.
+          </p>
+        </Reveal>
       </div>
     </section>
   )

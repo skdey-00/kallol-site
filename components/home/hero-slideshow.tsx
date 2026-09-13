@@ -3,11 +3,15 @@
 import { useEffect, useState } from "react"
 
 /**
- * Slow, restrained crossfade through real Kallol photography
- * (the same frames the previous hero used). ≥7s per slide, no zoom,
- * no parallax. First slide is server-rendered so LCP is real content.
- * Reduced-motion users see a single static frame (interval still runs
- * harmlessly; all transitions are 0.01ms under the global guard).
+ * Slow, restrained crossfade through real Kallol photography.
+ * ≥7s per slide, no zoom, no parallax. First slide is
+ * server-rendered so LCP is real content; the rest lazy-load.
+ *
+ * Scrims (Phase 5B full-bleed hero):
+ * - a light overall wash for depth,
+ * - a strong bottom gradient (up to ~90% kallol-950) that carries
+ *   the logo + statement, per brand doc §2 dark-surface rule.
+ * Reduced-motion users see a single static frame.
  */
 const SLIDES = [
   "/assets/Group-160-7cb5c7f7.webp",
@@ -36,10 +40,7 @@ export function HeroSlideshow() {
   }, [])
 
   return (
-    <div
-      className="absolute inset-0 overflow-hidden bg-kallol-950"
-      role="presentation"
-    >
+    <div className="absolute inset-0 overflow-hidden" role="presentation">
       {SLIDES.map((src, i) => (
         <img
           key={src}
@@ -48,22 +49,23 @@ export function HeroSlideshow() {
           aria-hidden={i !== 0}
           loading={i === 0 ? "eager" : "lazy"}
           decoding={i === 0 ? "sync" : "async"}
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-calm"
+          fetchPriority={i === 0 ? "high" : "auto"}
+          className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-[1200ms] ease-calm"
           style={{ opacity: i === index ? 1 : 0 }}
         />
       ))}
-      {/* Maroon scrim ties the photo column to the brand palette */}
+
+      {/* Depth wash */}
+      <div aria-hidden="true" className="absolute inset-0 bg-kallol-950/30" />
+      {/* Bottom scrim — carries logo + statement (deepest at base) */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-kallol-950/25"
+        className="absolute inset-x-0 bottom-0 h-[85%] bg-gradient-to-t from-kallol-950/95 via-kallol-950/55 to-transparent"
       />
+      {/* Slight left bias so the anchored block sits on quiet ground */}
       <div
         aria-hidden="true"
-        className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ivory to-transparent lg:w-24"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-kallol-950/60 to-transparent"
+        className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-kallol-950/45 to-transparent"
       />
     </div>
   )

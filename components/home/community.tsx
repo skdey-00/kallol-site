@@ -1,10 +1,14 @@
 import Link from "next/link"
+import { Reveal } from "./reveal"
 
 /**
- * "More than a mandir" — the community-services editorial spread.
- * Real, verified services only: Library, homeopathy dispensary,
- * facilities/halls, plus the archived medical camp. Editorial
- * rows rather than an icon grid, per the Phase 5 brief.
+ * COMMUNITY — "More than a mandir" (Phase 5B).
+ *
+ * Not three equal cards. One large statement, then three
+ * full-width ruled rows: eyebrow + title + body left, thumbnail
+ * right (swap sides on mobile). The row is the Kallol visual
+ * language: hairline in, content carried, hairline out.
+ * Verified services only — library, dispensary, facilities.
  */
 const SERVICES = [
   {
@@ -39,68 +43,83 @@ const SERVICES = [
 export function Community() {
   return (
     <section aria-labelledby="community-heading" className="bg-stone-warm/60">
-      <div className="container py-16 md:py-24">
-        <div className="max-w-2xl">
-          <p className="section-eyebrow">Community</p>
-          <h2 id="community-heading" className="section-title mt-3">
-            More than a mandir
-          </h2>
-          <p className="mt-4 text-body-lg text-ink-soft">
-            Kallol is a working community institution — its campus serves the
-            neighbourhood long after the aarti ends.
-          </p>
-        </div>
-
-        <div className="mt-12 space-y-10 md:space-y-0 md:grid md:gap-px md:grid-cols-3">
-          {SERVICES.map((s) => (
-            <article
-              key={s.eyebrow}
-              className="group flex flex-col border border-stone-line bg-ivory-raised rounded-md overflow-hidden md:rounded-none md:first:rounded-l-md md:last:rounded-r-md md:border-r-0 md:last:border-r"
+      <div className="container py-16 md:py-24 lg:py-28">
+        <Reveal>
+          <div className="max-w-3xl">
+            <p className="section-eyebrow">Community</p>
+            <h2
+              id="community-heading"
+              className="reveal-up mt-6 font-display text-statement text-ink"
+              style={{ ["--reveal-delay" as string]: "60ms" }}
             >
-              <Link href={s.href} className="block overflow-hidden">
-                <img
-                  src={s.image}
-                  alt={s.alt}
-                  width={640}
-                  height={400}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-[3/2] w-full object-cover transition-transform duration-300 ease-calm group-hover:scale-[1.02]"
-                />
+              More than a mandir.
+            </h2>
+            <p
+              className="reveal-up mt-5 max-w-prose text-body-lg text-ink-soft"
+              style={{ ["--reveal-delay" as string]: "140ms" }}
+            >
+              Kallol is a working community institution — its campus serves
+              the neighbourhood long after the aarti ends.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-12 lg:mt-16">
+          <div className="rule-draw h-px bg-stone-line" aria-hidden="true" />
+          {SERVICES.map((s, i) => (
+            <article key={s.eyebrow} className="border-b border-stone-line">
+              <Link
+                href={s.href}
+                className="group grid gap-6 py-8 transition-colors hover:bg-kallol-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-warm md:grid-cols-12 md:items-center md:gap-10 md:py-10"
+              >
+                <div className="md:col-span-8 lg:col-span-9">
+                  <p className="text-caption uppercase tracking-caps text-kallol-700">
+                    {String(i + 1).padStart(2, "0")} · {s.eyebrow}
+                  </p>
+                  <h3 className="mt-2 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 max-w-prose text-sm leading-relaxed text-ink-soft">
+                    {s.body}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-kallol-700">
+                    <span className="link-editorial">{s.linkLabel}</span>
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform duration-200 ease-calm group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
+                  </span>
+                </div>
+                <div className="md:col-span-4 lg:col-span-3">
+                  <div className="overflow-hidden">
+                    <img
+                      src={s.image}
+                      alt={s.alt}
+                      width={640}
+                      height={400}
+                      loading="lazy"
+                      decoding="async"
+                      className="reveal-img img-breathe aspect-[3/2] w-full object-cover"
+                    />
+                  </div>
+                </div>
               </Link>
-              <div className="flex flex-1 flex-col p-6">
-                <p className="text-caption uppercase tracking-caps text-kallol-700">
-                  {s.eyebrow}
-                </p>
-                <h3 className="mt-2 font-display text-h3 text-ink">{s.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">
-                  {s.body}
-                </p>
-                <Link
-                  href={s.href}
-                  className="mt-5 text-sm font-semibold text-kallol-700 underline-offset-4 hover:underline hover:text-kallol-800 transition-colors"
-                >
-                  {s.linkLabel}
-                  <span aria-hidden="true"> →</span>
-                </Link>
-              </div>
             </article>
           ))}
-        </div>
+        </Reveal>
 
         <p className="mt-8 text-sm text-ink-mute">
           Past initiatives, such as the{" "}
           <Link
             href="/medical-camp"
-            className="text-kallol-700 underline underline-offset-4 hover:text-kallol-800"
+            className="link-editorial text-kallol-700"
           >
             March 2025 free medical camp
           </Link>
           , are preserved in the{" "}
-          <Link
-            href="/archives"
-            className="text-kallol-700 underline underline-offset-4 hover:text-kallol-800"
-          >
+          <Link href="/archives" className="link-editorial text-kallol-700">
             archives
           </Link>
           .

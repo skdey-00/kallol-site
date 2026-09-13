@@ -59,7 +59,10 @@ function eventHref(title: string): string {
 function baseTitle(title: string): string {
   return title
     .replace(/\s*\(.*?\)\s*$/, "")
-    .replace(/\s*-\s*(Maha|Sandhi|Kalparambha|Bodhan|Amantran|Adhibas|Darpan|Sindoor|Sindur|Kumari|Hom).*$/i, "")
+    .replace(
+      /\s*-\s*(Maha|Sandhi|Kalparambha|Bodhan|Amantran|Adhibas|Darpan|Sindoor|Sindur|Kumari|Hom|Vijaya|Dashami|Sashti|Saptami|Ashtami|Navami|Nabami).*$/i,
+      "",
+    )
     .trim()
 }
 

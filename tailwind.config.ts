@@ -113,7 +113,12 @@ const config = {
       /* Editorial type scale — serif display, sans body/UI */
       fontSize: {
         "display-xl": ["clamp(2.75rem, 6vw, 4.5rem)", { lineHeight: "1.05", letterSpacing: "-0.02em", fontWeight: "600" }],
-        display: ["clamp(2.25rem, 4.5vw, 3.5rem)", { lineHeight: "1.1", letterSpacing: "-0.015em", fontWeight: "600" }],
+        "display": ["clamp(2.25rem, 4.5vw, 3.5rem)", { lineHeight: "1.1", letterSpacing: "-0.015em", fontWeight: "600" }],
+        /* Phase 5B editorial voices:
+           date-xl — enormous date numerals (cover story), decorative-scale
+           statement — section-opening editorial statements, above h2 weight */
+        "date-xl": ["clamp(3.75rem, 10vw, 8rem)", { lineHeight: "0.95", letterSpacing: "-0.03em", fontWeight: "600" }],
+        "statement": ["clamp(1.75rem, 3vw, 2.5rem)", { lineHeight: "1.18", letterSpacing: "-0.01em", fontWeight: "600" }],
         "h1": ["clamp(2rem, 3.5vw, 2.75rem)", { lineHeight: "1.15", letterSpacing: "-0.01em", fontWeight: "600" }],
         "h2": ["clamp(1.5rem, 2.5vw, 2rem)", { lineHeight: "1.2", letterSpacing: "0", fontWeight: "600" }],
         "h3": ["1.25rem", { lineHeight: "1.3", fontWeight: "600" }],

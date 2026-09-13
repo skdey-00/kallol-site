@@ -17,27 +17,25 @@ export const metadata: Metadata = {
 }
 
 /**
- * Kallol homepage (Phase 5).
+ * Kallol homepage (Phase 5B — visual experience).
  *
- * Narrative order:
- *   1. Identity      — split hero: logo + positioning + CTAs / photography
- *   2. Presence      — verified address + mandir timings (Visit, below)
- *   3. Current       — NowAtKallol, straight from the events store
- *   4. Story         — concise editorial intro from verified About copy
- *   5. Puja & Events — six puja tiles with real next-date chips
- *   _narrative continues:
- *   6. Community     — library / dispensary / facilities spread
- *   7. Visual memory — gallery mosaic of real Kallol photography
- *   8. Participate   — donate / offerings / booking on deep maroon
- *   9. Visit         — address, timings, phone, email, map
+ * Narrative order (IDENTITY → PLACE → PEOPLE → PUJA → CULTURE →
+ * COMMUNITY → PARTICIPATION), composed for rhythm:
+ *   1. Masthead   — full-bleed photography, logo + oversized statement
+ *   2. Cover story— the most relevant upcoming event, date set enormous
+ *   3. Story      — editorial feature from verified About copy
+ *   4. Puja index— Durga/Kali majors + a ruled calendar index
+ *   5. Community  — ruled rows, not icon cards
+ *   6. Memory     — one dominant frame + supporting photography
+ *   7. Participate— donate-led dignified close on deep maroon
+ *   8. Visit      — quiet metadata + map
  *
- * Server-rendered: events come from the same store that feeds /calendar
- * and /archives — one source of truth, no hardcoded homepage cards.
+ * Server-rendered: events come from the same store that feeds
+ * /calendar and /archives — one source of truth, no hardcoded
+ * homepage cards.
  *
- * No negative top margin: the global <main> already pads for the fixed
- * navbar (pt-[104px] md:pt-[120px]); pulling the hero up further slid
- * the identity column's logo behind the opaque navbar (verified Sept 2026:
- * logo rect top 40px vs header bottom 105px at 390px — 65px hidden).
+ * No negative top margin: the global <main> already pads for the
+ * fixed navbar (pt-[104px] md:pt-[120px]).
  */
 export default async function Home() {
   const events = await getEvents()

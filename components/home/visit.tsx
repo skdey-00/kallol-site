@@ -1,37 +1,41 @@
 ﻿import Link from "next/link"
+import { Reveal } from "./reveal"
 
 /**
- * Visit — the closing band: verified address, verified mandir timings
- * (from /kallol-kali-mandir), phone/email, and the same map embed used
- * on /contact. No invented opening hours, parking, or transport claims.
+ * VISIT — the quiet, practical close (Phase 5B).
+ *
+ * Address set as small metadata columns under a modest heading;
+ * timings; the map kept (it is genuinely useful). CONTACT and
+ * MAPS buttons remain from Phase 5A. Verified facts only — no
+ * invented hours, parking, or transport claims.
  */
 export function Visit() {
   return (
     <section aria-labelledby="visit-heading" className="bg-stone-paper">
       <div className="container py-16 md:py-24">
-        <div className="grid gap-12 lg:grid-cols-12">
-          {/* Location & timings */}
+        <Reveal className="grid gap-12 lg:grid-cols-12">
+          {/* Metadata columns */}
           <div className="lg:col-span-5">
             <p className="section-eyebrow">Visit</p>
             <h2 id="visit-heading" className="section-title mt-3">
               Find us in Bangur Nagar
             </h2>
-            <address className="mt-6 not-italic leading-relaxed text-ink-soft">
+            <address className="mt-8 not-italic leading-relaxed text-ink-soft">
               Kallol Kali Mandir
               <br />
               Bangur Nagar, Goregaon West
               <br />
               Mumbai &ndash; 400104
             </address>
-            <dl className="mt-8 space-y-4">
+            <dl className="mt-8 space-y-5">
               <div>
                 <dt className="text-caption uppercase tracking-caps text-ink-mute">
                   Phone
                 </dt>
                 <dd className="mt-1">
                   <a
-                    href="tel:+918655852917"
-                    className="text-kallol-700 underline-offset-4 hover:underline hover:text-kallol-800"
+                    href="tel:+918****2917"
+                    className="link-editorial text-kallol-700"
                   >
                     +91-8655852917
                   </a>
@@ -44,7 +48,7 @@ export function Visit() {
                 <dd className="mt-1">
                   <a
                     href="mailto:info@kallolmumbai.com"
-                    className="text-kallol-700 underline-offset-4 hover:underline hover:text-kallol-800"
+                    className="link-editorial text-kallol-700"
                   >
                     info@kallolmumbai.com
                   </a>
@@ -91,7 +95,7 @@ export function Visit() {
               />
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

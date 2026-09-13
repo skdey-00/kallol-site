@@ -55,6 +55,16 @@ export default function ClientLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* Mark JS availability before paint so scroll-reveal styles
+            start hidden only when the observer can un-hide them.
+            (Phase 5B motion: enhancement, never a gate.) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add("js")`,
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${sourceSerif.variable} ${notoSerifBengali.variable} ${notoSansBengali.variable} font-sans bg-ivory text-ink antialiased`}
       >

@@ -161,6 +161,107 @@
   }
 
   /* ============================================
+     PHASE 5B — MOTION VOCABULARY
+     Subtle, once-only, IntersectionObserver-driven.
+     The initial hidden states apply ONLY when JS is
+     present (inline script sets <html class="js">).
+     Without JS everything renders fully visible —
+     motion is an enhancement, never a gate.
+     ============================================ */
+
+  /* Scroll reveal: content rises ~14px + fades, once */
+  .js .reveal-up {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 600ms var(--kallol-ease),
+      transform 600ms var(--kallol-ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js .reveal-up.is-inview {
+    opacity: 1;
+    transform: none;
+  }
+  /* Same visible state when an observed ANCESTOR carries .is-inview,
+     so one observer per section can stagger child elements via
+     --reveal-delay without a wrapper per element. */
+  .js .is-inview .reveal-up {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Image mask-up reveal: image sits 10px low inside an
+     overflow-hidden frame, rises into place. */
+  .js .reveal-img {
+    transform: translateY(10px) scale(1.015);
+    opacity: 0.4;
+    transition:
+      transform 700ms var(--kallol-ease),
+      opacity 700ms var(--kallol-ease);
+  }
+  .js .reveal-img.is-inview {
+    transform: none;
+    opacity: 1;
+  }
+  .js .is-inview .reveal-img {
+    transform: none;
+    opacity: 1;
+  }
+
+  /* Baseline motif: a hairline that draws wider on entry.
+     Pure transform (no layout), origin left. */
+  .js .rule-draw {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 550ms var(--kallol-ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js .rule-draw.is-inview {
+    transform: scaleX(1);
+  }
+  .js .is-inview .rule-draw {
+    transform: scaleX(1);
+  }
+
+  /* Hero one-time entrance (plays on load, not scroll) */
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .js .hero-enter {
+    animation: hero-rise 700ms var(--kallol-ease) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* Editorial link: underline sweep (background-size trick) */
+  .link-editorial {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 2px;
+    transition: background-size 300ms var(--kallol-ease);
+  }
+  .link-editorial:hover,
+  .link-editorial:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Featured-image hover: a held breath, not a zoom-fest */
+  .img-breathe {
+    transition: transform 600ms var(--kallol-ease);
+  }
+  .group:hover .img-breathe {
+    transform: scale(1.02);
+  }
+
+  /* ============================================
      LEGACY UTILITIES — kept because Phase 1/2
      content pages still reference them.
      Do not use in new Phase 4+ work.
