@@ -6,42 +6,73 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import type { CalendarEvent } from "@/lib/events-store"
 
-export function FeaturedEvents() {
-  const events = [
+const CATEGORY_IMAGES: Record<string, string> = {
+  religious: "/assets/Kali_Puja_Tile-35f6bb42.webp",
+  cultural: "/assets/SpecialPuja-3da3ae1b.webp",
+}
+
+function formatDate(date: string): string {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  })
+}
+
+interface FeaturedEventsProps {
+  /** Live events (Google Calendar); falls back to curated defaults when empty */
+  events?: CalendarEvent[]
+}
+
+export function FeaturedEvents({ events: liveEvents }: FeaturedEventsProps) {
+  const fallbackEvents = [
     {
-      id: 1,
+      id: "featured-kali-puja",
       title: "Kali Puja & Deepavali",
       date: "October 20, 2025",
       description:
         "Shree Shree Mahakali Puja on Deepavali Amavasya. Join us for the grand celebration of Kali Puja at the Kali Mandir with traditional rituals and cultural performances.",
-      image: "/assets/Kali_Puja_Tile-35f6bb42.png",
+      image: "/assets/Kali_Puja_Tile-35f6bb42.webp",
     },
     {
-      id: 2,
+      id: "featured-durga-puja",
       title: "Durga Puja 2025",
       date: "October 1-2, 2025",
       description:
         "Maha Navami and Vijaya Dashami celebrations. Kumari Puja, Darpan Visarjan and Sindur Utsav. The biggest festival of the Bengali community.",
-      image: "/assets/Durga_Puja_Tile-289a4e35.png",
+      image: "/assets/Durga_Puja_Tile-289a4e35.webp",
     },
     {
-      id: 3,
+      id: "featured-amavasya",
       title: "Amavasya Puja",
       date: "Monthly",
       description:
         "The monthly Amavasya Puja dedicated to Maa Kali draws thousands of devotees who seek divine blessings and partake in the sacred Khichdi Bhog.",
-      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
+      image: "/assets/Amabasya_Puja_Tile-f954983b.webp",
     },
     {
-      id: 4,
+      id: "featured-lakshmi",
       title: "Lakshmi Puja (Kojagari)",
       date: "October 6, 2025",
       description:
         "Shree Shree Kojagari Laxmi Puja on the night of the full moon. A celebration of prosperity and divine grace at Kallol Kali Mandir.",
-      image: "/assets/Lakshmi_Puja_Tile-2a79392d.png",
+      image: "/assets/Lakshmi_Puja_Tile-2a79392d.webp",
     },
   ]
+
+  const events =
+    liveEvents && liveEvents.length > 0
+      ? liveEvents.map((event) => ({
+          id: event.id,
+          title: event.title,
+          date: formatDate(event.date),
+          description: event.description,
+          image: CATEGORY_IMAGES[event.category] ?? "/assets/SpecialPuja-3da3ae1b.webp",
+        }))
+      : fallbackEvents
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [autoPlay, setAutoPlay] = useState(true)

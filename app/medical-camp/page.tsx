@@ -7,8 +7,8 @@ export default function MedicalCampPage() {
       <PageBanner title="Medical Camp" subtitle="March 2025 Community Health Initiative" />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <img src="/assets/PHOTO-2025-08-04-21-57-53-20108055.png" alt="Medical Camp" className="w-full rounded-lg shadow-lg" />
-          <img src="/assets/PHOTO-2025-08-04-21-57-53-1-1-b22ff382.png" alt="Medical Camp" className="w-full rounded-lg shadow-lg" />
+          <img src="/assets/PHOTO-2025-08-04-21-57-53-20108055.webp" alt="Medical Camp" className="w-full rounded-lg shadow-lg" />
+          <img src="/assets/PHOTO-2025-08-04-21-57-53-1-1-b22ff382.webp" alt="Medical Camp" className="w-full rounded-lg shadow-lg" />
         </div>
 
         <Card className="border-gray-200">

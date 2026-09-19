@@ -1,15 +1,46 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getEvents } from "@/actions/events"
+import type { CalendarEvent } from "@/lib/events-store"
+
+// Google Calendar events carry no images; fall back per category
+const CATEGORY_IMAGES: Record<string, string> = {
+  religious: "/assets/Kali_Puja_Tile-35f6bb42.webp",
+  cultural: "/assets/SpecialPuja-3da3ae1b.webp",
+}
+
+function eventImage(event: CalendarEvent): string {
+  return CATEGORY_IMAGES[event.category] ?? "/assets/SpecialPuja-3da3ae1b.webp"
+}
+
+function formatDate(date: string): string {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  })
+}
 
 export default function UpcomingEventsPage() {
   const [activeTab, setActiveTab] = useState("all")
+  const [events, setEvents] = useState<CalendarEvent[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      setEvents(await getEvents())
+      setLoading(false)
+    }
+    loadEvents()
+  }, [])
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -26,109 +57,13 @@ export default function UpcomingEventsPage() {
     },
   }
 
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "Durga Puja - Maha Navami",
-      date: "October 1, 2025",
-      time: "All Day",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Durga Puja Maha Navami with Kumari Puja. The biggest festival of the Bengali community.",
-      image: "/assets/Durga_Puja_Tile-289a4e35.png",
-      category: "religious",
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Durga Puja - Vijaya Dashami",
-      date: "October 2, 2025",
-      time: "All Day",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Vijaya Dashami with Darpan Visarjan and Sindur Utsav. The grand finale of Durga Puja.",
-      image: "/assets/Durga_Puja_Tile-289a4e35.png",
-      category: "religious",
-      featured: true,
-    },
-    {
-      id: 3,
-      title: "Kojagari Purnima - Lakshmi Puja",
-      date: "October 6, 2025",
-      time: "09:00 PM",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Shree Shree Kojagari Laxmi Puja at 9:00 PM. A celebration of prosperity and divine grace.",
-      image: "/assets/Lakshmi_Puja_Tile-2a79392d.png",
-      category: "religious",
-      featured: true,
-    },
-    {
-      id: 4,
-      title: "Deepavali Amavasya - Kali Puja",
-      date: "October 20, 2025",
-      time: "11:00 PM",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Shree Shree Mahakali Puja on Deepavali Amavasya at 11:00 PM. The most important Kali Puja of the year.",
-      image: "/assets/Kali_Puja_Tile-35f6bb42.png",
-      category: "religious",
-      featured: true,
-    },
-    {
-      id: 5,
-      title: "Amavasya Puja",
-      date: "November 19, 2025",
-      time: "08:00 PM",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog distribution.",
-      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
-      category: "religious",
-      featured: false,
-    },
-    {
-      id: 6,
-      title: "Amavasya Puja",
-      date: "December 19, 2025",
-      time: "08:00 PM",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog distribution.",
-      image: "/assets/Amabasya_Puja_Tile-f954983b.png",
-      category: "religious",
-      featured: false,
-    },
-    {
-      id: 7,
-      title: "Saraswati Puja",
-      date: "January 23, 2026",
-      time: "All Day",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Saraswati Puja, the worship of Goddess of knowledge, music and arts.",
-      image: "/assets/Sarashwati_Puja_Tile-ed17e914.png",
-      category: "religious",
-      featured: true,
-    },
-    {
-      id: 8,
-      title: "Dol Purnima (Holi Utsav)",
-      date: "March 3, 2026",
-      time: "All Day",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Dol Purnima / Holi Utsav celebration with the community.",
-      image: "/assets/SpecialPuja-3da3ae1b.png",
-      category: "cultural",
-      featured: false,
-    },
-  ]
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date())
+  const upcomingEvents = events.filter((event) => event.date >= today)
 
   const filteredEvents =
     activeTab === "all" ? upcomingEvents : upcomingEvents.filter((event) => event.category === activeTab)
 
-  const featuredEvents = upcomingEvents.filter((event) => event.featured)
+  const featuredEvents = upcomingEvents.slice(0, 2)
 
   return (
     <main className="min-h-screen pt-20 pb-16 px-4 md:px-6 lg:px-8 bg-gray-50">
@@ -150,7 +85,7 @@ export default function UpcomingEventsPage() {
         </motion.div>
 
         {/* Featured Events Section */}
-        {featuredEvents.length > 0 && (
+        {!loading && featuredEvents.length > 0 && (
           <motion.div
             initial="hidden"
             animate="visible"
@@ -170,12 +105,12 @@ export default function UpcomingEventsPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="relative h-64 md:h-full">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                      <img src={eventImage(event)} alt={event.title} className="w-full h-full object-cover" />
                     </div>
                     <CardContent className="p-6 flex flex-col">
                       <div className="flex items-center text-kallol-700 mb-2">
                         <Calendar className="h-4 w-4 mr-2" />
-                        <span className="text-sm font-medium">{event.date}</span>
+                        <span className="text-sm font-medium">{formatDate(event.date)}</span>
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
                       <div className="flex items-center text-gray-600 mb-1">
@@ -231,7 +166,7 @@ export default function UpcomingEventsPage() {
                 <Card className="h-full border-gray-200 hover:shadow-lg transition-shadow duration-300 flex flex-col">
                   <div className="relative h-48">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                    <img src={eventImage(event)} alt={event.title} className="w-full h-full object-cover" />
                     <div className="absolute top-2 right-2 bg-kallol-700 text-white text-xs px-2 py-1 rounded capitalize">
                       {event.category}
                     </div>
@@ -240,7 +175,7 @@ export default function UpcomingEventsPage() {
                     <h3 className="text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
                     <div className="flex items-center text-kallol-700 mb-2">
                       <Calendar className="h-4 w-4 mr-2" />
-                      <span className="text-sm font-medium">{event.date}</span>
+                      <span className="text-sm font-medium">{formatDate(event.date)}</span>
                     </div>
                     <div className="flex items-center text-gray-600 mb-1">
                       <Clock className="h-4 w-4 mr-2" />
@@ -263,6 +198,16 @@ export default function UpcomingEventsPage() {
               </motion.div>
             ))}
           </motion.div>
+
+          {!loading && filteredEvents.length === 0 && (
+            <Card className="border-gray-200 bg-gray-50">
+              <CardContent className="p-8 text-center">
+                <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Upcoming Events</h3>
+                <p className="text-gray-600">New events are added regularly — please check back soon.</p>
+              </CardContent>
+            </Card>
+          )}
         </motion.div>
 
         {/* Call to Action */}

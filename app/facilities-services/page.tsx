@@ -21,7 +21,7 @@ export default function FacilitiesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-56">
-              <img src="/assets/Conference-Hall-6ce31122.jpg" alt="Kallol Conference Hall" className="w-full h-full object-cover" />
+              <img src="/assets/Conference-Hall-6ce31122.webp" alt="Kallol Conference Hall" className="w-full h-full object-cover" />
             </div>
             <CardContent className="p-8">
               <h3 className="text-xl font-bold text-[#44233b] mb-4">Kallol Conference Hall</h3>
@@ -37,7 +37,7 @@ export default function FacilitiesPage() {
 
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-56">
-              <img src="/assets/Kallol-Facility-2-a121bd7f.png" alt="Kallol Campus" className="w-full h-full object-cover" />
+              <img src="/assets/Kallol-Facility-2-a121bd7f.webp" alt="Kallol Campus" className="w-full h-full object-cover" />
             </div>
             <CardContent className="p-8">
               <h3 className="text-xl font-bold text-[#44233b] mb-4">Kallol Campus</h3>

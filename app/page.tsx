@@ -4,44 +4,50 @@ import { Button } from "@/components/ui/button"
 import { AnimatedBanner } from "@/components/animated-banner"
 import { FeaturedEvents } from "@/components/featured-events"
 import { HeroSection } from "@/components/hero-section"
+import { getEvents } from "@/actions/events"
+
+// ISR: re-render the home page (with fresh calendar events) every 15 minutes
+export const revalidate = 900
 
 const services = [
   {
     title: "Kallol Kali Mandir",
-    image: "/assets/Kali-Mandir-Tile-20c642f6.png",
+    image: "/assets/Kali-Mandir-Tile-20c642f6.webp",
     href: "/kallol-kali-mandir",
     icon: Building,
   },
   {
     title: "Facility for Events",
-    image: "/assets/Events-308ea450.png",
+    image: "/assets/Events-308ea450.webp",
     href: "/facilities-services",
     icon: Calendar,
   },
   {
     title: "Medical & Library Facility",
-    image: "/assets/library-de30773d.png",
+    image: "/assets/library-de30773d.webp",
     href: "/medical-services",
     icon: BookOpen,
   },
   {
     title: "2025 Full Year Puja Calendar",
-    image: "/assets/WhatsApp-Image-2025-09-01-at-12.14.56_2df50f9d-77660215.jpg",
+    image: "/assets/WhatsApp-Image-2025-09-01-at-12.14.56_2df50f9d-77660215.webp",
     href: "/calendar",
     icon: Calendar,
   },
 ]
 
 const pujas = [
-  { title: "Amavasya Puja", image: "/assets/Amabasya_Puja_Tile-f954983b.png", href: "/amavasya-puja-2025" },
-  { title: "Durga Puja", image: "/assets/Durga_Puja_Tile-289a4e35.png", href: "/durga-puja-2025" },
-  { title: "Lakshmi Puja", image: "/assets/Lakshmi_Puja_Tile-2a79392d.png", href: "/lakshmi-puja-2025" },
-  { title: "Kali Puja", image: "/assets/Kali_Puja_Tile-35f6bb42.png", href: "/kali-puja-2025" },
-  { title: "Saraswati Puja", image: "/assets/Sarashwati_Puja_Tile-ed17e914.png", href: "/saraswati-puja-2025" },
-  { title: "Special Puja", image: "/assets/SpecialPuja-3da3ae1b.png", href: "/special-puja" },
+  { title: "Amavasya Puja", image: "/assets/Amabasya_Puja_Tile-f954983b.webp", href: "/amavasya-puja-2025" },
+  { title: "Durga Puja", image: "/assets/Durga_Puja_Tile-289a4e35.webp", href: "/durga-puja-2025" },
+  { title: "Lakshmi Puja", image: "/assets/Lakshmi_Puja_Tile-2a79392d.webp", href: "/lakshmi-puja-2025" },
+  { title: "Kali Puja", image: "/assets/Kali_Puja_Tile-35f6bb42.webp", href: "/kali-puja-2025" },
+  { title: "Saraswati Puja", image: "/assets/Sarashwati_Puja_Tile-ed17e914.webp", href: "/saraswati-puja-2025" },
+  { title: "Special Puja", image: "/assets/SpecialPuja-3da3ae1b.webp", href: "/special-puja" },
 ]
 
-export default function Home() {
+export default async function Home() {
+  const events = await getEvents()
+
   return (
     <main className="flex min-h-screen flex-col">
       <HeroSection />
@@ -55,7 +61,7 @@ export default function Home() {
             <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/home-about-06f92df6.png"
+                src="/assets/home-about-06f92df6.webp"
                 alt="About Kallol"
                 className="w-full h-full object-cover"
               />
@@ -131,7 +137,7 @@ export default function Home() {
         </div>
       </section>
 
-      <FeaturedEvents />
+      <FeaturedEvents events={events.slice(0, 6)} />
 
       {/* Quick Access Cards */}
       <section className="py-16 px-4 md:px-6 lg:px-8 bg-gray-50">

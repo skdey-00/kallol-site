@@ -18,7 +18,6 @@ const navGroups = [
       { name: "Facilities & Services", href: "/facilities-services" },
       { name: "Library Services", href: "/library-services" },
       { name: "Medical Services", href: "/medical-services" },
-      { name: "Managing Committee", href: "/managing-committee" },
     ],
   },
   {
@@ -120,7 +119,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/assets/kallol-logo-header.jpg"
+              src="/assets/kallol-logo-header.webp"
               alt="Kallol Mumbai"
               className="h-12 md:h-14 w-auto object-contain"
             />

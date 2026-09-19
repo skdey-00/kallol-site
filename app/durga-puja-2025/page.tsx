@@ -10,7 +10,7 @@ export default function DurgaPujaPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/image-7-279fa7e2.png" alt="Durga Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/image-7-279fa7e2.webp" alt="Durga Puja 2025" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">The Pinnacle of Bengali Celebration</h2>

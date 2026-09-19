@@ -99,7 +99,6 @@ export function Footer() {
               <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About Kallol</Link></li>
               <li><Link href="/calendar" className="hover:text-white transition-colors">2025 Puja Calendar</Link></li>
-              <li><Link href="/managing-committee" className="hover:text-white transition-colors">Managing Committee</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
               <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
             </ul>

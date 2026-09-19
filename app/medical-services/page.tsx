@@ -11,7 +11,7 @@ export default function MedicalPage() {
             <img src="/assets/Medical-a397b286.webp" alt="Medical Services" className="w-full h-48 object-cover rounded-lg shadow-md" />
             <img src="/assets/Medical2-08d303d4.webp" alt="Medical Services" className="w-full h-48 object-cover rounded-lg shadow-md" />
             <img src="/assets/Medical3-6563eaf4.webp" alt="Medical Services" className="w-full h-48 object-cover rounded-lg shadow-md" />
-            <img src="/assets/PHOTO-2025-08-04-21-57-53-20108055.png" alt="Medical Camp" className="w-full h-48 object-cover rounded-lg shadow-md" />
+            <img src="/assets/PHOTO-2025-08-04-21-57-53-20108055.webp" alt="Medical Camp" className="w-full h-48 object-cover rounded-lg shadow-md" />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-[#44233b] mb-6">Homeopathic Dispensary</h2>

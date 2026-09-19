@@ -10,7 +10,7 @@ export default function KaliPujaPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/Frame-150-9cd8eeb5.png" alt="Kali Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/Frame-150-9cd8eeb5.webp" alt="Kali Puja 2025" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Mahakali Puja: Invoking the Fierce Divine Mother</h2>

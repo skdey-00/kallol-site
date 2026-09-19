@@ -1,9 +1,12 @@
 "use server"
 
 import { eventsStore, type CalendarEvent } from "@/lib/events-store"
+import { getGoogleEvents } from "@/lib/google-calendar"
 
 export async function getEvents(): Promise<CalendarEvent[]> {
-  return eventsStore.getAll()
+  // Live events from the public Google Calendar; local store is the fallback
+  const events = await getGoogleEvents()
+  return events.length > 0 ? events : eventsStore.getAll()
 }
 
 export async function addEvent(

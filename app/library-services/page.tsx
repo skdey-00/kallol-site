@@ -8,7 +8,7 @@ export default function LibraryPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/library-de30773d.png" alt="Kallol Library" className="w-full h-full object-cover" />
+            <img src="/assets/library-de30773d.webp" alt="Kallol Library" className="w-full h-full object-cover" />
           </div>
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-6">

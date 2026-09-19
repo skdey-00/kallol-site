@@ -9,7 +9,7 @@ export default function SpecialPujaPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-52">
-              <img src="/assets/SpecialPuja-3da3ae1b.png" alt="Special Puja" className="w-full h-full object-cover" />
+              <img src="/assets/SpecialPuja-3da3ae1b.webp" alt="Special Puja" className="w-full h-full object-cover" />
             </div>
             <CardContent className="p-8">
               <h3 className="text-xl font-bold text-[#44233b] mb-3">Shree Shree Satyanarayan Puja</h3>
@@ -22,7 +22,7 @@ export default function SpecialPujaPage() {
 
           <Card className="border-gray-200 overflow-hidden">
             <div className="relative h-52">
-              <img src="/assets/kali-mandir-banner1-dc6a1673.png" alt="Shanidev Puja" className="w-full h-full object-cover" />
+              <img src="/assets/kali-mandir-banner1-dc6a1673.webp" alt="Shanidev Puja" className="w-full h-full object-cover" />
             </div>
             <CardContent className="p-8">
               <h3 className="text-xl font-bold text-[#44233b] mb-3">Shree Shree Shanidev Puja</h3>

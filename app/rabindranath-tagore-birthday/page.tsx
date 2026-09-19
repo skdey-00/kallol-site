@@ -8,7 +8,7 @@ export default function RabindraJayantiPage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-8">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/Final_1_ranbindra_opt1-1-1-55e1cfa0.png" alt="Rabindra Jayanti" className="w-full h-full object-cover" />
+            <img src="/assets/Final_1_ranbindra_opt1-1-1-55e1cfa0.webp" alt="Rabindra Jayanti" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Rabindra Jayanti - Honoring the Bard of Bengal</h2>

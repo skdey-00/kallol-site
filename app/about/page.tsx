@@ -57,7 +57,7 @@ export default function AboutPage() {
           <div className="relative h-48 md:h-64 w-full max-w-4xl mx-auto rounded-lg overflow-hidden shadow-lg mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/assets/kali-mandir-banner1-dc6a1673.png"
+              src="/assets/kali-mandir-banner1-dc6a1673.webp"
               alt="Kallol Kali Mandir"
               className="w-full h-full object-cover"
             />
@@ -80,7 +80,7 @@ export default function AboutPage() {
           <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/assets/home-about-06f92df6.png"
+              src="/assets/home-about-06f92df6.webp"
               alt="About Kallol"
               className="w-full h-full object-cover"
             />
@@ -158,7 +158,7 @@ export default function AboutPage() {
             <Card className="border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <div className="relative h-52">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/Kali-Mandir-Tile-20c642f6.png" alt="Kali Mandir" className="w-full h-full object-cover" />
+                <img src="/assets/Kali-Mandir-Tile-20c642f6.webp" alt="Kali Mandir" className="w-full h-full object-cover" />
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Kallol Kali Mandir</h3>
@@ -171,7 +171,7 @@ export default function AboutPage() {
             <Card className="border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <div className="relative h-52">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/library-de30773d.png" alt="Library" className="w-full h-full object-cover" />
+                <img src="/assets/library-de30773d.webp" alt="Library" className="w-full h-full object-cover" />
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Library</h3>
