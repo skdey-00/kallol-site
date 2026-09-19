@@ -17,7 +17,7 @@ const QUIET_ACTIONS = [
   },
   {
     label: "Browse offerings",
-    href: "/shop",
+    href: "/donate",
     note: "Sponsor Anna Bhog or festival offerings",
   },
   {

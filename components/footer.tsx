@@ -124,7 +124,7 @@ export function Footer() {
             <h3 className="font-sans text-xs font-semibold uppercase tracking-caps text-ivory/50 mb-5">Participate</h3>
             <ul className="space-y-2.5">
               <li><Link href="/donate" className="hover:text-ivory transition-colors duration-200">Donate</Link></li>
-              <li><Link href="/shop" className="hover:text-ivory transition-colors duration-200">Puja Offerings</Link></li>
+              <li><Link href="/donate" className="hover:text-ivory transition-colors duration-200">Puja Offerings</Link></li>
               <li><Link href="/photos" className="hover:text-ivory transition-colors duration-200">Photo Gallery</Link></li>
               <li><Link href="/videos" className="hover:text-ivory transition-colors duration-200">Videos</Link></li>
               <li><Link href="/facilities-services" className="hover:text-ivory transition-colors duration-200">Book a Facility</Link></li>

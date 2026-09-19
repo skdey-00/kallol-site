@@ -43,7 +43,7 @@ export default async function CheckoutThankYouPage({ searchParams }: ThankYouPag
                 moment.
               </p>
               <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
-                <Link href="/shop">Back to Shop</Link>
+                <Link href="/donate">Back to Shop</Link>
               </Button>
             </CardContent>
           </Card>
@@ -76,7 +76,7 @@ export default async function CheckoutThankYouPage({ searchParams }: ThankYouPag
                   Quote your order ID <code className="font-mono">{order.id}</code> at the counter.
                 </p>
                 <Button asChild variant="outline" className="border-kallol-700 text-kallol-700 hover:bg-kallol-50">
-                  <Link href="/shop">Back to Shop</Link>
+                  <Link href="/donate">Back to Shop</Link>
                 </Button>
               </>
             ) : isPending ? (
@@ -97,7 +97,7 @@ export default async function CheckoutThankYouPage({ searchParams }: ThankYouPag
                     <Link href={`/checkout/thank-you?id=${order.id}`}>Refresh Status</Link>
                   </Button>
                   <Button asChild variant="outline" className="border-kallol-700 text-kallol-700 hover:bg-kallol-50">
-                    <Link href="/shop">Back to Shop</Link>
+                    <Link href="/donate">Back to Shop</Link>
                   </Button>
                 </div>
               </>
@@ -110,7 +110,7 @@ export default async function CheckoutThankYouPage({ searchParams }: ThankYouPag
                   choose to pay at the counter.
                 </p>
                 <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
-                  <Link href="/shop">
+                  <Link href="/donate">
                     Try Again
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>

@@ -42,7 +42,7 @@ export default async function AmavasyaPujaPage() {
               and personal way.
             </p>
             <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white rounded-full">
-              <Link href="/shop">View Puja Offerings</Link>
+              <Link href="/donate">View Puja Offerings</Link>
             </Button>
           </div>
         </div>

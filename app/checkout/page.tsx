@@ -56,7 +56,7 @@ export default function CheckoutPage() {
   // Once hydrated, an empty cart means there is nothing to check out.
   useEffect(() => {
     if (hydrated && items.length === 0) {
-      router.replace("/shop")
+      router.replace("/donate")
     }
   }, [hydrated, items.length, router])
 

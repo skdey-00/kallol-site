@@ -61,9 +61,8 @@ const navGroups = [
   },
   {
     name: "Services",
-    href: "/shop",
+    href: "/donate",
     children: [
-      { name: "Puja Offerings (Shop)", href: "/shop" },
       { name: "Puja Booking & Donations", href: "/donate" },
       { name: "Facility Booking", href: "/facilities-services" },
     ],

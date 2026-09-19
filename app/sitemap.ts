@@ -27,7 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/medical-camp", priority: 0.4, freq: "yearly" },
     { path: "/photos", priority: 0.7, freq: "monthly" },
     { path: "/videos", priority: 0.5, freq: "monthly" },
-    { path: "/shop", priority: 0.8, freq: "weekly" },
     { path: "/donate", priority: 0.9, freq: "monthly" },
     { path: "/contact", priority: 0.8, freq: "yearly" },
     { path: "/privacy-policy", priority: 0.2, freq: "yearly" },

@@ -42,6 +42,9 @@ const nextConfig = {
       { source: '/events-2', destination: '/upcoming-events', permanent: true },
       { source: '/other-events', destination: '/upcoming-events', permanent: true },
       { source: '/other-festivals', destination: '/upcoming-events', permanent: true },
+      // Puja Offerings shop page was removed — all offering sponsorship now
+      // flows through the donations page (per-puja routes where applicable).
+      { source: '/shop', destination: '/donate', permanent: true },
     ]
   },
 }

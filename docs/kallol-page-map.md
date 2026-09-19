@@ -21,7 +21,6 @@ Every page = one folder inside `app/`, and the page's text lives in that folder'
 | Donate (main) | `app/donate/page.tsx` |
 | Donate per-puja | `app/donate/[pujaId]/page.tsx` |
 | Donate thank-you | `app/donate/thank-you/page.tsx` |
-| Shop | `app/shop/page.tsx` |
 | Cart | `app/cart/page.tsx` |
 | Checkout | `app/checkout/page.tsx` |
 | Checkout thank-you | `app/checkout/thank-you/page.tsx` |
