@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Reveal } from "./reveal"
+import { Reveal } from "@/components/kallol/reveal"
 
 /**
  * PARTICIPATE — the dignified closing ask (Phase 5B).

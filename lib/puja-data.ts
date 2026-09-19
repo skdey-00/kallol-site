@@ -27,14 +27,17 @@ export const pujaDonations: PujaDonationCategory[] = [
     id: "durga-puja",
     name: "Durga Puja",
     description: "Support the grand annual Durga Puja celebration, the largest festival for Bengalis.",
-    // Durga Puja 2026 (Bangabda 1433 calendar): Maha Sashti Oct 16, Saptami
-    // Oct 17, Ashtami Oct 18, Ashtami & Sandhi Puja Oct 19 (7:26-8:14 AM),
-    // Navami Oct 20 (Kumari Puja & Hom), Vijaya Dashami Oct 21.
+    // Durga Puja 2026 (Bangabda 1433 calendar): Maha Sashti Fri Oct 16,
+    // Saptami Sat Oct 17, Ashtami Sun Oct 18, Adhik Ashtami & Sandhi Puja
+    // Mon Oct 19 (7:26-8:14 AM), Navami Tue Oct 20 (Kumari Puja & Hom),
+    // Vijaya Dashami Wed Oct 21.
     items: [
       { purpose: "Saptami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-17" },
       { purpose: "Saptami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-17" },
       { purpose: "Ashtami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-18" },
       { purpose: "Ashtami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-18" },
+      { purpose: "Adhik Ashtami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-19" },
+      { purpose: "Adhik Ashtami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-19" },
       { purpose: "Navami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
       { purpose: "Navami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
       { purpose: "Sandhi Puja", category: "Durga Puja", amount: 21000, date: "2026-10-19" },

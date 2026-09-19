@@ -20,7 +20,7 @@ const config = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1rem",
+        DEFAULT: "1.25rem",
         sm: "1.5rem",
         lg: "2rem",
       },
@@ -112,7 +112,7 @@ const config = {
       },
       /* Editorial type scale — serif display, sans body/UI */
       fontSize: {
-        "display-xl": ["clamp(2.75rem, 6vw, 4.5rem)", { lineHeight: "1.05", letterSpacing: "-0.02em", fontWeight: "600" }],
+        "display-xl": ["clamp(2rem, 6vw, 4.5rem)", { lineHeight: "1.08", letterSpacing: "-0.02em", fontWeight: "600" }],
         "display": ["clamp(2.25rem, 4.5vw, 3.5rem)", { lineHeight: "1.1", letterSpacing: "-0.015em", fontWeight: "600" }],
         /* Phase 5B editorial voices:
            date-xl — enormous date numerals (cover story), decorative-scale

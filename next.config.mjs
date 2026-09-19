@@ -5,7 +5,9 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    // Type errors now fail the build again — this was previously disabled,
+    // which let real bugs ship (e.g. PageSizes.A4_LANDSCAPE crash).
+    ignoreBuildErrors: false,
   },
   images: {
     unoptimized: true,

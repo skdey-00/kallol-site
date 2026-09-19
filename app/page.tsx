@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { getEvents } from "@/actions/events"
 import { buildHomepageEvents } from "@/components/home/events-view"
+import { nextAmavasyaEvent } from "@/components/kallol/event-view"
 import { Hero } from "@/components/home/hero"
 import { NowAtKallol } from "@/components/home/now-at-kallol"
 import { Story } from "@/components/home/story"
@@ -40,13 +41,14 @@ export const metadata: Metadata = {
 export default async function Home() {
   const events = await getEvents()
   const { next, upcoming, all } = buildHomepageEvents(events)
+  const amavasya = nextAmavasyaEvent(events)
 
   return (
     <div>
       <Hero />
       <NowAtKallol next={next} upcoming={upcoming} />
       <Story />
-      <PujaIndex events={all} />
+      <PujaIndex events={all} amavasya={amavasya} />
       <Community />
       <GalleryTeaser />
       <Participate />

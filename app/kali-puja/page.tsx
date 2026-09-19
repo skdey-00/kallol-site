@@ -1,12 +1,22 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+export const metadata = {
+  title: "Kali Puja (Deepawali Amavasya) at Kallol Kali Mandir | Kallol",
+  description: "The Deepawali Amavasya Maha Kali Puja at the mandir that gives Kallol its name — night-long worship of Maa Kali in Goregaon West.",
+}
+
 export default function KaliPujaPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Kali Puja" subtitle="Divine Mother Who Destroys Evil" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja & Events"
+        title="Kali Puja"
+        intro="Divine Mother Who Destroys Evil"
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
@@ -51,13 +61,19 @@ export default function KaliPujaPage() {
                 </thead>
                 <tbody className="text-gray-700">
                   <tr className="border-b border-gray-100">
-                    <td className="py-3">Sunday</td>
+                    <td className="py-3">Sunday (night)</td>
                     <td className="py-3">
-                      <div>Maha Kali Puja - 11:00 PM</div>
-                      <div>Bhog Nivedan and Aarti - 01:00 AM</div>
+                      <div>Puja - 11:00 PM</div>
+                      <div>Bhog Nibedan and Aarti - 01:00 AM</div>
                       <div>Pushpanjali - 01:30 AM</div>
-                      <div>Bhog Prasad distribution - 01:30 AM</div>
-                      <div>Hom - 02:00 AM</div>
+                      <div>Bhog Prasad distribution - 02:00 AM</div>
+                      <div>Hom - 02:30 AM</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3">Tuesday</td>
+                    <td className="py-3">
+                      <div>Annakoot - 11:00 AM</div>
                     </td>
                   </tr>
                 </tbody>
@@ -73,7 +89,8 @@ export default function KaliPujaPage() {
           <CardContent className="p-8">
             <p className="text-center text-gray-700 text-lg italic">
               Kallol cordially invites you with your family and friends to participate in the annual Mahakali Puja
-              on Sunday, November 8, 2026 at 11:00 PM.
+              on Sunday, November 8, 2026 at 11:00 PM, followed by Annakoot on Tuesday, November 10, 2026 at
+              11:00 AM.
             </p>
           </CardContent>
         </Card>

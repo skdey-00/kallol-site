@@ -1,5 +1,5 @@
 ﻿import Link from "next/link"
-import { Reveal } from "./reveal"
+import { Reveal } from "@/components/kallol/reveal"
 
 /**
  * VISIT — the quiet, practical close (Phase 5B).

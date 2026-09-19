@@ -1,14 +1,27 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
+import { NextAmavasyaDate } from "@/components/kallol/next-amavasya-date"
+import { nextAmavasyaEvent } from "@/components/kallol/event-view"
+import { getEvents } from "@/actions/events"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-export default function KaliMandirPage() {
+export const metadata = {
+  title: "Kallol Kali Mandir — Timings, Offerings & Online Puja Booking | Kallol",
+  description: "Daily darshan timings, aarti schedule, offering rates and online puja booking for the Kallol Kali Mandir, Bangur Nagar, Goregaon West, Mumbai.",
+}
+
+export default async function KaliMandirPage() {
+  const events = await getEvents()
+  const nextAmavasya = nextAmavasyaEvent(events)
+
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="About"
         title="Kallol Kali Mandir"
-        subtitle="A Sacred Abode of Shakti in the Heart of Goregaon"
+        intro="A Sacred Abode of Shakti in the Heart of Goregaon"
+        crumbs={[{ label: "About", href: "/about" }]}
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
@@ -41,6 +54,9 @@ export default function KaliMandirPage() {
                 experience the divine aarti, and partake in the traditional Khichdi Bhog served with love and reverence.
                 The atmosphere is charged with devotion, chants, incense, and the quiet strength of collective faith.
               </p>
+              <div className="mt-6">
+                <NextAmavasyaDate target={nextAmavasya} variant="panel" />
+              </div>
             </CardContent>
           </Card>
           <Card className="border-gray-200">

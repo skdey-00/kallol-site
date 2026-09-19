@@ -1,6 +1,8 @@
 import Link from "next/link"
-import { Reveal } from "./reveal"
-import type { EventView } from "./types"
+import { Reveal } from "@/components/kallol/reveal"
+import { NextAmavasyaDate } from "@/components/kallol/next-amavasya-date"
+import type { AmavasyaTarget } from "@/components/kallol/next-amavasya-date"
+import type { EventView } from "@/components/kallol/event-view"
 
 /**
  * PUJA INDEX — the year, indexed (Phase 5B).
@@ -23,6 +25,8 @@ interface PujaEntry {
   note: string
   match: (title: string) => boolean
   fallback?: string
+  /** Amavasya row: the date chip shows the next Amavasya date. */
+  showNextDate?: boolean
 }
 
 const MAJORS: PujaEntry[] = [
@@ -63,6 +67,7 @@ const MINORS: PujaEntry[] = [
     note: "Monthly, every new moon — with Khichdi Bhog",
     match: () => false,
     fallback: "Monthly · every new moon",
+    showNextDate: true,
   },
   {
     title: "Special Pujas",
@@ -82,7 +87,14 @@ function dateFor(events: EventView[], puja: PujaEntry): string {
   return puja.fallback ?? "Date to be announced"
 }
 
-export function PujaIndex({ events }: { events: EventView[] }) {
+export function PujaIndex({
+  events,
+  amavasya,
+}: {
+  events: EventView[]
+  /** Next Amavasya from the store — powers the Amavasya row's date chip. */
+  amavasya?: AmavasyaTarget | null
+}) {
   return (
     <section aria-labelledby="puja-heading" className="bg-ivory">
       <div className="container py-16 md:py-24 lg:py-28">
@@ -180,9 +192,13 @@ export function PujaIndex({ events }: { events: EventView[] }) {
                       {puja.note}
                     </span>
                   </span>
-                  <span className="text-caption uppercase tracking-caps text-ink-mute transition-colors group-hover:text-kallol-700">
-                    {dateFor(events, puja)}
-                  </span>
+                  {puja.showNextDate && amavasya ? (
+                    <NextAmavasyaDate target={amavasya} variant="compact" />
+                  ) : (
+                    <span className="text-caption uppercase tracking-caps text-ink-mute transition-colors group-hover:text-kallol-700">
+                      {dateFor(events, puja)}
+                    </span>
+                  )}
                 </Link>
               </li>
             ))}

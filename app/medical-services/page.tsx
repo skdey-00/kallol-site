@@ -1,11 +1,21 @@
 import Link from "next/link"
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Homeopathy Dispensary — Free Medical Services | Kallol",
+  description: "Free consultations and affordable homeopathic medicines three days a week at Kallol's charitable dispensary in Goregaon West, Mumbai.",
+}
 
 export default function MedicalPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Medical Services" subtitle="Charitable Homeopathic Dispensary" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Community"
+        title="Medical Services"
+        intro="Charitable Homeopathic Dispensary"
+        crumbs={[{ label: "Community", href: "/facilities-services" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-8">
           <div className="grid grid-cols-2 gap-4">

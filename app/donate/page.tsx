@@ -572,7 +572,7 @@ export default function DonatePage() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-kallol-700 hover:bg-kallol-800 text-white py-3 text-lg shadow-md"
+                    className="w-full h-auto min-h-0 whitespace-normal text-center leading-snug bg-kallol-700 hover:bg-kallol-800 text-white py-3 px-4 text-base sm:text-lg shadow-md"
                     disabled={isSubmitting}
                   >
                     {isSubmitting || isRedirecting ? (

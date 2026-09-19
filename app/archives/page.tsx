@@ -1,20 +1,14 @@
 import Link from "next/link"
-import { PageBanner } from "@/components/page-banner"
-import { Card, CardContent } from "@/components/ui/card"
+import { PageHeader } from "@/components/kallol/page-header"
+import { ArchiveList } from "@/components/kallol/archive-list"
+import type { ArchiveEntry } from "@/components/kallol/archive-list"
+import { eventHref } from "@/components/kallol/event-view"
 import { getEvents } from "@/actions/events"
 
 // Past-events archive. Sources only dated events already recorded in
 // data/local-events.json (the committee-published calendar record) —
-// nothing is invented here. Grouped by calendar year, newest first.
-
-const CATEGORY_LABELS: Record<string, string> = {
-  religious: "Puja",
-  cultural: "Cultural",
-  educational: "Educational",
-  community: "Community",
-  "member-meeting": "Member Meeting",
-  "committee-meeting": "Committee Meeting",
-}
+// nothing is invented here. Grouped by calendar year, newest first,
+// rendered with the Phase 6 archive system (ruled rows, serif year).
 
 export const metadata = {
   title: "Past Events & Archives | Kallol Kali Mandir, Goregaon",
@@ -40,92 +34,91 @@ export default async function ArchivesPage() {
   }
   const years = [...byYear.keys()].sort((a, b) => (a < b ? 1 : -1))
 
-  return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner
-        title="Past Events & Archives"
-        subtitle="A record of pujas, festivals and community celebrations at Kallol Kali Mandir"
-      />
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="max-w-3xl mx-auto mb-10">
-          <p className="text-gray-700 leading-relaxed text-justify">
-            Kallol has been celebrating Bengali festivals and serving the community for decades. This
-            page preserves the record of our past pujas and events, drawn from the calendars
-            published by the committee. For what is coming up next, see the{" "}
-            <Link href="/calendar" className="text-kallol-700 font-medium hover:underline">
-              Puja Calendar
-            </Link>{" "}
-            and{" "}
-            <Link href="/upcoming-events" className="text-kallol-700 font-medium hover:underline">
-              Upcoming Events
-            </Link>
-            .
-          </p>
-        </div>
+  const groups = years.map((year) => ({
+    year,
+    events: byYear.get(year)!.map<ArchiveEntry>((event) => ({
+      id: event.id,
+      title: event.title,
+      date: event.date,
+      category: event.category,
+      href: eventHref(event.title),
+    })),
+  }))
 
-        {years.length === 0 && (
-          <Card className="border-gray-200 max-w-2xl mx-auto">
-            <CardContent className="p-8 text-center">
-              <p className="text-gray-700">No past events have been recorded yet.</p>
-            </CardContent>
-          </Card>
+  return (
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja & Events"
+        title="Past Events & Archives"
+        intro="A record of pujas, festivals and community celebrations at Kallol Kali Mandir — the community's history, kept by the calendars the committee published."
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+      />
+
+      <div className="container py-12 md:py-16">
+        {groups.length > 0 ? (
+          <ArchiveList groups={groups} />
+        ) : (
+          <div className="max-w-2xl">
+            <p className="text-ink-soft leading-relaxed">
+              No past events have been recorded yet. Pujas and observances are
+              added to the calendar as the committee announces them — see the{" "}
+              <Link href="/calendar" className="link-editorial text-kallol-700">
+                Puja Calendar
+              </Link>{" "}
+              for what is coming up.
+            </p>
+          </div>
         )}
 
-        <div className="space-y-12">
-          {years.map((year) => (
-            <section key={year}>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-6">{year}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {byYear.get(year)!.map((event) => (
-                  <Card key={event.id} className="border-gray-200 flex flex-col">
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-kallol-700">{event.date}</span>
-                        <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 capitalize">
-                          {CATEGORY_LABELS[event.category] ?? event.category}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
-                      <p className="text-gray-700 text-sm flex-grow">{event.description}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          ))}
+        {/* Cross-navigation — where the record continues */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-stone-line pt-8">
+          <Link
+            href="/calendar"
+            className="link-editorial text-sm font-semibold text-kallol-700 hover:text-kallol-800"
+          >
+            Puja calendar
+          </Link>
+          <Link
+            href="/upcoming-events"
+            className="link-editorial text-sm font-semibold text-kallol-700 hover:text-kallol-800"
+          >
+            Upcoming events
+          </Link>
+          <Link
+            href="/photos"
+            className="link-editorial text-sm font-semibold text-kallol-700 hover:text-kallol-800"
+          >
+            Photographs
+          </Link>
         </div>
 
         {/* Historical highlights already preserved as dedicated pages */}
         <section className="mt-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-6">
-            Historical <span className="text-kallol-700">Highlights</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Link href="/medical-camp" className="group">
-              <Card className="border-gray-200 overflow-hidden h-full hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-6">
-                  <span className="text-sm font-medium text-kallol-700">2025</span>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-kallol-700 transition-colors">
-                    Free Medical Camp
-                  </h3>
-                  <p className="text-gray-700 text-sm">
-                    A community health initiative held at the Kallol campus — preserved here as a
-                    record of Kallol&apos;s service to the neighbourhood.
-                  </p>
-                </CardContent>
-              </Card>
+          <h2 className="section-eyebrow">Preserved in full</h2>
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <Link
+              href="/medical-camp"
+              className="group card-kallol p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory"
+            >
+              <span className="meta-label text-kallol-700">2025 · Community</span>
+              <h3 className="mt-2 font-display text-h3 text-ink transition-colors group-hover:text-kallol-700">
+                Free Medical Camp
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                A community health initiative held at the Kallol campus —
+                preserved here as a record of Kallol&rsquo;s service to the
+                neighbourhood.
+              </p>
             </Link>
-            <Card className="border-gray-200">
-              <CardContent className="p-6">
-                <span className="text-sm font-medium text-kallol-700">[VERIFY WITH KALLOL]</span>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Earlier Years</h3>
-                <p className="text-gray-700 text-sm">
-                  Records of previous years&apos; Durga Puja, Kali Puja and cultural programmes
-                  [CONTENT REQUIRED — photographs, dates and programme details from the committee
-                  archives].
-                </p>
-              </CardContent>
-            </Card>
+            <div className="card-kallol p-6">
+              <span className="meta-label">[VERIFY WITH KALLOL]</span>
+              <h3 className="mt-2 font-display text-h3 text-ink">Earlier Years</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                Records of previous years&rsquo; Durga Puja, Kali Puja and
+                cultural programmes [CONTENT REQUIRED — photographs, dates and
+                programme details from the committee archives].
+              </p>
+            </div>
           </div>
         </section>
       </div>

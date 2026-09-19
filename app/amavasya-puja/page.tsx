@@ -1,14 +1,28 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
+import { NextAmavasyaDate } from "@/components/kallol/next-amavasya-date"
+import { nextAmavasyaEvent } from "@/components/kallol/event-view"
+import { getEvents } from "@/actions/events"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-export default function AmavasyaPujaPage() {
+export const metadata = {
+  title: "Amavasya Puja — Monthly New Moon Puja | Kallol Kali Mandir",
+  description:
+    "Monthly Amavasya Puja at Kallol Kali Mandir, Bangur Nagar — every new moon night, with Khichdi Bhog. See the date of the next Amavasya Puja.",
+}
+
+export default async function AmavasyaPujaPage() {
+  const events = await getEvents()
+  const next = nextAmavasyaEvent(events)
+
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja & Events"
         title="Amavasya Puja"
-        subtitle="New Moon Devotion & Khichdi Bhog"
+        intro="New Moon Devotion & Khichdi Bhog"
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
@@ -32,6 +46,8 @@ export default function AmavasyaPujaPage() {
             </Button>
           </div>
         </div>
+
+        <NextAmavasyaDate target={next} variant="band" className="mb-12" />
 
         <Card className="border-gray-200 bg-gradient-to-r from-kallol-50 to-gray-50">
           <CardContent className="p-8">

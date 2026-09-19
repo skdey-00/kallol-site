@@ -12,6 +12,11 @@ import { Button } from "@/components/ui/button"
 import { getDonationById } from "@/actions/donations"
 import { ReceiptDownload } from "@/app/donate/thank-you/ReceiptDownload"
 
+export const metadata = {
+  title: "Thank You for Your Order | Kallol",
+  description: "Order confirmation for puja offerings from Kallol Kali Mandir, Goregaon West, Mumbai.",
+}
+
 interface ThankYouPageProps {
   searchParams: Promise<{ id?: string; error?: string }>
 }

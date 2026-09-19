@@ -140,11 +140,29 @@
   .field-input {
     @apply w-full bg-ivory-raised border border-stone-line rounded-md px-3.5 py-2.5 text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-kallol-600/60 focus:border-kallol-600 transition-colors;
   }
+  /* Validation states — pair with aria-invalid on the input and
+     aria-describedby pointing at the message id. Presentation only;
+     validation logic stays with each form's existing handler. */
+  .field-input[aria-invalid="true"] {
+    @apply border-kallol-600 border-2;
+  }
+  .field-error {
+    @apply mt-1.5 flex items-start gap-1.5 text-sm text-kallol-700;
+  }
+  .field-help {
+    @apply mt-1.5 text-sm text-ink-mute;
+  }
 
   /* ---- Cards ---- */
   /* Editorial card: border + whitespace first, minimal shadow */
   .card-kallol {
     @apply bg-ivory-raised border border-stone-line rounded-md overflow-hidden transition-shadow duration-300 ease-calm hover:shadow-raised;
+  }
+
+  /* ---- Metadata ---- */
+  /* Small uppercase tracked label — dates, categories, venues */
+  .meta-label {
+    @apply font-sans text-caption uppercase tracking-caps text-ink-mute;
   }
 
   /* ---- Section header ---- */
@@ -239,6 +257,20 @@
     animation-delay: var(--reveal-delay, 0ms);
   }
 
+  /* Mobile menu slide-down — the navbar's panel transitions max-height
+     via inline style; this handles opacity. Reduced-motion collapses it. */
+  .menu-enter {
+    animation: menu-rise 300ms var(--kallol-ease) both;
+  }
+  @keyframes menu-rise {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Editorial link: underline sweep (background-size trick) */
   .link-editorial {
     background-image: linear-gradient(currentColor, currentColor);
@@ -259,6 +291,32 @@
   }
   .group:hover .img-breathe {
     transform: scale(1.02);
+  }
+
+  /* ============================================
+     MOBILE COMFORT (added mobile-optimization pass)
+     Touch ergonomics that must NOT disturb the
+     desktop composition: applied only below md,
+     only to quiet editorial links (small caps
+     text links ~20px tall) so a thumb can hit
+     them. Padding is transparent to layout flow
+     inside flex/normal blocks; line-height stays.
+     ============================================ */
+  @media (max-width: 767px) {
+    a.link-editorial {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      margin-top: -0.75rem;
+      margin-bottom: -0.75rem;
+    }
+    /* iOS/Safari auto-zoom guard: any control under 16px font zooms the
+       viewport on focus. Enforce 16px on touch phones only — desktop keeps
+       the finer caption-size controls. */
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    select,
+    textarea {
+      font-size: max(1rem, 0.875rem);
+    }
   }
 
   /* ============================================

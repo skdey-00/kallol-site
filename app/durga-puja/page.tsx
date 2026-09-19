@@ -1,12 +1,22 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+export const metadata = {
+  title: "Durga Puja in Goregaon West — Maha Sashti to Vijaya Dashami | Kallol",
+  description: "Kallol's Durga Puja: six days of dhaak, dhunuchi naach, Sandhi Puja and Khichdi Bhog at Bangur Nagar, Goregaon West, Mumbai.",
+}
+
 export default function DurgaPujaPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Durga Puja" subtitle="Dhunuchi Naach in Goregaon" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja & Events"
+        title="Durga Puja"
+        intro="Dhunuchi Naach in Goregaon"
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
@@ -41,18 +51,37 @@ export default function DurgaPujaPage() {
                   book specific rituals to be performed in their name and Gotra.
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Special bhog packets can be collected from the Kallol campus between 1:00 PM and 3:00 PM.
+                  Special bhog may be collected from the Kallol grounds between 1:00 PM and 3:00 PM.
                 </p>
               </div>
               <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
-                <h4 className="font-bold text-kallol-700 mb-3">Puja Schedule 2026</h4>
-                <div className="space-y-2 text-sm text-gray-700">
-                  <p><strong>Maha Sashti — Oct 16 (Fri):</strong> Kalparambha in the morning; Bodhan, Amantran &amp; Adhibas in the evening</p>
-                  <p><strong>Maha Saptami — Oct 17 (Sat):</strong> Maha Saptami Puja</p>
-                  <p><strong>Maha Ashtami — Oct 18 (Sun):</strong> Maha Ashtami Puja</p>
-                  <p><strong>Sandhi Puja — Oct 19 (Mon):</strong> 7:26 AM to 8:14 AM</p>
-                  <p><strong>Maha Navami — Oct 20 (Tue):</strong> Puja, Kumari Puja &amp; Hom</p>
-                  <p><strong>Vijaya Dashami — Oct 21 (Wed):</strong> Darpan Visarjan &amp; Sindoor Utsav</p>
+                <h4 className="font-bold text-kallol-700 mb-1">Puja Schedule 2026</h4>
+                <p className="text-xs text-kallol-700 italic mb-4">Durgotsab 2026 — Debir Ghotoke Agaman, Debir Noukaye Gaman</p>
+                <div className="space-y-4 text-sm text-gray-700">
+                  <div>
+                    <p className="font-bold text-[#44233b]">Sri Sri Durga Shashti — Friday, 16th Oct 2026 (28th Ashwin)</p>
+                    <p>Kalparambh &amp; Shashti Puja 10:00 AM · Bodhon, Amantran &amp; Adhibash 6:00 PM · Agomoni Sangeet 8:00 PM</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#44233b]">Saptami — Saturday, 17th Oct 2026 (29th Ashwin)</p>
+                    <p>Nabapatrika Prabesh 7:00 AM · Saptami Puja 8:00 AM · Pushpanjali 10:30 AM · Bhog Nibedan &amp; Aarti 11:30 AM · Bhog Prasad 1:00 PM · Sandhya Aarti 8:00 PM</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#44233b]">Maha Ashtami — Sunday, 18th Oct 2026 (30th Ashwin)</p>
+                    <p>Ashtami Puja 9:00 AM · Pushpanjali 10:30 AM · Bhog Nibedan &amp; Aarti 11:30 AM · Bhog Prasad 1:00 PM · Sandhya Aarti 8:00 PM</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#44233b]">Maha Ashtami (Adhik Diba) — Monday, 19th Oct 2026 (1st Kartik)</p>
+                    <p>Sandhi Puja 7:26 AM – 8:14 AM · Ashtami Adhik Puja 9:00 AM · Pushpanjali 10:30 AM · Bhog Nibedan &amp; Aarti 11:30 AM · Bhog Prasad 1:00 PM · Sandhya Aarti 8:00 PM</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#44233b]">Maha Nabami — Tuesday, 20th Oct 2026 (2nd Kartik)</p>
+                    <p>Nabami Puja 7:00 AM · Kumari Puja 8:00 AM · Pushpanjali 9:00 AM · Bhog Nibedan &amp; Aarti 9:30 AM · Bhog Prasad 1:00 PM · Hom 2:00 PM · Sandhya Aarti 8:00 PM</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#44233b]">Dashami — Wednesday, 21st Oct 2026 (3rd Kartik)</p>
+                    <p>Dashami Puja 9:00 AM · Pushpanjali 10:00 AM · Darpan Bisarjan 10:30 AM · Sindoor Utsab 11:45 AM · Kanakanjali 4:00 PM · Bisarjan Procession 5:00 PM · Shantijal &amp; Bijoya Sammelan 10:00 PM</p>
+                  </div>
                 </div>
                 <p className="text-xs text-gray-500 mt-3">
                   As per the Calendar of Events, Bengali Year (Bangabda) 1433.
@@ -69,8 +98,7 @@ export default function DurgaPujaPage() {
           <CardContent className="p-8">
             <p className="text-center text-gray-700 text-lg italic">
               Kallol cordially invites you with your family and friends to participate in the annual Durga Puja
-              celebrations from October 16 to October 21, 2026. Darpan Visarjan &amp; Sindoor Utsav on Vijaya Dashami,
-              October 21.
+              celebrations from October 16 to October 21.
             </p>
           </CardContent>
         </Card>

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Reveal } from "./reveal"
+import { Reveal } from "@/components/kallol/reveal"
 
 /**
  * GALLERY — visual memory, not a uniform grid (Phase 5B).

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Reveal } from "./reveal"
+import { Reveal } from "@/components/kallol/reveal"
 
 /**
  * COMMUNITY — "More than a mandir" (Phase 5B).

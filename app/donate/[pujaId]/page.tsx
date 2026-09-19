@@ -324,7 +324,7 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
                         <span className="text-sm">₹{item.amount.toLocaleString("en-IN")}</span>
                         {item.date && (
                           <span className="text-xs text-gray-400 mt-1">
-                            ({new Date(item.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })})
+                            ({new Date(item.date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })})
                           </span>
                         )}
                       </Button>
@@ -354,6 +354,7 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
                             <span className="ml-2 text-gray-600">
                               (
                               {new Date(item.date).toLocaleDateString("en-US", {
+                                weekday: "short",
                                 month: "short",
                                 day: "numeric",
                                 year: "numeric",
@@ -657,7 +658,7 @@ export default function PujaDonatePage({ params }: PujaPageProps) {
 
                   <Button
                     type="submit"
-                    className="w-full bg-kallol-700 hover:bg-kallol-800 text-white py-3 text-lg shadow-md"
+                    className="w-full h-auto min-h-0 whitespace-normal text-center leading-snug bg-kallol-700 hover:bg-kallol-800 text-white py-3 px-4 text-base sm:text-lg shadow-md"
                     disabled={
                       isSubmitting ||
                       isRedirecting ||

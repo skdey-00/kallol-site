@@ -1,4 +1,6 @@
 import type { CalendarEvent } from "@/lib/events-store"
+import type { EventView } from "@/components/kallol/event-view"
+import { eventHref } from "@/components/kallol/event-view"
 
 /**
  * Homepage event-view derivation — ONE SOURCE OF TRUTH.
@@ -39,28 +41,12 @@ function rangeLabel(events: CalendarEvent[]): string | null {
   return `${fd} ${MONTHS[fm - 1]} \u2013 ${ld} ${MONTHS[lm - 1]} ${y}`
 }
 
-/** Routes an event title to its Phase 4 destination page. */
-function eventHref(title: string): string {
-  const t = title.toLowerCase()
-  if (t.includes("durga")) return "/durga-puja"
-  if (t.includes("kali")) return "/kali-puja"
-  if (t.includes("laxmi") || t.includes("lakshmi")) return "/lakshmi-puja"
-  if (t.includes("saraswati")) return "/saraswati-puja"
-  if (t.includes("amavasya")) return "/amavasya-puja"
-  if (t.includes("shanidev")) return "/special-puja"
-  if (t.includes("satyanarayan")) return "/special-puja"
-  if (t.includes("poila") || t.includes("baisakh") || t.includes("boishakh")) return "/poila-baishak"
-  if (t.includes("rabindra") || t.includes("tagore")) return "/rabindranath-tagore-birthday"
-  if (t.includes("bipattarini")) return "/special-puja"
-  return "/upcoming-events"
-}
-
 /** Display title for a collapsed festival run (drops day suffixes). */
 function baseTitle(title: string): string {
   return title
     .replace(/\s*\(.*?\)\s*$/, "")
     .replace(
-      /\s*-\s*(Maha|Sandhi|Kalparambha|Bodhan|Amantran|Adhibas|Darpan|Sindoor|Sindur|Kumari|Hom|Vijaya|Dashami|Sashti|Saptami|Ashtami|Navami|Nabami).*$/i,
+      /\s*-\s*(Maha|Adhik|Sandhi|Kalparambha|Bodhan|Amantran|Adhibas|Darpan|Sindoor|Sindur|Kumari|Hom|Vijaya|Dashami|Sashti|Saptami|Ashtami|Navami|Nabami).*$/i,
       "",
     )
     .trim()
@@ -96,16 +82,6 @@ function collapseFestivalRuns(events: CalendarEvent[]): Array<{ event: CalendarE
     }
   }
   return collapsed.sort((a, b) => (a.event.date < b.event.date ? -1 : 1))
-}
-
-export interface EventView {
-  id: string
-  title: string
-  dateLabel: string
-  time: string
-  location: string
-  href: string
-  sortKey: string
 }
 
 export interface HomepageEvents {

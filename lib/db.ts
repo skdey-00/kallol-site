@@ -4,6 +4,13 @@ import { ensureMigrations } from "@/lib/migrations"
 let pool: Pool | null = null
 
 /**
+ * Query result with caller-defined row type. pg's own QueryResult<T>
+ * only accepts types with an index signature, which interfaces like
+ * DonationRecord don't have — this shape restores that freedom.
+ */
+export type RowResult<T> = Omit<QueryResult, "rows"> & { rows: T[] }
+
+/**
  * Get or create PostgreSQL connection pool
  */
 export function getPool(): Pool {
@@ -21,7 +28,7 @@ export function getPool(): Pool {
     })
 
     // Handle pool errors
-    pool.on("error", (err) => {
+    pool.on("error", (err: Error) => {
       console.error("Unexpected error on idle client", err)
       process.exit(-1)
     })
@@ -32,18 +39,20 @@ export function getPool(): Pool {
 /**
  * Execute a SQL query
  */
-export async function query<T = any>(text: string, params?: any[]): Promise<QueryResult<T>> {
+export async function query<T = any>(text: string, params?: any[]): Promise<RowResult<T>> {
   // Idempotent runtime migrations run once per process before the first query.
   await ensureMigrations()
   return executeQuery<T>(text, params)
 }
 
-/** Executes a query without triggering migrations (used by migrations themselves). */
-export async function executeQuery<T = any>(text: string, params?: any[]): Promise<QueryResult<T>> {
+/**
+ * Executes a query without triggering migrations (used by migrations themselves).
+ */
+export async function executeQuery<T = any>(text: string, params?: any[]): Promise<RowResult<T>> {
   const start = Date.now()
   try {
     const pool = getPool()
-    const res = await pool.query<T>(text, params)
+    const res = (await pool.query(text, params)) as RowResult<T>
     const duration = Date.now() - start
     console.log("Executed query", { text, duration, rows: res.rowCount })
     return res

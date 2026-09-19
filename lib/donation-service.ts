@@ -148,7 +148,8 @@ export async function buildQrCode(
  */
 export async function generateDonationReceiptPdf(donation: DonationRecord, qrCodeDataUrl?: string): Promise<string> {
   const pdfDoc = await PDFDocument.create()
-  const page = pdfDoc.addPage(PageSizes.A4_LANDSCAPE)
+  // pdf-lib has no A4_LANDSCAPE preset — build it from A4 portrait dims.
+  const page = pdfDoc.addPage([PageSizes.A4[1], PageSizes.A4[0]])
 
   let logoImageBytes: ArrayBuffer | undefined
   try {
@@ -279,7 +280,7 @@ export async function generateDonationReceiptPdf(donation: DonationRecord, qrCod
       const itemText =
         `- ${item.purpose} (${item.category}): Rs.${item.amount}` +
         (item.quantity ? ` x ${item.quantity}` : "") +
-        (item.date ? ` (Date: ${new Date(item.date).toLocaleDateString()})` : "")
+        (item.date ? ` (Date: ${new Date(item.date).toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", year: "numeric" })})` : "")
       page.drawText(itemText, {
         x: margin + 10,
         y: y,

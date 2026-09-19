@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Heart, Users, Calendar, MapPin, BookOpen, Stethoscope } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
@@ -44,31 +45,14 @@ export default function AboutPage() {
   ]
 
   return (
-    <main className="min-h-screen pt-20 pb-16 px-4 md:px-6 lg:px-8 bg-gray-50">
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="About"
+        title="About Kallol"
+        intro="A Bengali social and cultural organization in Goregaon West — grown from a Saraswati Puja into a mandir, a dispensary, a library, and a community."
+        crumbs={[{ label: "About", href: "/about" }]}
+      />
       <div className="container mx-auto">
-        {/* Page Banner */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <div className="relative h-48 md:h-64 w-full max-w-4xl mx-auto rounded-lg overflow-hidden shadow-lg mb-8">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/kali-mandir-banner1-dc6a1673.png"
-              alt="Kallol Kali Mandir"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#44233b]/80 to-transparent flex items-end justify-center pb-6">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
-                About Kallol
-              </h1>
-            </div>
-          </div>
-        </motion.div>
-
         {/* About Content */}
         <motion.div
           initial="hidden"

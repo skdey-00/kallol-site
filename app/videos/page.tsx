@@ -1,10 +1,20 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Videos — Mandir, Pujas & Community Events | Kallol",
+  description: "Watch videos from Kallol Kali Mandir: pujas, festivals and community life in Goregaon West, Mumbai.",
+}
 
 export default function VideosPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Videos" subtitle="Watch Kallol Kali Mandir celebrations and events" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Gallery"
+        title="Videos"
+        intro="Watch Kallol Kali Mandir celebrations and events"
+        crumbs={[{ label: "Photos", href: "/photos" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <Card className="border-gray-200">
           <CardContent className="p-12 text-center">

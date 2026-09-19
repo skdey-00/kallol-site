@@ -54,7 +54,10 @@ export default function ClientLayout({
   }, [pathname])
 
   return (
-    <html lang="en">
+    /* suppressHydrationWarning: the inline script below adds `.js` to <html>
+       before hydration (gates reveal styles). React would otherwise flag the
+       class as a server/client mismatch. Same pattern as next-themes. */
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Mark JS availability before paint so scroll-reveal styles
             start hidden only when the observer can un-hide them.

@@ -1,12 +1,22 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+export const metadata = {
+  title: "Saraswati Puja — Basanta Panchami | Kallol Kali Mandir",
+  description: "The Saraswati Puja Kallol was born of — Basanta Panchami worship of the Goddess of learning, music and arts in Goregaon West, Mumbai.",
+}
+
 export default function SaraswatiPujaPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Saraswati Puja" subtitle="Honoring the Goddess of Wisdom" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja & Events"
+        title="Saraswati Puja"
+        intro="Honoring the Goddess of Wisdom"
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">

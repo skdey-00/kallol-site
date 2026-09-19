@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button"
 import { getDonationById } from "@/actions/donations"
 import { ReceiptDownload } from "./ReceiptDownload"
 
+export const metadata = {
+  title: "Donation Received — Thank You | Kallol",
+  description: "Thank you for your donation to Kallol Kali Mandir and the Kallol community, Goregaon West, Mumbai.",
+}
+
 interface ThankYouPageProps {
   searchParams: Promise<{ id?: string; error?: string }>
 }

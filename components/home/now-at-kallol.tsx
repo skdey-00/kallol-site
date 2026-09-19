@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { Reveal } from "./reveal"
-import type { EventView } from "./types"
+import { Reveal } from "@/components/kallol/reveal"
+import type { EventView } from "@/components/kallol/event-view"
 
 /**
  * NOW AT KALLOL — the cover story (Phase 5B).

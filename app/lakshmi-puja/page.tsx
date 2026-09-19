@@ -1,12 +1,22 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+export const metadata = {
+  title: "Lakshmi Puja — Kojagari Purnima | Kallol Kali Mandir",
+  description: "Kojagari Purnima Lakshmi Puja at Kallol Kali Mandir, Goregaon West — the full-moon worship of Maa Lakshmi.",
+}
+
 export default function LakshmiPujaPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Lakshmi Puja" subtitle="Illumination & Prosperity Unfold" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja & Events"
+        title="Lakshmi Puja"
+        intro="Illumination & Prosperity Unfold"
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
@@ -49,11 +59,11 @@ export default function LakshmiPujaPage() {
                   <tr>
                     <td className="py-3">Sunday</td>
                     <td className="py-3">
-                      <div>Kojagari Laxmi Puja - 08:00 PM</div>
-                      <div>Pushpanjali - 09:30 PM</div>
-                      <div>Bhog Nivedan and Aarti - 10:00 PM</div>
+                      <div>Lakshmi Puja - 08:00 PM</div>
+                      <div>Pushpanjali - 09:00 PM</div>
+                      <div>Bhog Nibedan and Aarti - 09:30 PM</div>
+                      <div>Bhog Prasad distribution - 10:00 PM</div>
                       <div>Hom - 10:30 PM</div>
-                      <div>Bhog Prasad distribution - 11:00 PM</div>
                     </td>
                   </tr>
                 </tbody>

@@ -1,10 +1,20 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Poila Boishakh — Bengali New Year | Kallol, Goregaon",
+  description: "Celebrate Poila Boishakh at Kallol: Dashopachar and Satyanarayan Puja, cultural programme and authentic Bengali cuisine in Goregaon West.",
+}
 
 export default function PoilaBaishakPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Poila Baishak" subtitle="Bengali New Year Celebration" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Cultural Events"
+        title="Poila Baishak"
+        intro="Bengali New Year Celebration"
+        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">

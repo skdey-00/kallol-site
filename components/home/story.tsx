@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Reveal } from "./reveal"
+import { Reveal } from "@/components/kallol/reveal"
 
 /**
  * THE KALLOL STORY — editorial feature moment (Phase 5B).
