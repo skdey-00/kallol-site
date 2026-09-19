@@ -24,4 +24,8 @@ docker save "$IMAGE" | gzip | ssh "$SERVER" 'docker load'
 echo "==> Restarting containers on $SERVER"
 ssh "$SERVER" "cd $REMOTE_DIR && docker compose up -d --no-build"
 
+# The previously deployed image is now dangling; remove it (server disk is tight)
+echo "==> Pruning old images on $SERVER"
+ssh "$SERVER" 'docker image prune -f >/dev/null 2>&1 || true'
+
 echo "==> Done. Deployed $IMAGE to $SERVER"
