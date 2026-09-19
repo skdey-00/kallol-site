@@ -1,19 +1,19 @@
 # ---- deps stage ----
+# npm, not pnpm: package-lock.json is the project's real lockfile
+# (pnpm-lock.yaml is stale — still lists supabase-js, missing pg)
 FROM node:22-alpine AS deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml* ./
-RUN npm install -g pnpm@9 && pnpm install
+COPY package.json package-lock.json ./
+# --legacy-peer-deps is required: react-day-picker@8 wants date-fns ^2||^3
+# but the project pins date-fns@4 (v0 template quirk; matches local installs)
+RUN --mount=type=cache,id=npm,target=/root/.npm \
+    npm ci --legacy-peer-deps
 
 # ---- builder stage ----
 FROM node:22-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# Build-time env vars (NEXT_PUBLIC_*) can be passed via --build-arg if needed
-ARG NEXT_PUBLIC_SUPABASE_URL
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
-ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
 ENV CI=true
 RUN npx next build
 
