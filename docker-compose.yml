@@ -19,12 +19,13 @@ services:
       retries: 5
 
   kallol-site:
+    # Built locally and shipped to the server via scripts/deploy.sh; on the
+    # server use `docker compose pull`-less flow: load the image, then
+    # `docker compose up -d --no-build`.
+    image: kallol-site:latest
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        # Inside the compose network postgres listens on 5432; 5434 is only the host-mapped port
-        DATABASE_URL: postgresql://kallol:kallol_password@postgres:5432/kallol_db
     ports:
       - "3007:3000"
     environment:
