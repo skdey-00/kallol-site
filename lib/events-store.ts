@@ -14,81 +14,17 @@ export interface CalendarEvent {
 const DATA_DIR = path.join(process.cwd(), "data")
 const EVENTS_FILE = path.join(DATA_DIR, "local-events.json")
 
-// Seed data -- used the first time the file is created
-const SEED_EVENTS: CalendarEvent[] = [
-  {
-    id: "evt-001",
-    title: "Kali Puja Celebration",
-    date: "2025-11-12",
-    time: "6:00 PM - 10:00 PM",
-    location: "Kali Mandir, Bangur Nagar",
-    category: "religious",
-    description: "Grand celebration of Kali Puja with traditional rituals and cultural performances.",
-  },
-  {
-    id: "evt-002",
-    title: "Bengali Cultural Night",
-    date: "2025-10-25",
-    time: "7:00 PM - 11:00 PM",
-    location: "Kali Mandir Community Hall",
-    category: "cultural",
-    description: "Evening of Bengali music, dance, and poetry.",
-  },
-  {
-    id: "evt-003",
-    title: "Durga Puja",
-    date: "2025-10-10",
-    time: "All Day",
-    location: "Kali Mandir, Bangur Nagar",
-    category: "religious",
-    description: "Five-day celebration of Goddess Durga with elaborate decorations and rituals.",
-  },
-  {
-    id: "evt-004",
-    title: "Saraswati Puja",
-    date: "2026-02-14",
-    time: "10:00 AM - 2:00 PM",
-    location: "Kali Mandir, Bangur Nagar",
-    category: "religious",
-    description: "Worship of Goddess Saraswati, deity of knowledge and arts.",
-  },
-  {
-    id: "evt-005",
-    title: "Poila Boishakh (Bengali New Year)",
-    date: "2025-04-14",
-    time: "9:00 AM - 6:00 PM",
-    location: "Kali Mandir Community Hall",
-    category: "cultural",
-    description: "Celebration of Bengali New Year with traditional food and performances.",
-  },
-  {
-    id: "evt-006",
-    title: "Rabindra Jayanti",
-    date: "2025-05-09",
-    time: "5:00 PM - 9:00 PM",
-    location: "Kallol Auditorium",
-    category: "cultural",
-    description: "Commemoration of Rabindranath Tagore's birth anniversary.",
-  },
-  {
-    id: "evt-007",
-    title: "Bengali Language Workshop",
-    date: "2025-09-18",
-    time: "10:00 AM - 1:00 PM",
-    location: "Kallol Learning Center",
-    category: "educational",
-    description: "Learn Bengali language basics with experienced instructors.",
-  },
-  {
-    id: "evt-008",
-    title: "Community Meeting",
-    date: "2025-08-30",
-    time: "5:00 PM - 7:00 PM",
-    location: "Kali Mandir Meeting Room",
-    category: "community",
-    description: "Monthly community meeting to discuss upcoming events and initiatives.",
-  },
-]
+// Seed data -- used the first time the file is created.
+// NOTE(archive): the Apr 2025 - Apr 2026 puja calendar published by Kallol has
+// fully passed, so its dated events were removed from the live schedule so the
+// site no longer shows past pujas as current. Historical reference for that
+// calendar: Kali Puja (Deepavali Amavasya) 2025-10-20, Durga Puja Maha Navami
+// 2025-10-01, Vijaya Dashami 2025-10-02, Kojagari Lakshmi Puja 2025-10-06,
+// Saraswati Puja 2026-01-23, Dol Purnima 2026-03-03, plus monthly Amavasya,
+// Shanidev and other pujas (see site-data/pages.json for the full archive).
+// When the committee publishes the next calendar, add the new dated events here
+// or via the admin interface -- do NOT guess festival dates.
+const SEED_EVENTS: CalendarEvent[] = []
 
 function ensureDataFile(): void {
   if (!fs.existsSync(DATA_DIR)) {

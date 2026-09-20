@@ -1,10 +1,20 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Special Puja Services — Satyanarayan, Shanidev, Bipattarini | Kallol",
+  description: "Book special pujas at Kallol Kali Mandir: Satyanarayan Puja, Shree Shree Shanidev Puja, Bipattarini and more in Goregaon West, Mumbai.",
+}
 
 export default function SpecialPujaPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Special Puja Services" subtitle="Various Special Pujas at Kallol Kali Mandir" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Puja"
+        title="Special Puja Services"
+        intro="Various Special Pujas at Kallol Kali Mandir"
+        crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="border-gray-200 overflow-hidden">

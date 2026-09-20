@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -75,8 +75,12 @@ export default function PhotosPage() {
   const nextPhoto = () => setLightboxIndex((prev) => (prev !== null ? (prev + 1) % photos.length : null))
 
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Photos" subtitle="Gallery of Kallol Kali Mandir" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Gallery"
+        title="Photos"
+        intro="Gallery of Kallol Kali Mandir"
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {photos.map((photo, index) => (

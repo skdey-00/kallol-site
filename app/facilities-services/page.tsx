@@ -1,10 +1,18 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Facilities & Hall Booking | Kallol, Goregaon West",
+  description: "Book Kallol's air-conditioned conference hall and campus for family functions, seminars and events in Goregaon West, Mumbai.",
+}
 
 export default function FacilitiesPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Facilities & Services" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Community"
+        title="Facilities & Services"
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-4xl mx-auto space-y-6 mb-12">
           <p className="text-gray-700 leading-relaxed text-lg text-justify">

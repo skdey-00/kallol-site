@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button"
 import { getDonationById } from "@/actions/donations"
 import { ReceiptDownload } from "./ReceiptDownload"
 
+export const metadata = {
+  title: "Donation Received — Thank You | Kallol",
+  description: "Thank you for your donation to Kallol Kali Mandir and the Kallol community, Goregaon West, Mumbai.",
+}
+
 interface ThankYouPageProps {
   searchParams: Promise<{ id?: string; error?: string }>
 }
@@ -71,7 +76,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Payment Unsuccessful</h1>
                 <p className="text-gray-700 mb-6">
                   Unfortunately your online payment did not go through. No amount has been charged. You can try again
-                  or donate via UPI or Paytm.
+                  or donate via UPI.
                 </p>
                 <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
                   <Link href="/donate">

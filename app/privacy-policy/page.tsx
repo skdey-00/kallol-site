@@ -1,10 +1,18 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Privacy Policy | Kallol",
+  description: "How Kallol Kali Mandir collects, uses and protects your information across donations, bookings and this website.",
+}
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Privacy Policy" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Legal"
+        title="Privacy Policy"
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-4xl mx-auto">
           <Card className="border-gray-200">

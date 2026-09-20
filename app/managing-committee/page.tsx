@@ -1,7 +1,16 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 
+export const metadata = {
+  title: "Managing Committee | Kallol, Goregaon West",
+  description: "The elected managing committee of Kallol, the Bengali cultural and religious community behind the Kallol Kali Mandir in Goregaon.",
+}
+
 export default function CommitteePage() {
+  // TODO(site-admin): verify this committee roster against the latest Kallol
+  // committee list and update names/positions/contacts if a new committee has
+  // taken office. No newer roster exists in this repository, so the existing
+  // verified list is intentionally left unchanged (do not invent members).
   const members = [
     { name: "Mr. Pranab Karmakar", position: "Honorable Secretary", contact: "9821086390" },
     { name: "Mr. Ashish Datta", position: "Honorable President", contact: "9920860491" },
@@ -20,8 +29,12 @@ export default function CommitteePage() {
   ]
 
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Managing Committee" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="About"
+        title="Managing Committee"
+        crumbs={[{ label: "About", href: "/about" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <Card className="border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">

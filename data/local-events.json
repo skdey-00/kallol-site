@@ -250,5 +250,329 @@
     "location": "Kallol Kali Mandir, Bangur Nagar",
     "category": "religious",
     "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog."
+  },
+  {
+    "id": "evt-101",
+    "title": "Mahalaya Amavasya Puja",
+    "date": "2026-10-10",
+    "time": "09:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Mahalaya Amavasya Puja at 9:00 PM. (Bangiya: 22 Aashwin)"
+  },
+  {
+    "id": "evt-102",
+    "title": "Durga Puja - Maha Sashti",
+    "date": "2026-10-16",
+    "time": "10:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Durgotsab 2026 - Debir Ghotoke Agaman, Debir Noukaye Gaman. Kalparambh & Shashti Puja 10:00 AM; Bodhon, Amantran & Adhibash 6:00 PM; Agomoni Sangeet 8:00 PM. (Bangiya: 28 Aashwin)"
+  },
+  {
+    "id": "evt-103",
+    "title": "Durga Puja - Maha Saptami",
+    "date": "2026-10-17",
+    "time": "07:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Nabapatrika Prabesh 7:00 AM; Saptami Puja 8:00 AM; Pushpanjali 10:30 AM; Bhog Nibedan & Aarti 11:30 AM; Bhog Prasad distribution 1:00 PM; Sandhya Aarti 8:00 PM. (Bangiya: 29 Aashwin)"
+  },
+  {
+    "id": "evt-104",
+    "title": "Durga Puja - Maha Ashtami",
+    "date": "2026-10-18",
+    "time": "09:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Ashtami Puja 9:00 AM; Pushpanjali 10:30 AM; Bhog Nibedan & Aarti 11:30 AM; Bhog Prasad distribution 1:00 PM; Sandhya Aarti 8:00 PM. (Bangiya: 30 Aashwin)"
+  },
+  {
+    "id": "evt-105",
+    "title": "Durga Puja - Adhik Ashtami & Sandhi Puja",
+    "date": "2026-10-19",
+    "time": "07:26 AM to 8:14 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Sandhi Puja Arambha 7:26 AM, Samapan 8:14 AM; Ashtami Adhik Puja 9:00 AM; Pushpanjali 10:30 AM; Bhog Nibedan & Aarti 11:30 AM; Bhog Prasad distribution 1:00 PM; Sandhya Aarti 8:00 PM. (Bangiya: 1 Kartik)"
+  },
+  {
+    "id": "evt-106",
+    "title": "Durga Puja - Maha Navami",
+    "date": "2026-10-20",
+    "time": "07:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Nabami Puja 7:00 AM; Kumari Puja 8:00 AM; Pushpanjali 9:00 AM; Bhog Nibedan & Aarti 9:30 AM; Bhog Prasad distribution 1:00 PM; Hom 2:00 PM; Sandhya Aarti 8:00 PM. (Bangiya: 2 Kartik)"
+  },
+  {
+    "id": "evt-107",
+    "title": "Durga Puja - Vijaya Dashami",
+    "date": "2026-10-21",
+    "time": "09:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Dashami Puja 9:00 AM; Pushpanjali 10:00 AM; Darpan Bisarjan 10:30 AM; Sindoor Utsab 11:45 AM; Kanakanjali 4:00 PM; Bisarjan Procession 5:00 PM; Shantijal & Bijoya Sammelan 10:00 PM. (Bangiya: 3 Kartik)"
+  },
+  {
+    "id": "evt-108",
+    "title": "Kojagari Purnima - Laxmi Puja",
+    "date": "2026-10-25",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Lakshmi Puja 8:00 PM; Pushpanjali 9:00 PM; Bhog Nibedan & Aarti 9:30 PM; Bhog Prasad distribution 10:00 PM; Hom 10:30 PM. (Bangiya: 7 Kartik)"
+  },
+  {
+    "id": "evt-109",
+    "title": "Deepawali Amavasya Puja - Maha Kali Puja",
+    "date": "2026-11-08",
+    "time": "11:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Puja 11:00 PM (Nov 8); Bhog Nibedan & Aarti 1:00 AM; Pushpanjali 1:30 AM; Bhog Prasad distribution 2:00 AM; Hom 2:30 AM (early Nov 9). Annakoot on Nov 10 at 11:00 AM. (Bangiya: 21 Kartik)"
+  },
+  {
+    "id": "evt-136",
+    "title": "Annakoot",
+    "date": "2026-11-10",
+    "time": "11:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Annakoot after Kali Puja at 11:00 AM. (Bangiya: 23 Kartik)"
+  },
+  {
+    "id": "evt-110",
+    "title": "Amavasya Puja",
+    "date": "2026-12-08",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 21 Agrahayan)"
+  },
+  {
+    "id": "evt-111",
+    "title": "Shree Shree Shanidev Puja",
+    "date": "2026-12-26",
+    "time": "07:30 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Shree Shree Shanidev Puja at 7:30 PM. (Bangiya: 10 Poush)"
+  },
+  {
+    "id": "evt-112",
+    "title": "Amavasya Puja",
+    "date": "2027-01-07",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 22 Poush)"
+  },
+  {
+    "id": "evt-113",
+    "title": "Amavasya Puja",
+    "date": "2027-02-05",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 21 Magh)"
+  },
+  {
+    "id": "evt-114",
+    "title": "Saraswati Puja",
+    "date": "2027-02-11",
+    "time": "All Day",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Saraswati Puja, worship of the Goddess of knowledge, music and arts. (Bangiya: 21 Magh)"
+  },
+  {
+    "id": "evt-115",
+    "title": "Bigroha Pratistha Divas",
+    "date": "2027-02-25",
+    "time": "All Day",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Bigroha Pratistha Divas, observed as per the English calendar. (Bangiya: 12 Falgun)"
+  },
+  {
+    "id": "evt-116",
+    "title": "Maha Shivaratri",
+    "date": "2027-03-06",
+    "time": "All Day",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Maha Shivaratri celebration. (Bangiya: 21 Falgun)"
+  },
+  {
+    "id": "evt-117",
+    "title": "Amavasya Puja",
+    "date": "2027-03-07",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 22 Falgun)"
+  },
+  {
+    "id": "evt-118",
+    "title": "Dol Purnima (Holi Utsav)",
+    "date": "2027-03-22",
+    "time": "All Day",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "cultural",
+    "description": "Dol Purnima / Holi Utsav celebration. (Bangiya: 7 Chaitra)"
+  },
+  {
+    "id": "evt-119",
+    "title": "Shree Shree Shanidev Puja",
+    "date": "2027-03-27",
+    "time": "07:30 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Shree Shree Shanidev Puja at 7:30 PM. (Bangiya: 12 Chaitra)"
+  },
+  {
+    "id": "evt-120",
+    "title": "Amavasya Puja",
+    "date": "2027-04-06",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 22 Chaitra)"
+  },
+  {
+    "id": "evt-121",
+    "title": "Chaitra Navratri Pratipada",
+    "date": "2027-04-07",
+    "time": "All Day",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Chaitra Navratri begins. (Bangiya: 23 Chaitra)"
+  },
+  {
+    "id": "evt-122",
+    "title": "Poila Baisakh - Bengali New Year & Kallol Anniversary",
+    "date": "2027-04-15",
+    "time": "09:00 AM & 6:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Dashopachar Puja at 9:00 AM and Satyanarayan Puja at 6:00 PM. Poila Baisakh 1434 - Bengali New Year celebrations and Kallol Anniversary; Chaitra Navratri ends. (Bangiya: 1 Baisakh)"
+  },
+  {
+    "id": "evt-123",
+    "title": "Amavasya Puja",
+    "date": "2027-04-16",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 2 Baisakh)"
+  },
+  {
+    "id": "evt-124",
+    "title": "Buddha Purnima - Mandir Foundation Day",
+    "date": "2027-05-01",
+    "time": "09:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Mandir Foundation Day celebration with Shodashopochar Puja. (Bangiya: 19 Baisakh)"
+  },
+  {
+    "id": "evt-125",
+    "title": "Amavasya Puja",
+    "date": "2027-05-16",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 31 Baisakh)"
+  },
+  {
+    "id": "evt-126",
+    "title": "Amavasya Puja (Phalaharini)",
+    "date": "2027-06-14",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Phalaharini Amavasya Puja. (Bangiya: 31 Jaishtho)"
+  },
+  {
+    "id": "evt-127",
+    "title": "Start of Ambubachi",
+    "date": "2027-06-22",
+    "time": "09:10 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Maa Kali's idol will remain covered; the Mandir remains open as per timings. (Bangiya: 7 Ashadha)"
+  },
+  {
+    "id": "evt-128",
+    "title": "End of Ambubachi",
+    "date": "2027-06-26",
+    "time": "09:33 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Shodashopachar puja after 9:33 AM. (Bangiya: 11 Ashadha)"
+  },
+  {
+    "id": "evt-129",
+    "title": "Shree Shree Shanidev Puja",
+    "date": "2027-06-27",
+    "time": "07:30 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Shree Shree Shanidev Puja at 7:30 PM. (Bangiya: 12 Ashadha)"
+  },
+  {
+    "id": "evt-130",
+    "title": "Amavasya Puja",
+    "date": "2027-07-13",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 28 Ashadha)"
+  },
+  {
+    "id": "evt-131",
+    "title": "Bipattarini Puja",
+    "date": "2027-07-18",
+    "time": "06:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Bipattarini Puja from 6:00 AM onwards. (Bangiya: 1 Shravan)"
+  },
+  {
+    "id": "evt-132",
+    "title": "Bipattarini Puja",
+    "date": "2027-07-21",
+    "time": "06:00 AM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Bipattarini Puja from 6:00 AM onwards. (Bangiya: 4 Shravan)"
+  },
+  {
+    "id": "evt-133",
+    "title": "Amavasya Puja",
+    "date": "2027-08-12",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Monthly Amavasya Puja dedicated to Maa Kali with Khichdi Bhog. (Bangiya: 26 Shravan)"
+  },
+  {
+    "id": "evt-134",
+    "title": "Amavasya Puja (Kaushiki)",
+    "date": "2027-09-10",
+    "time": "08:00 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Kaushiki Amavasya Puja. (Bangiya: 23 Bhadra)"
+  },
+  {
+    "id": "evt-135",
+    "title": "Shree Shree Shanidev Puja",
+    "date": "2027-09-26",
+    "time": "07:30 PM",
+    "location": "Kallol Kali Mandir, Bangur Nagar",
+    "category": "religious",
+    "description": "Shree Shree Shanidev Puja at 7:30 PM. (Bangiya: 8 Aashwin)"
   }
 ]

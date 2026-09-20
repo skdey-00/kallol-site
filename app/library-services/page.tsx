@@ -1,10 +1,21 @@
-import { PageBanner } from "@/components/page-banner"
+import Link from "next/link"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Bengali Library & Reading Room | Kallol, Goregaon",
+  description: "A lending library of Bengali literature — Tagore, Sarat Chandra, Bankim Chandra and more — open to Kallol members in Goregaon West, Mumbai.",
+}
 
 export default function LibraryPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Library Services" subtitle="A Literary Treasure Trove of Bengali Heritage" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Community"
+        title="Library Services"
+        intro="A Literary Treasure Trove of Bengali Heritage"
+        crumbs={[{ label: "Community", href: "/facilities-services" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
@@ -51,6 +62,17 @@ export default function LibraryPage() {
             </p>
           </CardContent>
         </Card>
+
+        <p className="text-gray-700 mt-8 text-sm">
+          Also part of Kallol&apos;s community services:{" "}
+          <Link href="/medical-services" className="text-kallol-700 font-medium hover:underline">
+            Medical Services
+          </Link>
+          {" · "}
+          <Link href="/facilities-services" className="text-kallol-700 font-medium hover:underline">
+            Facilities &amp; Services
+          </Link>
+        </p>
       </div>
     </main>
   )

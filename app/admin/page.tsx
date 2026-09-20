@@ -36,6 +36,7 @@ import { useAuth } from "@/hooks/use-auth"
 import { useToast } from "@/hooks/use-toast"
 import { getDonations, exportDonationsToCsv } from "@/actions/donations"
 import { getEvents, addEvent, updateEvent, deleteEvent } from "@/actions/events"
+import type { CalendarEvent } from "@/lib/events-store"
 
 interface DonationRecord {
   id: string
@@ -52,16 +53,6 @@ interface DonationRecord {
   qrCodeToken?: string
   donationItems?: Array<{ purpose: string; category: string; amount: string; date?: string }>
   qrCodeScans?: Array<{ timestamp: string; itemIndex: number; photoPath?: string }>
-}
-
-interface CalendarEvent {
-  id: string
-  title: string
-  date: string
-  time: string
-  location: string
-  category: string
-  description: string
 }
 
 const CATEGORIES = [
@@ -111,7 +102,7 @@ export default function AdminPage() {
   const [loadingEvents, setLoadingEvents] = useState(false)
   const [showEventForm, setShowEventForm] = useState(false)
   const [editingEvent, setEditingEvent] = useState<CalendarEvent | null>(null)
-  const [eventForm, setEventForm] = useState({
+  const [eventForm, setEventForm] = useState<Omit<CalendarEvent, "id">>({
     title: "",
     date: "",
     time: "",
@@ -550,7 +541,9 @@ export default function AdminPage() {
                         <Label>Category</Label>
                         <Select
                           value={eventForm.category}
-                          onValueChange={(val) => setEventForm({ ...eventForm, category: val })}
+                          onValueChange={(val) =>
+                            setEventForm({ ...eventForm, category: val as CalendarEvent["category"] })
+                          }
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Select category" />

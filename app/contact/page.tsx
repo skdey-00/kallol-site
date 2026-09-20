@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { motion } from "framer-motion"
 import Link from "next/link"
@@ -72,9 +72,9 @@ export default function ContactPage() {
                     <Phone className="h-6 w-6 text-kallol-700 mr-4" />
                     <div>
                       <h3 className="font-semibold text-gray-900">Call Us</h3>
-                      <a href="tel:+918658852917" className="text-gray-700 hover:text-kallol-700 transition-colors">
+                      <a href="tel:+918655852917" className="text-gray-700 hover:text-kallol-700 transition-colors">
                         +91-8655852917
-                      </a>
+                                            </a>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -172,7 +172,7 @@ export default function ContactPage() {
             <CardContent className="p-0">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Send Us a Message</h2>
               <p className="text-gray-700 max-w-2xl mx-auto mb-6">
-                Have a specific question or feedback? Fill out the form below and we'll get back to you as soon as
+                Have a specific question or feedback? Email us directly and we'll get back to you as soon as
                 possible.
               </p>
               <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white shadow-md">

@@ -1,10 +1,20 @@
-import { PageBanner } from "@/components/page-banner"
+import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+
+export const metadata = {
+  title: "Poila Boishakh — Bengali New Year | Kallol, Goregaon",
+  description: "Celebrate Poila Boishakh at Kallol: Dashopachar and Satyanarayan Puja, cultural programme and authentic Bengali cuisine in Goregaon West.",
+}
 
 export default function PoilaBaishakPage() {
   return (
-    <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Poila Baishak" subtitle="Bengali New Year Celebration" />
+    <main className="min-h-screen pb-16 bg-ivory">
+      <PageHeader
+        eyebrow="Cultural Events"
+        title="Poila Baishak"
+        intro="Bengali New Year Celebration"
+        crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
+      />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
@@ -28,8 +38,12 @@ export default function PoilaBaishakPage() {
         <Card className="border-gray-200 mt-8">
           <CardContent className="p-8">
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100 text-center">
-              <p className="text-gray-700"><strong>April 15, 2026 (Wednesday)</strong> at 05:00 PM</p>
-              <p className="text-gray-600 text-sm mt-2">Satyanarayan Puja, Bengali New Year &amp; Club Anniversary</p>
+              <p className="text-gray-700">
+                <strong>Next celebration:</strong> Thursday, April 15, 2027 (Poila Baisakh 1434)
+              </p>
+              <p className="text-gray-600 text-sm mt-2">
+                Dashopachar Puja at 9:00 AM · Satyanarayan Puja at 6:00 PM · Bengali New Year &amp; Kallol Anniversary
+              </p>
             </div>
           </CardContent>
         </Card>

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getPhotoById } from "@/lib/db"
 
-export async function GET(request: NextRequest, { params }: { params: { photoId: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ photoId: string }> }) {
   try {
-    const { photoId } = params
+    const { photoId } = await params
 
     // Check if database is configured
     if (!process.env.DATABASE_URL) {

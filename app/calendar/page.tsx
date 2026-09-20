@@ -26,18 +26,22 @@ export default function CalendarPage() {
   useEffect(() => {
     const loadEvents = async () => {
       const data = await getEvents()
-      setEvents(data)
-      // If the current month has no events, open on the first upcoming
-      // event's month so the page doesn't land on an empty month
+      // Only show today-and-forward events so past (archived) pujas are never
+      // presented as the current schedule.
       const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date())
-      const hasEventsThisMonth = data.some((event) => {
-        const d = new Date(`${event.date}T00:00:00Z`)
-        return d.getUTCMonth() === currentMonth.getMonth() && d.getUTCFullYear() === currentMonth.getFullYear()
-      })
-      const firstUpcoming = data.find((event) => event.date >= today)
-      if (!hasEventsThisMonth && firstUpcoming) {
-        const d = new Date(`${firstUpcoming.date}T00:00:00Z`)
-        setCurrentMonth(new Date(d.getUTCFullYear(), d.getUTCMonth(), 1))
+      const upcoming = data.filter((event) => event.date >= today)
+      setEvents(upcoming)
+      // If the current month has no events (e.g. the published calendar starts
+      // next month), open the calendar on the first month that has events.
+      if (upcoming.length > 0) {
+        const currentMonthHasEvents = upcoming.some((event) => {
+          const d = new Date(`${event.date}T00:00:00Z`)
+          return d.getUTCMonth() === currentMonth.getMonth() && d.getUTCFullYear() === currentMonth.getFullYear()
+        })
+        if (!currentMonthHasEvents) {
+          const first = new Date(`${upcoming[0].date}T00:00:00Z`)
+          setCurrentMonth(new Date(first.getUTCFullYear(), first.getUTCMonth(), 1))
+        }
       }
       setLoading(false)
     }
@@ -113,7 +117,8 @@ export default function CalendarPage() {
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Stay updated with all our cultural events, religious celebrations, and community programs at the Kali Mandir
-            in Bangur Nagar.
+            in Bangur Nagar. Dates below are from the published Calendar of Events — Bengali Year (Bangabda) 1433,
+            English Year 2026 – 2027.
           </p>
         </motion.div>
 

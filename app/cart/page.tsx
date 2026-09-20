@@ -31,7 +31,7 @@ export default function CartPage() {
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h1>
               <p className="text-gray-700 mb-6">Browse our puja offerings and sponsor an offering of your choice.</p>
               <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
-                <Link href="/shop">
+                <Link href="/donate">
                   Browse Puja Offerings
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -123,7 +123,7 @@ export default function CartPage() {
 
         <div className="flex flex-col sm:flex-row gap-3 justify-between">
           <Button asChild variant="outline" className="border-kallol-700 text-kallol-700 hover:bg-kallol-50">
-            <Link href="/shop">Continue Shopping</Link>
+            <Link href="/donate">Continue Shopping</Link>
           </Button>
           <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
             <Link href="/checkout">

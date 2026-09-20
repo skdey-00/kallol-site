@@ -104,7 +104,7 @@ export async function submitOnlineDonation(
   formData: FormData,
 ): Promise<{ success: boolean; message: string; paymentUrl?: string }> {
   if (!isInstamojoConfigured()) {
-    return { success: false, message: "Online payments are not configured. Please use UPI or Paytm instead." }
+    return { success: false, message: "Online payments are not configured. Please use UPI instead." }
   }
 
   const firstName = formData.get("firstName") as string
@@ -118,7 +118,7 @@ export async function submitOnlineDonation(
 
   // Instamojo amount limits
   if (!Number.isFinite(totalAmount) || totalAmount < 9 || totalAmount > 200000) {
-    return { success: false, message: "Online payments must be between ₹9 and ₹2,00,000. Please use UPI or Paytm for other amounts." }
+    return { success: false, message: "Online payments must be between ₹9 and ₹2,00,000. Please use UPI for other amounts." }
   }
 
   const phoneNumber = normalizePhoneNumber(rawPhone)
@@ -185,7 +185,7 @@ export async function submitOnlineDonation(
   } catch (error) {
     console.error("Error creating Instamojo payment request:", error)
     await updateDonation(donationId, { status: "failure" }).catch(() => {})
-    return { success: false, message: "Could not start the online payment. Please try again or use UPI/Paytm." }
+    return { success: false, message: "Could not start the online payment. Please try again or use UPI." }
   }
 }
 
