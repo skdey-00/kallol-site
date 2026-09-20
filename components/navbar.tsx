@@ -23,7 +23,7 @@ const navGroups = [
     ],
   },
   {
-    name: "Puja & Events",
+    name: "Puja",
     href: "/upcoming-events",
     children: [
       { name: "Upcoming Events", href: "/upcoming-events" },

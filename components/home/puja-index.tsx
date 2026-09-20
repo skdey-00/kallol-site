@@ -102,7 +102,7 @@ export function PujaIndex({
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <p className="section-eyebrow">Puja &amp; Events</p>
+              <p className="section-eyebrow">Puja</p>
               <h2
                 id="puja-heading"
                 className="reveal-up section-title mt-3"

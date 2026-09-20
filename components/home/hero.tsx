@@ -61,7 +61,7 @@ export function Hero() {
                 style={{ ["--reveal-delay" as string]: "380ms" }}
               >
                 <Link href="/upcoming-events" className="btn-primary">
-                  Puja &amp; Events
+                  Puja
                 </Link>
                 <Link
                   href="/about"

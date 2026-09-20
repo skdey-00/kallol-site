@@ -26,7 +26,7 @@ export interface Crumb {
 }
 
 export interface PageHeaderProps {
-  /** Small uppercase label above the title, e.g. "Puja & Events" */
+  /** Small uppercase label above the title, e.g. "Puja" */
   eyebrow?: string
   title: string
   /** One-sentence page introduction, max ~2 lines */

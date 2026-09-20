@@ -10,10 +10,10 @@ export default function SpecialPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja & Events"
+        eyebrow="Puja"
         title="Special Puja Services"
         intro="Various Special Pujas at Kallol Kali Mandir"
-        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+        crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

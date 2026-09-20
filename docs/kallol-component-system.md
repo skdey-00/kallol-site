@@ -260,7 +260,7 @@ nothing functional.
 ## 12. Navigation (navbar)
 
 `components/navbar.tsx`. Phase 4 IA is authoritative and unchanged:
-ABOUT / PUJA & EVENTS / COMMUNITY / GALLERY / SERVICES / CONTACT + DONATE.
+ABOUT / PUJA / COMMUNITY / GALLERY / SERVICES / CONTACT + DONATE.
 
 Phase 6 refinements: maroon baseline indicator now persists on the ACTIVE
 group (`aria-current="page"`), dropdown marks the current child, mobile menu
@@ -274,7 +274,7 @@ open on focus-within as before; all items are real links.
 ## 13. Footer
 
 `components/footer.tsx` — unchanged structure (Phase 4): contact column with
-canonical logo, Explore / Puja & Events / Participate columns, hairline
+canonical logo, Explore / Puja / Participate columns, hairline
 `border-ivory/10` dividers, Bengali sign-off শ্রী শ্রী কালী. No overload, no
 new columns. Phase 7 may re-skin link treatments only.
 
@@ -285,7 +285,7 @@ new columns. Phase 7 may re-skin link treatments only.
 Built into `PageHeader` (crumbs render above the eyebrow, `nav[aria-label=
 "Breadcrumb"]`, `aria-current="page"` on the leaf, `→` separators, Home
 prepended automatically). Deeper pages pass their IA trail, e.g. Durga Puja:
-Home → Puja & Events → Durga Puja. Never on the homepage.
+Home → Puja → Durga Puja. Never on the homepage.
 
 ---
 

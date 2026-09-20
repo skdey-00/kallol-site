@@ -166,10 +166,10 @@ export function UpcomingEventsView({
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja & Events"
-        title="Puja & Events"
+        eyebrow="Puja"
+        title="Puja"
         intro="Join us for upcoming pujas and events at Kallol Kali Mandir in Bangur Nagar, Goregaon West. Mark your calendars and be part of our vibrant community celebrations."
-        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+        crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
       />
       <div className="container mx-auto">
 

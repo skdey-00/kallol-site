@@ -3,7 +3,7 @@ import { nextAmavasyaEvent } from "@/components/kallol/event-view"
 import { UpcomingEventsView } from "./list-view"
 
 export const metadata = {
-  title: "Puja & Events — Upcoming Pujas and Programmes | Kallol Kali Mandir",
+  title: "Puja — Upcoming Pujas and Programmes | Kallol Kali Mandir",
   description:
     "Upcoming pujas and events at Kallol Kali Mandir, Bangur Nagar, Goregaon West — Amavasya Puja every new moon, Durga Puja, Kali Puja, Lakshmi Puja, Saraswati Puja and cultural evenings.",
 }

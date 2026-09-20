@@ -13,7 +13,7 @@ export default function PoilaBaishakPage() {
         eyebrow="Cultural Events"
         title="Poila Baishak"
         intro="Bengali New Year Celebration"
-        crumbs={[{ label: "Puja & Events", href: "/upcoming-events" }]}
+        crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">

@@ -102,9 +102,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Puja & Events */}
+          {/* Puja */}
           <div>
-            <h3 className="font-sans text-xs font-semibold uppercase tracking-caps text-ivory/50 mb-5">Puja &amp; Events</h3>
+            <h3 className="font-sans text-xs font-semibold uppercase tracking-caps text-ivory/50 mb-5">Puja</h3>
             <ul className="space-y-2.5">
               <li><Link href="/upcoming-events" className="hover:text-ivory transition-colors duration-200">Upcoming Events</Link></li>
               <li><Link href="/calendar" className="hover:text-ivory transition-colors duration-200">Puja Calendar</Link></li>
