@@ -85,6 +85,9 @@ async function fetchAndMapEvents(): Promise<CalendarEvent[]> {
 
     for (const instance of instances) {
       const instanceTitle = plainText(instance.summary) || title
+      // "Busy" blocks are the committee's internal placeholders while
+      // scheduling — don't publish them; they show up once renamed
+      if (/^busy$/i.test(instanceTitle)) continue
       events.push({
         id: `${component.uid}-${fmtDate.format(instance.start)}`,
         title: instanceTitle,
