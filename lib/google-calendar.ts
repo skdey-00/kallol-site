@@ -56,8 +56,11 @@ async function fetchAndMapEvents(): Promise<CalendarEvent[]> {
   })
 
   const events: CalendarEvent[] = []
+  let veventCount = 0
+  let filteredBusyCount = 0
 
   for (const component of Object.values(calendar)) {
+    if (component?.type === "VEVENT") veventCount++
     if (component?.type !== "VEVENT" || component.status === "CANCELLED") continue
 
     let instances: { start: Date; summary: unknown; isFullDay: boolean }[]
@@ -87,7 +90,10 @@ async function fetchAndMapEvents(): Promise<CalendarEvent[]> {
       const instanceTitle = plainText(instance.summary) || title
       // "Busy" blocks are the committee's internal placeholders while
       // scheduling — don't publish them; they show up once renamed
-      if (/^busy$/i.test(instanceTitle)) continue
+      if (/^busy$/i.test(instanceTitle)) {
+        filteredBusyCount++
+        continue
+      }
       events.push({
         id: `${component.uid}-${fmtDate.format(instance.start)}`,
         title: instanceTitle,
@@ -99,6 +105,12 @@ async function fetchAndMapEvents(): Promise<CalendarEvent[]> {
         description,
       })
     }
+  }
+
+  if (veventCount > 0 && events.length === 0 && veventCount !== filteredBusyCount) {
+    // Parse worked but nothing mapped (e.g. bundling broke node-ical dates) —
+    // surface it instead of silently showing an empty calendar
+    console.warn(`[google-calendar] parsed ${veventCount} VEVENTs but mapped 0 events`)
   }
 
   return events.sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`))
