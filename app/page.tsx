@@ -160,7 +160,7 @@ export default async function Home() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-900">Puja Calendar</h3>
                 <p className="text-gray-700 mb-4 flex-grow">
-                  View our full 2025-2026 calendar of pujas, festivals and celebrations.
+                  View our calendar of upcoming pujas, festivals and celebrations.
                 </p>
                 <span className="text-kallol-700 inline-flex items-center font-medium">
                   View Calendar
