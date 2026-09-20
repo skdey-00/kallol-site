@@ -27,9 +27,22 @@ export default function CalendarPage() {
     const loadEvents = async () => {
       const data = await getEvents()
       setEvents(data)
+      // If the current month has no events, open on the first upcoming
+      // event's month so the page doesn't land on an empty month
+      const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date())
+      const hasEventsThisMonth = data.some((event) => {
+        const d = new Date(`${event.date}T00:00:00Z`)
+        return d.getUTCMonth() === currentMonth.getMonth() && d.getUTCFullYear() === currentMonth.getFullYear()
+      })
+      const firstUpcoming = data.find((event) => event.date >= today)
+      if (!hasEventsThisMonth && firstUpcoming) {
+        const d = new Date(`${firstUpcoming.date}T00:00:00Z`)
+        setCurrentMonth(new Date(d.getUTCFullYear(), d.getUTCMonth(), 1))
+      }
       setLoading(false)
     }
     loadEvents()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fadeIn = {
@@ -64,8 +77,9 @@ export default function CalendarPage() {
   const getEventsForMonth = (month: number, year: number) => {
     return events
       .filter((event) => {
-        const eventDate = new Date(event.date)
-        return eventDate.getMonth() === month && eventDate.getFullYear() === year
+        // Dates are YYYY-MM-DD strings; parse as UTC to avoid day-shift
+        const eventDate = new Date(`${event.date}T00:00:00Z`)
+        return eventDate.getUTCMonth() === month && eventDate.getUTCFullYear() === year
       })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
   }

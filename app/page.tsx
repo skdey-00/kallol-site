@@ -28,12 +28,6 @@ const services = [
     href: "/medical-services",
     icon: BookOpen,
   },
-  {
-    title: "2025 Full Year Puja Calendar",
-    image: "/assets/WhatsApp-Image-2025-09-01-at-12.14.56_2df50f9d-77660215.webp",
-    href: "/calendar",
-    icon: Calendar,
-  },
 ]
 
 const pujas = [

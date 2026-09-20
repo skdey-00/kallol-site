@@ -4,9 +4,9 @@ import { eventsStore, type CalendarEvent } from "@/lib/events-store"
 import { getGoogleEvents } from "@/lib/google-calendar"
 
 export async function getEvents(): Promise<CalendarEvent[]> {
-  // Live events from the public Google Calendar; local store is the fallback
-  const events = await getGoogleEvents()
-  return events.length > 0 ? events : eventsStore.getAll()
+  // Live events from the public Google Calendar. No local fallback: the old
+  // seed data (2025 dates) misleads once the calendar is the source of truth.
+  return getGoogleEvents()
 }
 
 export async function addEvent(

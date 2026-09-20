@@ -36,7 +36,6 @@ const navGroups = [
     name: "Online Services",
     href: "/calendar",
     children: [
-      { name: "2025 Puja Calendar", href: "/calendar" },
       { name: "Puja Offerings", href: "/shop" },
       { name: "Online Puja Booking", href: "/donate" },
       { name: "Other Donation", href: "/donate" },
