@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 export default function KaliPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Kali Puja 2025" subtitle="Divine Mother Who Destroys Evil" />
+      <PageBanner title="Kali Puja 2026" subtitle="Divine Mother Who Destroys Evil" />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/Frame-150-9cd8eeb5.webp" alt="Kali Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/Frame-150-9cd8eeb5.webp" alt="Kali Puja 2026" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Mahakali Puja: Invoking the Fierce Divine Mother</h2>
@@ -45,14 +45,14 @@ export default function KaliPujaPage() {
                 </thead>
                 <tbody className="text-gray-700">
                   <tr className="border-b border-gray-100">
-                    <td className="py-3">Oct 20, 2025</td>
-                    <td className="py-3">Monday</td>
+                    <td className="py-3">Nov 8, 2026</td>
+                    <td className="py-3">Sunday</td>
                     <td className="py-3">
                       <div>Maha Kali Puja - 11:00 PM</div>
                       <div>Bhog Nivedan and Aarti - 01:00 AM</div>
                       <div>Pushpanjali - 01:30 AM</div>
-                      <div>Bhog Prasad distribution - 01:30 AM</div>
-                      <div>Hom - 02:00 AM</div>
+                      <div>Bhog Prasad distribution - 02:00 AM</div>
+                      <div>Hom - 02:30 AM</div>
                     </td>
                   </tr>
                 </tbody>
@@ -67,7 +67,7 @@ export default function KaliPujaPage() {
         <Card className="border-gray-200 bg-gradient-to-r from-kallol-50 to-gray-50">
           <CardContent className="p-8">
             <p className="text-center text-gray-700 text-lg italic">
-              Kallol cordially invites you with your family and friends to participate in 2025 Mahakali Puja.
+              Kallol cordially invites you with your family and friends to participate in 2026 Mahakali Puja.
             </p>
           </CardContent>
         </Card>

@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 export default function DurgaPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Durga Puja 2025" subtitle="Dhunuchi Naach in Goregaon" />
+      <PageBanner title="Durga Puja 2026" subtitle="Dhunuchi Naach in Goregaon" />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/image-7-279fa7e2.webp" alt="Durga Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/image-7-279fa7e2.webp" alt="Durga Puja 2026" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">The Pinnacle of Bengali Celebration</h2>
@@ -45,10 +45,10 @@ export default function DurgaPujaPage() {
                 </p>
               </div>
               <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
-                <h4 className="font-bold text-kallol-700 mb-3">Puja Schedule 2025</h4>
+                <h4 className="font-bold text-kallol-700 mb-3">Puja Schedule 2026</h4>
                 <div className="space-y-2 text-sm text-gray-700">
-                  <p><strong>Oct 1, 2025 (Wed):</strong> Maha Navami - Kumari Puja</p>
-                  <p><strong>Oct 2, 2025 (Thu):</strong> Vijaya Dashami - Darpan Visarjan &amp; Sindur Utsav</p>
+                  <p><strong>Oct 20, 2026 (Tue):</strong> Maha Navami - Nabami &amp; Kumari Puja</p>
+                  <p><strong>Oct 21, 2026 (Wed):</strong> Vijaya Dashami - Darpan Bisarjan &amp; Sindur Utsab</p>
                 </div>
                 <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-4 rounded-full text-sm">
                   <Link href="/donate">Book Puja Offerings</Link>
@@ -61,7 +61,7 @@ export default function DurgaPujaPage() {
         <Card className="border-gray-200 bg-gradient-to-r from-kallol-50 to-gray-50">
           <CardContent className="p-8">
             <p className="text-center text-gray-700 text-lg italic">
-              Kallol cordially invites you with your family and friends to participate in 2025 Durga Puja.
+              Kallol cordially invites you with your family and friends to participate in 2026 Durga Puja.
             </p>
           </CardContent>
         </Card>

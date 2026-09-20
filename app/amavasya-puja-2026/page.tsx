@@ -7,7 +7,7 @@ export default function AmavasyaPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
       <PageBanner
-        title="Amavasya Puja 2025"
+        title="Amavasya Puja 2026"
         subtitle="New Moon Devotion & Khichdi Bhog"
       />
       <div className="container mx-auto px-4 md:px-6 py-12">

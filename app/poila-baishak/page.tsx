@@ -28,7 +28,7 @@ export default function PoilaBaishakPage() {
         <Card className="border-gray-200 mt-8">
           <CardContent className="p-8">
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100 text-center">
-              <p className="text-gray-700"><strong>April 15, 2025 (Tuesday)</strong> at 05:00 PM</p>
+              <p className="text-gray-700"><strong>April 15, 2026 (Wednesday)</strong> at 05:00 PM</p>
               <p className="text-gray-600 text-sm mt-2">Satyanarayan Puja, Bengali New Year &amp; Club Anniversary</p>
             </div>
           </CardContent>

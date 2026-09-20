@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 export default function LakshmiPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-gray-50">
-      <PageBanner title="Lakshmi Puja 2025" subtitle="Illumination & Prosperity Unfold" />
+      <PageBanner title="Lakshmi Puja 2026" subtitle="Illumination & Prosperity Unfold" />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/lakshmipuja-473705d3.webp" alt="Lakshmi Puja 2025" className="w-full h-full object-cover" />
+            <img src="/assets/lakshmipuja-473705d3.webp" alt="Lakshmi Puja 2026" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Invoking the Goddess of Prosperity</h2>
@@ -42,14 +42,14 @@ export default function LakshmiPujaPage() {
                 </thead>
                 <tbody className="text-gray-700">
                   <tr>
-                    <td className="py-3">Oct 6, 2025</td>
-                    <td className="py-3">Monday</td>
+                    <td className="py-3">Oct 25, 2026</td>
+                    <td className="py-3">Sunday</td>
                     <td className="py-3">
                       <div>Kojagari Laxmi Puja - 08:00 PM</div>
-                      <div>Pushpanjali - 09:30 PM</div>
-                      <div>Bhog Nivedan and Aarti - 10:00 PM</div>
+                      <div>Pushpanjali - 09:00 PM</div>
+                      <div>Bhog Nivedan and Aarti - 09:30 PM</div>
+                      <div>Bhog Prasad distribution - 10:00 PM</div>
                       <div>Hom - 10:30 PM</div>
-                      <div>Bhog Prasad distribution - 11:00 PM</div>
                     </td>
                   </tr>
                 </tbody>

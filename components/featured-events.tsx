@@ -32,15 +32,15 @@ export function FeaturedEvents({ events: liveEvents }: FeaturedEventsProps) {
     {
       id: "featured-kali-puja",
       title: "Kali Puja & Deepavali",
-      date: "October 20, 2025",
+      date: "November 8, 2026",
       description:
         "Shree Shree Mahakali Puja on Deepavali Amavasya. Join us for the grand celebration of Kali Puja at the Kali Mandir with traditional rituals and cultural performances.",
       image: "/assets/Kali_Puja_Tile-35f6bb42.webp",
     },
     {
       id: "featured-durga-puja",
-      title: "Durga Puja 2025",
-      date: "October 1-2, 2025",
+      title: "Durga Puja 2026",
+      date: "October 16-21, 2026",
       description:
         "Maha Navami and Vijaya Dashami celebrations. Kumari Puja, Darpan Visarjan and Sindur Utsav. The biggest festival of the Bengali community.",
       image: "/assets/Durga_Puja_Tile-289a4e35.webp",
@@ -56,7 +56,7 @@ export function FeaturedEvents({ events: liveEvents }: FeaturedEventsProps) {
     {
       id: "featured-lakshmi",
       title: "Lakshmi Puja (Kojagari)",
-      date: "October 6, 2025",
+      date: "October 25, 2026",
       description:
         "Shree Shree Kojagari Laxmi Puja on the night of the full moon. A celebration of prosperity and divine grace at Kallol Kali Mandir.",
       image: "/assets/Lakshmi_Puja_Tile-2a79392d.webp",

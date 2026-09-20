@@ -31,11 +31,11 @@ const services = [
 ]
 
 const pujas = [
-  { title: "Amavasya Puja", image: "/assets/Amabasya_Puja_Tile-f954983b.webp", href: "/amavasya-puja-2025" },
-  { title: "Durga Puja", image: "/assets/Durga_Puja_Tile-289a4e35.webp", href: "/durga-puja-2025" },
-  { title: "Lakshmi Puja", image: "/assets/Lakshmi_Puja_Tile-2a79392d.webp", href: "/lakshmi-puja-2025" },
-  { title: "Kali Puja", image: "/assets/Kali_Puja_Tile-35f6bb42.webp", href: "/kali-puja-2025" },
-  { title: "Saraswati Puja", image: "/assets/Sarashwati_Puja_Tile-ed17e914.webp", href: "/saraswati-puja-2025" },
+  { title: "Amavasya Puja", image: "/assets/Amabasya_Puja_Tile-f954983b.webp", href: "/amavasya-puja-2026" },
+  { title: "Durga Puja", image: "/assets/Durga_Puja_Tile-289a4e35.webp", href: "/durga-puja-2026" },
+  { title: "Lakshmi Puja", image: "/assets/Lakshmi_Puja_Tile-2a79392d.webp", href: "/lakshmi-puja-2026" },
+  { title: "Kali Puja", image: "/assets/Kali_Puja_Tile-35f6bb42.webp", href: "/kali-puja-2026" },
+  { title: "Saraswati Puja", image: "/assets/Sarashwati_Puja_Tile-ed17e914.webp", href: "/saraswati-puja-2026" },
   { title: "Special Puja", image: "/assets/SpecialPuja-3da3ae1b.webp", href: "/special-puja" },
 ]
 

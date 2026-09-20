@@ -107,18 +107,18 @@ export function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-5 text-white">Puja</h3>
             <ul className="space-y-2">
-              <li><Link href="/amavasya-puja-2025" className="hover:text-white transition-colors">Amavasya Puja 2025</Link></li>
-              <li><Link href="/durga-puja-2025" className="hover:text-white transition-colors">Durga Puja 2025</Link></li>
-              <li><Link href="/kali-puja-2025" className="hover:text-white transition-colors">Kali Puja 2025</Link></li>
-              <li><Link href="/lakshmi-puja-2025" className="hover:text-white transition-colors">Lakshmi Puja</Link></li>
-              <li><Link href="/saraswati-puja-2025" className="hover:text-white transition-colors">Saraswati Puja 2025</Link></li>
+              <li><Link href="/amavasya-puja-2026" className="hover:text-white transition-colors">Amavasya Puja 2026</Link></li>
+              <li><Link href="/durga-puja-2026" className="hover:text-white transition-colors">Durga Puja 2026</Link></li>
+              <li><Link href="/kali-puja-2026" className="hover:text-white transition-colors">Kali Puja 2026</Link></li>
+              <li><Link href="/lakshmi-puja-2026" className="hover:text-white transition-colors">Lakshmi Puja</Link></li>
+              <li><Link href="/saraswati-puja-2026" className="hover:text-white transition-colors">Saraswati Puja 2026</Link></li>
               <li><Link href="/special-puja" className="hover:text-white transition-colors">Special Puja</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-6 text-center text-white/50 text-xs tracking-wide">
-          <p>COPYRIGHT &copy; 2025, KALLOL KALI MANDIR, GOREGAON, MUMBAI. ALL RIGHTS RESERVED.</p>
+          <p>COPYRIGHT &copy; 2026, KALLOL KALI MANDIR, GOREGAON, MUMBAI. ALL RIGHTS RESERVED.</p>
         </div>
       </div>
     </footer>
