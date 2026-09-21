@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { BrandLogo } from "@/components/brand-logo"
 import { useAuth } from "@/hooks/use-auth"
 import { useCart } from "@/hooks/use-cart"
+import { pujaDonations } from "@/lib/puja-data"
 
 // Phase 4 IA: intent-based navigation. Five questions cover every major
 // journey: What is Kallol? / What's happening? / What does Kallol do for the
@@ -19,7 +20,8 @@ const navGroups = [
     children: [
       { name: "Our Story", href: "/about" },
       { name: "Kallol Kali Mandir", href: "/kallol-kali-mandir" },
-      { name: "Managing Committee", href: "/managing-committee" },
+      // Managing Committee page kept at /managing-committee but unlinked
+      // (hidden from navigation) until the committee roster is confirmed.
     ],
   },
   {
@@ -37,7 +39,6 @@ const navGroups = [
       { name: "Cultural Events", href: "/poila-baishak" },
       { name: "Rabindra Jayanti", href: "/rabindranath-tagore-birthday" },
       { name: "Special Pujas", href: "/special-puja" },
-      { name: "Past Events", href: "/archives" },
     ],
   },
   {
@@ -56,7 +57,6 @@ const navGroups = [
     children: [
       { name: "Photos", href: "/photos" },
       { name: "Videos", href: "/videos" },
-      { name: "Past Events", href: "/archives" },
     ],
   },
   {
@@ -72,10 +72,16 @@ const navGroups = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [openGroup, setOpenGroup] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const { user, logout } = useAuth()
   const { totalItems, hydrated } = useCart()
   const pathname = usePathname()
+
+  // "Donate Now" deep-links to the current puja's own donation page when one
+  // exists (e.g. /durga-puja → /donate/durga-puja); general donate otherwise.
+  const pathSlug = pathname.split("/")[1]
+  const donateHref = pujaDonations.some((p) => p.id === pathSlug) ? `/donate/${pathSlug}` : "/donate"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,12 +138,12 @@ export function Navbar() {
             </a>
           </div>
           <a
-            href="https://x.com/KallolMumbai"
+            href="https://www.instagram.com/kallolkalimandir"
             target="_blank"
             rel="noreferrer"
             className="text-ivory/80 hover:text-ivory transition-colors duration-200 hidden sm:block"
           >
-            Follow us on 𝕏
+            Follow us on Instagram
           </a>
         </div>
       </div>
@@ -145,8 +151,8 @@ export function Navbar() {
       {/* Main nav */}
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Canonical logo — exact asset, locked ratio, clear space right */}
-          <Link href="/" aria-label="Kallol — home" className="flex items-center pr-4 md:pr-8">
+          {/* Canonical logo, exact asset, locked ratio, clear space right */}
+          <Link href="/" aria-label="Kallol, home" className="flex items-center pr-4 md:pr-8">
             <BrandLogo size="md" className="md:hidden" />
             <BrandLogo size="lg" className="hidden md:block" />
           </Link>
@@ -165,7 +171,7 @@ export function Navbar() {
                     <ChevronDown className="h-3 w-3" />
                   )}
                 </Link>
-                {/* Active indicator — echoes the logo's linked baseline */}
+                {/* Active indicator, echoes the logo's linked baseline */}
                 <span
                   aria-hidden="true"
                   className={`absolute left-3 right-3 -bottom-0.5 h-0.5 bg-kallol-600 origin-left transition-transform duration-300 ease-calm ${
@@ -223,9 +229,9 @@ export function Navbar() {
             </Link>
             <Button
               asChild
-              className="bg-kallol-600 hover:bg-kallol-700 text-ivory ml-2 rounded-md px-5 py-2 text-xs font-sans font-semibold uppercase tracking-caps transition-colors duration-200 ease-calm"
+              className="bg-kallol-600 hover:bg-kallol-700 text-ivory ml-2 rounded-xl px-5 py-2 text-xs font-sans font-semibold uppercase tracking-caps transition-colors duration-200 ease-calm"
             >
-              <Link href="/donate">Donate Now</Link>
+              <Link href={donateHref}>Donate Now</Link>
             </Button>
           </nav>
 
@@ -258,7 +264,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu — CSS motion (menu-enter), no JS library.
+      {/* Mobile Navigation Menu, CSS motion (menu-enter), no JS library.
           Kept mounted-but-hidden when closed so content stays in the a11y
           tree predictably; inert when closed. */}
       <div
@@ -270,30 +276,48 @@ export function Navbar() {
           <nav className="flex flex-col">
             {navGroups.map((group) => (
               <div key={group.name} className="border-b border-stone-line py-1">
-                <Link
-                  href={group.href}
-                  className="text-ink hover:text-kallol-600 py-3 transition-colors duration-200 font-sans font-semibold block"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {group.name}
-                </Link>
-                {group.children && (
-                  <div className="pl-4 pb-2">
-                    {group.children.map((child) =>
-                      "dropdownDivider" in child ? (
-                        <div key="m-divider" className="border-t border-stone-line my-2" />
-                      ) : (
-                        <Link
-                          key={child.name}
-                          href={child.href}
-                          className="text-ink-soft hover:text-kallol-600 py-2.5 text-sm block transition-colors duration-200"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {child.name}
-                        </Link>
-                      ),
+                {group.children ? (
+                  <>
+                    {/* Collapsed accordion group — tap to expand, keeps the
+                        menu to a single screen; Contact + Donate stay visible */}
+                    <button
+                      type="button"
+                      onClick={() => setOpenGroup(openGroup === group.name ? null : group.name)}
+                      aria-expanded={openGroup === group.name}
+                      className="flex w-full items-center justify-between py-3 text-left text-ink hover:text-kallol-600 transition-colors duration-200 font-sans font-semibold"
+                    >
+                      {group.name}
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform duration-200 ${openGroup === group.name ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    {openGroup === group.name && (
+                      <div className="pl-4 pb-2">
+                        {group.children.map((child) =>
+                          "dropdownDivider" in child ? (
+                            <div key="m-divider" className="border-t border-stone-line my-2" />
+                          ) : (
+                            <Link
+                              key={child.name}
+                              href={child.href}
+                              className="text-ink-soft hover:text-kallol-600 py-2.5 text-sm block transition-colors duration-200"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {child.name}
+                            </Link>
+                          ),
+                        )}
+                      </div>
                     )}
-                  </div>
+                  </>
+                ) : (
+                  <Link
+                    href={group.href}
+                    className="text-ink hover:text-kallol-600 py-3 transition-colors duration-200 font-sans font-semibold block"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {group.name}
+                  </Link>
                 )}
               </div>
             ))}
@@ -322,9 +346,9 @@ export function Navbar() {
             </Link>
             <Button
               asChild
-              className="bg-kallol-600 hover:bg-kallol-700 text-ivory mt-4 rounded-md py-3 font-sans font-semibold uppercase tracking-caps transition-colors duration-200 ease-calm"
+              className="bg-kallol-600 hover:bg-kallol-700 text-ivory mt-4 rounded-xl py-3 font-sans font-semibold uppercase tracking-caps transition-colors duration-200 ease-calm"
             >
-              <Link href="/donate" onClick={() => setIsOpen(false)}>Donate Now</Link>
+              <Link href={donateHref} onClick={() => setIsOpen(false)}>Donate Now</Link>
             </Button>
           </nav>
         </div>

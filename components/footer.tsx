@@ -1,25 +1,24 @@
 ﻿"use client"
 
 import Link from "next/link"
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, LogIn, LogOut } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react"
 import { BrandLogo } from "@/components/brand-logo"
-import { useAuth } from "@/hooks/use-auth"
 
 export function Footer() {
-  const { user, logout } = useAuth()
-
   return (
     <footer className="bg-kallol-950 text-ivory/80">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Contact */}
           <div className="lg:col-span-1">
-            {/* Canonical logo — same exact asset as the navbar.
+            {/* Canonical logo, same exact asset as the navbar.
                 White letters sit inside the maroon petals, so it
                 reads correctly on the dark footer without variants. */}
-            <Link href="/" aria-label="Kallol — home" className="inline-block mb-6">
-              <BrandLogo size="lg" />
+            <Link href="/" aria-label="Kallol, home" className="inline-block mb-6">
+              {/* The blue logo is built for light surfaces, give it a chip */}
+              <span className="inline-block rounded-lg bg-ivory px-4 py-3">
+                <BrandLogo size="md" />
+              </span>
             </Link>
             <p className="mb-2 flex items-center gap-2">
               <Phone className="h-4 w-4 text-ivory/50" />
@@ -31,7 +30,7 @@ export function Footer() {
             </p>
             <p className="mb-2 flex items-start gap-2">
               <MapPin className="h-4 w-4 text-ivory/50 mt-1" />
-              <span>Kallol Kali Mandir, Bangur Nagar,<br />Goregaon West, Mumbai - 400104</span>
+              <span>Kallol Kali Mandir Complex, Bangur Nagar,<br />Goregaon West, Mumbai - 400104</span>
             </p>
             <div className="flex space-x-4 mt-4">
               <Link
@@ -50,42 +49,6 @@ export function Footer() {
               >
                 <Instagram className="h-5 w-5" />
               </Link>
-              <Link
-                href="https://x.com/KallolMumbai"
-                target="_blank"
-                aria-label="Kallol on X"
-                className="text-ivory/60 hover:text-ivory transition-colors duration-200"
-              >
-                <Twitter className="h-5 w-5" />
-              </Link>
-            </div>
-            <div className="mt-6">
-              {user ? (
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm text-ivory/70">Welcome, {user.name}</span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={logout}
-                    className="border-ivory/30 text-ivory/80 hover:bg-ivory/10 bg-transparent"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="border-ivory/30 text-ivory/80 hover:bg-ivory/10 bg-transparent"
-                >
-                  <Link href="/login">
-                    <LogIn className="h-4 w-4 mr-2" />
-                    Login
-                  </Link>
-                </Button>
-              )}
             </div>
           </div>
 
@@ -95,7 +58,6 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/about" className="hover:text-ivory transition-colors duration-200">About Kallol</Link></li>
               <li><Link href="/kallol-kali-mandir" className="hover:text-ivory transition-colors duration-200">Kallol Kali Mandir</Link></li>
-              <li><Link href="/managing-committee" className="hover:text-ivory transition-colors duration-200">Managing Committee</Link></li>
               <li><Link href="/facilities-services" className="hover:text-ivory transition-colors duration-200">Facilities &amp; Services</Link></li>
               <li><Link href="/library-services" className="hover:text-ivory transition-colors duration-200">Library</Link></li>
               <li><Link href="/medical-services" className="hover:text-ivory transition-colors duration-200">Medical Services</Link></li>
@@ -115,7 +77,6 @@ export function Footer() {
               <li><Link href="/saraswati-puja" className="hover:text-ivory transition-colors duration-200">Saraswati Puja</Link></li>
               <li><Link href="/poila-baishak" className="hover:text-ivory transition-colors duration-200">Poila Baishakh</Link></li>
               <li><Link href="/rabindranath-tagore-birthday" className="hover:text-ivory transition-colors duration-200">Rabindra Jayanti</Link></li>
-              <li><Link href="/archives" className="hover:text-ivory transition-colors duration-200">Past Events</Link></li>
             </ul>
           </div>
 
@@ -124,7 +85,6 @@ export function Footer() {
             <h3 className="font-sans text-xs font-semibold uppercase tracking-caps text-ivory/50 mb-5">Participate</h3>
             <ul className="space-y-2.5">
               <li><Link href="/donate" className="hover:text-ivory transition-colors duration-200">Donate</Link></li>
-              <li><Link href="/donate" className="hover:text-ivory transition-colors duration-200">Puja Offerings</Link></li>
               <li><Link href="/photos" className="hover:text-ivory transition-colors duration-200">Photo Gallery</Link></li>
               <li><Link href="/videos" className="hover:text-ivory transition-colors duration-200">Videos</Link></li>
               <li><Link href="/facilities-services" className="hover:text-ivory transition-colors duration-200">Book a Facility</Link></li>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react"
+import { Mail, Phone, MapPin, Facebook, Instagram } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
@@ -82,7 +82,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900">Visit Us</h3>
                       <p className="text-gray-700">
-                        Kallol Kali Mandir
+                        Kallol Kali Mandir Complex
                         <br />
                         Bangur Nagar, Goregaon West
                         <br />
@@ -114,17 +114,6 @@ export default function ContactPage() {
                     <Link href="https://www.instagram.com/kallolkalimandir/" target="_blank" rel="noopener noreferrer">
                       <Instagram className="h-6 w-6" />
                       <span className="sr-only">Instagram</span>
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="icon"
-                    className="border-kallol-700 text-kallol-700 hover:bg-kallol-50 bg-transparent"
-                  >
-                    <Link href="https://x.com/KallolMumbai" target="_blank" rel="noopener noreferrer">
-                      <Twitter className="h-6 w-6" />
-                      <span className="sr-only">Twitter</span>
                     </Link>
                   </Button>
                 </div>
