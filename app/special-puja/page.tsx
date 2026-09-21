@@ -10,7 +10,6 @@ export default function SpecialPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Special Puja Services"
         intro="Various Special Pujas at Kallol Kali Mandir"
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

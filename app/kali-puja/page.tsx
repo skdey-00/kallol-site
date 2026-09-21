@@ -12,7 +12,6 @@ export default function KaliPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Kali Puja"
         intro="Divine Mother Who Destroys Evil"
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

@@ -20,7 +20,6 @@ export default function DurgaPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Durga Puja"
         intro="Six days of dhaak, dhunuchi naach, Sandhi Puja and Khichdi Bhog at Bangur Nagar, Goregaon West — Friday 16 to Wednesday 21 October 2026."
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

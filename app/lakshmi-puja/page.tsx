@@ -12,7 +12,6 @@ export default function LakshmiPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Lakshmi Puja"
         intro="Illumination & Prosperity Unfold"
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

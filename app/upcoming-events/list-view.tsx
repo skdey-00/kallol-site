@@ -99,8 +99,8 @@ export function UpcomingEventsView({
       description:
         "Durgotsab 2026, Debir Ghotoke Agaman, Debir Noukaye Gaman, the biggest festival of the Bengali community.",
       subEvents: [
-        "Maha Sashti, Fri, Oct 16",
-        "Maha Saptami, Sat, Oct 17",
+        "Sashti, Fri, Oct 16",
+        "Saptami, Sat, Oct 17",
         "Maha Ashtami, Sun, Oct 18",
         "Adhik Ashtami & Sandhi Puja, Mon, Oct 19 (7:26-8:14 AM)",
         "Maha Navami, Kumari Puja & Hom, Tue, Oct 20",
@@ -211,7 +211,6 @@ export function UpcomingEventsView({
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Puja"
         intro="Join us for upcoming pujas and events at Kallol Kali Mandir in Bangur Nagar, Goregaon West. Mark your calendars and be part of our vibrant community celebrations."
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

@@ -94,7 +94,6 @@ export default async function CalendarPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Puja Calendar"
         intro="Every puja and event at Kallol Kali Mandir, in date order — published by the committee on the temple calendar."
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

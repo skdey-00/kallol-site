@@ -20,7 +20,6 @@ export default async function AmavasyaPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Amavasya Puja"
         intro="New Moon Devotion & Khichdi Bhog"
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

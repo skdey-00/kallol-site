@@ -49,7 +49,6 @@ export default async function ArchivesPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Past Events & Archives"
         intro="A record of pujas, festivals and community celebrations at Kallol Kali Mandir, the community's history, kept by the calendars the committee published."
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}

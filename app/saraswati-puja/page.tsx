@@ -12,7 +12,6 @@ export default function SaraswatiPujaPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Puja"
         title="Saraswati Puja"
         intro="Honoring the Goddess of Wisdom"
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
