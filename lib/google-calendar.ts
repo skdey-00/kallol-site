@@ -24,13 +24,14 @@ function plainText(value: unknown): string {
   return ""
 }
 
-// The calendar's year, in IST — events outside it are ignored (current year only)
-function currentYearWindow(): { from: Date; to: Date; year: string } {
+// The calendar window, in IST — current and next year, so festivals that fall
+// early next year (e.g. Saraswati Puja in Feb) surface once the committee
+// publishes them rather than being silently dropped.
+function calendarWindow(): { from: Date; to: Date } {
   const year = new Intl.DateTimeFormat("en-CA", { timeZone: TIME_ZONE, year: "numeric" }).format(new Date())
   return {
-    year,
     from: new Date(`${year}-01-01T00:00:00+05:30`),
-    to: new Date(`${year}-12-31T23:59:59+05:30`),
+    to: new Date(`${Number(year) + 1}-12-31T23:59:59+05:30`),
   }
 }
 
@@ -41,7 +42,7 @@ async function fetchAndMapEvents(): Promise<CalendarEvent[]> {
   }
   const calendar = ical.sync.parseICS(await res.text())
 
-  const { from, to } = currentYearWindow()
+  const { from, to } = calendarWindow()
   const fmtDate = new Intl.DateTimeFormat("en-CA", {
     timeZone: TIME_ZONE,
     year: "numeric",
