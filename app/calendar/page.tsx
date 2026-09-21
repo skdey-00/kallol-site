@@ -17,6 +17,8 @@ const MONTHS = [
   "July", "August", "September", "October", "November", "December",
 ]
 
+const POSTER = "/assets/puja-calendar-2026.webp"
+
 /** "2026-10-08" -> "Thu, 8 Oct 2026" (deterministic, UTC-anchored) */
 function dateLabel(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number)
@@ -41,6 +43,34 @@ function monthLabel(iso: string): string {
   return `${MONTHS[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
 }
 
+/** Caption + full-size link, shared by the desktop figure and mobile disclosure */
+function PosterFigure({ className }: { className?: string }) {
+  return (
+    <figure className={className}>
+      <img
+        src={POSTER}
+        alt="Durgotsab 2026 — the published programme of pujas, day by day, from Sri Sri Durga Shashti to Annakoot"
+        width={900}
+        height={1600}
+        loading="lazy"
+        decoding="async"
+        className="w-full rounded-lg border border-stone-line shadow-lg"
+      />
+      <figcaption className="img-caption mt-2 text-center">
+        The published programme, Durgotsab 2026 (Bangabda 1433).{" "}
+        <a
+          href={POSTER}
+          target="_blank"
+          rel="noreferrer"
+          className="link-editorial whitespace-nowrap text-kallol-700"
+        >
+          Open full size
+        </a>
+      </figcaption>
+    </figure>
+  )
+}
+
 export default async function CalendarPage() {
   const events = await getEvents()
   // Today-and-forward only, so past pujas never read as the current schedule
@@ -50,6 +80,16 @@ export default async function CalendarPage() {
     .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? -1 : 1) : timeMinutes(a.time) - timeMinutes(b.time)))
 
   let lastMonth = ""
+
+  // Summary line, derived from the store only — next event and month range
+  const first = upcoming[0]
+  const last = upcoming[upcoming.length - 1]
+  const range =
+    first && last && monthLabel(first.date) !== monthLabel(last.date)
+      ? `${monthLabel(first.date)} – ${monthLabel(last.date)}`
+      : first
+        ? monthLabel(first.date)
+        : ""
 
   return (
     <main className="min-h-screen pb-16 bg-ivory">
@@ -61,26 +101,25 @@ export default async function CalendarPage() {
       />
 
       <div className="container mx-auto px-4 md:px-6 py-12">
-        {/* The committee's published programme card */}
-        <figure className="mx-auto max-w-xl">
-          <img
-            src="/assets/puja-calendar-2026.webp"
-            alt="Durgotsab 2026 — the published programme of pujas, day by day, from Sri Sri Durga Shashti to Annakoot"
-            width={900}
-            height={1600}
-            decoding="async"
-            className="w-full rounded-lg border border-stone-line shadow-lg"
-          />
-          <figcaption className="img-caption mt-2 text-center">
-            The published programme, Durgotsab 2026 (Bangabda 1433)
-          </figcaption>
-        </figure>
+        {/* The committee's published programme card — above the table on md+
+            (UX plan Phase 6: on mobile it moves below the schedule as a
+            labelled secondary resource, so the structured dates read first) */}
+        <PosterFigure className="mx-auto mb-16 hidden max-w-xl md:block" />
 
         {/* Every event, one row per date */}
-        <section className="mt-16" aria-labelledby="events-table-heading">
-          <h2 id="events-table-heading" className="section-title mb-8">
+        <section aria-labelledby="events-table-heading">
+          <h2 id="events-table-heading" className="section-title mb-2">
             All events by date
           </h2>
+          {upcoming.length > 0 && (
+            <p className="mb-8 text-sm leading-relaxed text-ink-mute">
+              Kallol Kali Mandir, Bangur Nagar, Goregaon West
+              {range ? <> · {range}</> : null} · Next:{" "}
+              <span className="font-semibold text-ink">
+                {first.title}, {dateLabel(first.date)}
+              </span>
+            </p>
+          )}
           {upcoming.length === 0 ? (
             <p className="text-ink-soft">No upcoming events have been published yet.</p>
           ) : (
@@ -130,6 +169,22 @@ export default async function CalendarPage() {
             </div>
           )}
         </section>
+
+        {/* Mobile: the poster as a labelled secondary resource, collapsed so it
+            never pushes the schedule down. No-JS safe: <details> works without
+            hydration, and "Open full size" always reaches the full-resolution image. */}
+        <details className="group mt-12 border-t border-stone-line pt-6 md:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold uppercase tracking-caps text-kallol-700 [&::-webkit-details-marker]:hidden">
+            View full programme poster
+            <span
+              aria-hidden="true"
+              className="text-lg transition-transform duration-200 group-open:rotate-45"
+            >
+              +
+            </span>
+          </summary>
+          <PosterFigure className="mt-6" />
+        </details>
       </div>
     </main>
   )
