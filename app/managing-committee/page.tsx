@@ -40,7 +40,7 @@ export default function CommitteePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-[#44233b] text-white">
+                <tr className="bg-kallol-800 text-white">
                   <th className="px-6 py-4 text-left font-semibold">Name</th>
                   <th className="px-6 py-4 text-left font-semibold">Position</th>
                   <th className="px-6 py-4 text-left font-semibold">Contact No.</th>

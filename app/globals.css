@@ -4,7 +4,7 @@
 
 /* ============================================================
    KALLOL DESIGN TOKENS — Phase 3 brand system
-   Palette derived from the canonical logo maroon (#832F30).
+   Palette derived from the canonical logo blue (#3D3F92).
    Component code should use Tailwind token classes
    (text-kallol-600, bg-ivory, font-display …), not raw hex.
    ============================================================ */
@@ -18,7 +18,7 @@
     --card-foreground: 300 4% 13%;
     --popover: 40 100% 99%;
     --popover-foreground: 300 4% 13%;
-    --primary: 359 47% 35%;          /* kallol maroon #832F30 */
+    --primary: 239 41% 41%;          /* kallol blue #3D3F92 */
     --primary-foreground: 33 43% 96%;
     --secondary: 33 31% 91%;         /* warm stone */
     --secondary-foreground: 300 4% 13%;
@@ -30,13 +30,13 @@
     --destructive-foreground: 0 0% 98%;
     --border: 33 24% 82%;            /* stone-line #DDD3C6 */
     --input: 33 24% 82%;
-    --ring: 359 47% 35%;             /* maroon focus ring */
+    --ring: 239 41% 41%;             /* brand blue focus ring */
     --radius: 0.375rem;              /* editorial, not pill */
 
     /* Kallol core tokens (hex, for reference + one-off utilities) */
-    --kallol-maroon: #832f30;
-    --kallol-maroon-deep: #6f2627;
-    --kallol-ink: #231f20;
+    --kallol-maroon: #3d3f92;   /* legacy var name, now brand blue */
+    --kallol-maroon-deep: #26276f;
+    --kallol-ink: #1f1f23;
     --kallol-ivory: #faf6f0;
     --kallol-stone-line: #ddd3c6;
     --kallol-copper: #b0793f;
@@ -66,8 +66,8 @@
     line-break: strict;
   }
   ::selection {
-    background: #d7a9aa;
-    color: #2a0e0f;
+    background: #a9aad7;
+    color: #0e0e2a;
   }
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -121,16 +121,16 @@
 
   /* ---- Buttons ---- */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-kallol-600 hover:bg-kallol-700 text-ivory font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-md transition-colors duration-200 ease-calm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 bg-kallol-600 hover:bg-kallol-700 text-ivory font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-xl transition-colors duration-200 ease-calm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 border border-kallol-600 text-kallol-700 bg-transparent hover:bg-kallol-50 font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-md transition-colors duration-200 ease-calm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 border border-kallol-600 text-kallol-700 bg-transparent hover:bg-kallol-50 font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-xl transition-colors duration-200 ease-calm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-ink text-ivory hover:bg-ink-soft font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 bg-ink text-ivory hover:bg-ink-soft font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 text-kallol-700 hover:bg-kallol-50 font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory;
+    @apply inline-flex items-center justify-center gap-2 text-kallol-700 hover:bg-kallol-50 font-sans font-semibold text-sm tracking-caps uppercase py-2.5 px-5 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory;
   }
 
   /* ---- Forms ---- */
@@ -271,18 +271,19 @@
     }
   }
 
-  /* Editorial link: underline sweep (background-size trick) */
+  /* Editorial link: ALWAYS underlined at rest so clickability is obvious
+     (hover thickens the rule — affordance first, delight second).
+     Uses native text-decoration, which wraps cleanly in every layout
+     (the old background-image underline broke on multi-line links). */
   .link-editorial {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0% 1px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    padding-bottom: 2px;
-    transition: background-size 300ms var(--kallol-ease);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-thickness 200ms var(--kallol-ease);
   }
   .link-editorial:hover,
   .link-editorial:focus-visible {
-    background-size: 100% 1px;
+    text-decoration-thickness: 2px;
   }
 
   /* Featured-image hover: a held breath, not a zoom-fest */
@@ -326,7 +327,7 @@
      ============================================ */
   .bengali-pattern {
     background-color: #fff9f9;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23832f30' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233d3f92' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   .hero-gradient {

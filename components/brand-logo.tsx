@@ -2,37 +2,38 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 /**
- * BrandLogo — the canonical Kallol brand mark.
+ * BrandLogo, the canonical Kallol brand mark.
  *
- * The supplied logo (public/images/kallol-logo.webp, 2193×568, ratio
- * 2193:568) is the sole official brand asset. It is NEVER redrawn,
- * cropped, recolored, or restretched. This component guarantees
- * correct proportions by locking the aspect ratio at every size.
+ * The blue wave logo from kallolmumbai.com (transparent PNG derived
+ * from KALLOL-LOGO-BLUE, 1022×268) is the sole official brand asset.
+ * It is NEVER redrawn, cropped, recolored, or restretched. This
+ * component guarantees correct proportions by locking the aspect
+ * ratio at every size.
  *
  * Usage sizes (height-driven):
- *   sm    32px  — compact headers, loading states
- *   md    44px  — navbar default
- *   lg    56px  — navbar desktop, footer
- *   xl    80px  — section mastheads
- *   hero  120px+ — homepage hero
+ *   sm    32px , compact headers, loading states
+ *   md    44px , navbar default
+ *   lg    56px , navbar desktop, footer
+ *   xl    80px , section mastheads
+ *   hero  120px+, homepage hero
  *
- * The logo reads on both light and dark surfaces (white letters sit
- * inside solid maroon petal forms), so no variants are needed.
+ * The logo is built for light surfaces (blue petals, white/blue
+ * letters); on the dark footer, wrap it in a light chip.
  *
  * Clear space: reserve at least 0.25× the logo height on all sides
  * (see brand doc §3). Navbar/footer layouts here already enforce it.
  */
 
-const LOGO_SRC = "/images/kallol-logo.webp"
-const LOGO_WIDTH = 2193
-const LOGO_HEIGHT = 568
+const LOGO_SRC = "/images/kallol-logo-blue-2.webp"
+const LOGO_WIDTH = 1022
+const LOGO_HEIGHT = 268
 
 export interface BrandLogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   /** Rendered height in px. Width follows the locked ratio. */
   height?: number
   /** Size presets */
   size?: "sm" | "md" | "lg" | "xl" | "hero"
-  /** Optional className for layout (margin, alignment) — never transform */
+  /** Optional className for layout (margin, alignment), never transform */
   className?: string
 }
 
@@ -56,7 +57,7 @@ export function BrandLogo({
   return (
     <img
       src={LOGO_SRC}
-      alt="Kallol — Kallol Kali Mandir, Goregaon, Mumbai"
+      alt="Kallol, Kallol Kali Mandir, Goregaon, Mumbai"
       width={w}
       height={h}
       style={{ height: `${h}px`, width: `${w}px` }}

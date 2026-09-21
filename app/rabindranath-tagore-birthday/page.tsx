@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata = {
-  title: "Rabindra Jayanti — 25 Boishakh | Kallol, Goregaon",
+  title: "Rabindra Jayanti, 25 Boishakh | Kallol, Goregaon",
   description: "Rabindra Jayanti at Kallol: an evening of Rabindra Sangeet, recitations and performances honouring Gurudev Rabindranath Tagore.",
 }
 
@@ -21,7 +21,7 @@ export default function RabindraJayantiPage() {
             <img src="/assets/Final_1_ranbindra_opt1-1-1-55e1cfa0.webp" alt="Rabindra Jayanti" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Rabindra Jayanti - Honoring the Bard of Bengal</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-kallol-800">Rabindra Jayanti - Honoring the Bard of Bengal</h2>
             <p className="text-gray-700 leading-relaxed text-justify">
               Each year, Rabindra Jayanti, the birth anniversary of Rabindranath Tagore, is observed with deep reverence
               and artistic expression. Kallol pays homage to Gurudev through a specially curated cultural evening,

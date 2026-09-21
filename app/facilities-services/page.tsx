@@ -32,7 +32,7 @@ export default function FacilitiesPage() {
               <img src="/assets/Conference-Hall-6ce31122.webp" alt="Kallol Conference Hall" className="w-full h-full object-cover" />
             </div>
             <CardContent className="p-8">
-              <h3 className="text-xl font-bold text-[#44233b] mb-4">Kallol Conference Hall</h3>
+              <h3 className="text-xl font-bold text-kallol-800 mb-4">Kallol Conference Hall</h3>
               <p className="text-gray-700 leading-relaxed">
                 Air-conditioned conference hall with the capacity of up to 35 people. Suitable for conferences, seminars,
                 events, family functions, etc. Kallol charges a moderate donation based on the duration of booking.
@@ -48,7 +48,7 @@ export default function FacilitiesPage() {
               <img src="/assets/Kallol-Facility-2-a121bd7f.webp" alt="Kallol Campus" className="w-full h-full object-cover" />
             </div>
             <CardContent className="p-8">
-              <h3 className="text-xl font-bold text-[#44233b] mb-4">Kallol Campus</h3>
+              <h3 className="text-xl font-bold text-kallol-800 mb-4">Kallol Campus</h3>
               <p className="text-gray-700 leading-relaxed">
                 Kallol has a large campus and offers its campus on rent for functions, seminars, events, etc. The campus
                 is available for booking at moderate charges.

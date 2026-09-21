@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata = {
-  title: "Homeopathy Dispensary — Free Medical Services | Kallol",
+  title: "Homeopathy Dispensary, Free Medical Services | Kallol",
   description: "Free consultations and affordable homeopathic medicines three days a week at Kallol's charitable dispensary in Goregaon West, Mumbai.",
 }
 
@@ -25,7 +25,7 @@ export default function MedicalPage() {
             <img src="/assets/PHOTO-2025-08-04-21-57-53-20108055.webp" alt="Medical Camp" className="w-full h-48 object-cover rounded-lg shadow-md" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-[#44233b] mb-6">Homeopathic Dispensary</h2>
+            <h2 className="text-2xl font-bold text-kallol-800 mb-6">Homeopathic Dispensary</h2>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">
               Kallol also continues to serve the community through its charitable homeopathic dispensary, which operates
               three days a week, on Tuesdays, Thursdays, and Saturdays. Open to all, the dispensary provides free
@@ -45,7 +45,7 @@ export default function MedicalPage() {
 
         <Card className="border-gray-200">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-4">Medical Camp at Kallol — Past Initiative (Archive)</h3>
+            <h3 className="text-xl font-bold text-kallol-800 mb-4">Medical Camp at Kallol, Past Initiative (Archive)</h3>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">
               In line with its commitment to community well-being, Kallol organized a successful Medical Camp in March
               2025 at its premises in Goregaon. The camp provided free health check-ups, consultations, and basic

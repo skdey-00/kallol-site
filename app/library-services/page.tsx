@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata = {
   title: "Bengali Library & Reading Room | Kallol, Goregaon",
-  description: "A lending library of Bengali literature — Tagore, Sarat Chandra, Bankim Chandra and more — open to Kallol members in Goregaon West, Mumbai.",
+  description: "A lending library of Bengali literature, Tagore, Sarat Chandra, Bankim Chandra and more, open to Kallol members in Goregaon West, Mumbai.",
 }
 
 export default function LibraryPage() {
@@ -22,7 +22,7 @@ export default function LibraryPage() {
             <img src="/assets/library-de30773d.webp" alt="Kallol Library" className="w-full h-full object-cover" />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-kallol-800 mb-6">
               Kallol Library: A Literary Treasure Trove
             </h2>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata = {
   title: "Free Medical Camp | Kallol, Goregaon West",
-  description: "Kallol's free community medical camps — charitable healthcare initiatives at the Kallol campus in Goregaon West, Mumbai.",
+  description: "Kallol's free community medical camps, charitable healthcare initiatives at the Kallol campus in Goregaon West, Mumbai.",
 }
 
 export default function MedicalCampPage() {
@@ -23,7 +23,7 @@ export default function MedicalCampPage() {
 
         <Card className="border-gray-200">
           <CardContent className="p-8">
-            <h2 className="text-2xl font-bold text-[#44233b] mb-6">Medical Camp at Kallol - March 2025</h2>
+            <h2 className="text-2xl font-bold text-kallol-800 mb-6">Medical Camp at Kallol - March 2025</h2>
             <p className="text-gray-700 leading-relaxed text-justify mb-4">
               In line with its commitment to community well-being, Kallol organized a successful Medical Camp in March
               2025 at its premises in Goregaon. The camp provided free health check-ups, consultations, and basic
