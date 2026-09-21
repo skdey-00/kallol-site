@@ -3,6 +3,7 @@ import { getEvents } from "@/actions/events"
 import { buildHomepageEvents } from "@/components/home/events-view"
 import { nextAmavasyaEvent } from "@/components/kallol/event-view"
 import { Hero } from "@/components/home/hero"
+import { QuickActions } from "@/components/home/quick-actions"
 import { NowAtKallol } from "@/components/home/now-at-kallol"
 import { Story } from "@/components/home/story"
 import { PujaIndex } from "@/components/home/puja-index"
@@ -49,6 +50,7 @@ export default async function Home() {
   return (
     <div>
       <Hero />
+      <QuickActions />
       <NowAtKallol next={next} upcoming={upcoming} />
       <Story />
       <PujaIndex events={events} amavasya={amavasya} />
