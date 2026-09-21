@@ -75,7 +75,11 @@ export default function ClientLayout({
           <AuthProvider>
             <CartProvider>
               <Navbar />
-              <main className="pt-[104px] md:pt-[120px]">{children}</main>
+              {/* Pads exactly to the fixed header height:
+                  utility 40 + bar 64 + border 1 = 105px (<md),
+                  utility 40 + bar 96 + border 1 = 137px (md+).
+                  Keep in lockstep with navbar.tsx h-10 / h-16 / md:h-24. */}
+              <main className="pt-[105px] md:pt-[137px]">{children}</main>
               <Footer />
             </CartProvider>
             <Toaster />

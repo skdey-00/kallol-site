@@ -70,7 +70,7 @@ Each beat has a distinct compositional signature — no two adjacent sections sh
 ## 4. Section-by-section design decisions
 
 ### 4.1 Hero — the masthead (REBUILT)
-Full-bleed edge-to-edge photography (82svh, 560–940px band) with a deep maroon scrim gradient (deepest at the base where content sits). The canonical logo (unchanged asset, hero size) sits bottom-left on the deepest scrim — the same logo-on-kallol-950 treatment the footer already uses. Above it, one oversized serif statement at display-xl; below, an editorial metadata rail (hairline + BANGUR NAGAR · GOREGAON WEST · MUMBAI) and one primary CTA + one quiet editorial link. A one-time entrance staggers logo → statement → rail → CTAs (80→380ms). NOT a text-left/image-right split — the photo is the page, the type lives on it.
+Full-bleed edge-to-edge photography (82svh, 560–940px band) with a deep maroon scrim gradient (deepest at the base where content sits). The canonical logo lives in the navbar alone (one mark per view — no second logo on the photograph, so nothing competes with the header). One oversized serif statement at display-xl; below, an editorial metadata rail (hairline + BANGUR NAGAR · GOREGAON WEST · MUMBAI) and one primary CTA + one quiet editorial link. A one-time entrance staggers the elements (80→280ms). NOT a text-left/image-right split — the photo is the page, the type lives on it.
 
 ### 4.2 Now at Kallol — the cover story (REBUILT)
 The most relevant upcoming event (first multi-day run or major puja — currently Durga Puja, 16–21 Oct 2026) is a magazine feature: real photography (the unused original Kallol deity photograph, newly optimized — see §5), enormous date numerals (date-xl) anchored bottom-right ON the image, serif title at statement scale, concise time/place metadata, and a strong Explore CTA. Secondary events (Mahalaya, Kojagari Lakshmi, Kali Puja…) are a ruled calendar rail — quiet bordered rows with date chips, sticky on desktop. When the featured event is also the next event it is never repeated in the rail. Store data only.
@@ -79,7 +79,7 @@ The most relevant upcoming event (first multi-day run or major puja — currentl
 Editorial feature: pull-quote-scale statement with a maroon emphasis ("Born of Saraswati Puja, grown into a community."), two-column narrative hung off a maroon left border (the baseline motif as a content carrier), editorial links in uppercase with underline sweeps. The verified community photograph crops portrait-tall (4:5) on desktop. "Discover our story" — invitation, not button.
 
 ### 4.4 Puja index (REBUILT)
-Two major entries with photography — Durga Puja and Kali Puja at 7:10 portrait crop beside type, second entry offset down (md:mt-14) for asymmetry. Four minor entries as a numbered ruled index (01–04, hairline rows, date chips right, editorial descriptors inline on md+). Size follows significance; type carries the minors.
+Two major entries with photography — Durga Puja and Kali Puja at 7:10 portrait crop beside type, both top-aligned on the same line (grid `items-start`, no per-card offset). Four minor entries as a numbered ruled index (01–04, hairline rows, date chips right, editorial descriptors inline on md+). Size follows significance; type carries the minors.
 
 ### 4.5 Community (REBUILT)
 One large statement ("More than a mandir."), then three full-width ruled rows: numbered eyebrow (01 · LIBRARY), serif title, body, editorial link left; thumbnail right. Rows are the Kallol language — hairline in, content carried, hairline out. The archived medical-camp note keeps its quiet link.

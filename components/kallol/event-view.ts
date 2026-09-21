@@ -36,6 +36,7 @@ export function eventHref(title: string): string {
   if (t.includes("poila") || t.includes("baisakh") || t.includes("boishakh") || t.includes("baishakh"))
     return "/poila-baishak"
   if (t.includes("rabindra") || t.includes("tagore")) return "/rabindranath-tagore-birthday"
+  if (t.includes("dol purnima") || t.includes("holi")) return "/cultural-events"
   if (t.includes("bipattarini")) return "/special-puja"
   return "/upcoming-events"
 }

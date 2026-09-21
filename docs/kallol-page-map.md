@@ -37,6 +37,7 @@ Every page = one folder inside `app/`, and the page's text lives in that folder'
 | Saraswati Puja | `app/saraswati-puja/page.tsx` |
 | Amavasya Puja | `app/amavasya-puja/page.tsx` |
 | Special Puja | `app/special-puja/page.tsx` |
+| Cultural hub | `app/cultural-events/page.tsx` |
 | Poila Boishakh | `app/poila-baishak/page.tsx` |
 | Rabindra Jayanti | `app/rabindranath-tagore-birthday/page.tsx` |
 | Kallol Kali Mandir | `app/kallol-kali-mandir/page.tsx` |

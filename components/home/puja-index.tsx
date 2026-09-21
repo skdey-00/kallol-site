@@ -1,17 +1,20 @@
 import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
+import { Figure } from "@/components/kallol/figure"
 import { NextAmavasyaDate } from "@/components/kallol/next-amavasya-date"
 import type { AmavasyaTarget } from "@/components/kallol/next-amavasya-date"
 import type { EventView } from "@/components/kallol/event-view"
 
 /**
- * PUJA INDEX — the year, indexed (Phase 5B).
+ * PUJA INDEX — the year, indexed (Phase 5B; majors recomposed 5C).
  *
- * Not six equal cards. Two major entries (Durga Puja — the
- * community's greatest festival; Kali Puja — Kallol's namesake)
- * carry photography at portrait scale. The remaining four are a
- * ruled index list: type + hairline + date chip carry them, no
- * images — size follows significance.
+ * One curated editorial composition, not two matching blocks:
+ * Durga Puja — the community's greatest festival — carries the
+ * large portrait frame (left), while Kali Puja — the namesake —
+ * sits as the companion feature, anchored below a hairline in the
+ * right column. Size follows significance; the whitespace between
+ * them is the composition. The four minor pujas remain a numbered
+ * ruled index — type carries them, no images.
  *
  * Dates derive from the events store exactly as before (grouped
  * multi-day festivals collapse to a range; recurring Amavasya
@@ -87,6 +90,8 @@ function dateFor(events: EventView[], puja: PujaEntry): string {
   return puja.fallback ?? "Date to be announced"
 }
 
+const [DURGA, KALI] = MAJORS
+
 export function PujaIndex({
   events,
   amavasya,
@@ -125,51 +130,100 @@ export function PujaIndex({
           />
         </Reveal>
 
-        {/* Major entries — asymmetric pair with photography */}
-        <Reveal className="mt-12 grid gap-10 md:grid-cols-2 lg:mt-16 lg:gap-12">
-          {MAJORS.map((puja, i) => (
+        {/* Major festivals — one curated editorial composition.
+            Durga Puja, the community's greatest festival, carries the
+            large portrait frame; its type sits beside it (md) or opens
+            the right column (lg). Kali Puja, the namesake, is the
+            companion feature: a hairline, a smaller frame, type set
+            one step down — pinned to the same bottom baseline the
+            Durga image establishes. Size follows significance; the
+            air between the two entries is the composition's
+            whitespace, not padding around two equal blocks. */}
+        <div className="mt-12 grid gap-12 md:grid-cols-2 lg:mt-16 lg:grid-cols-12 lg:gap-14">
+          {/* Durga Puja — the featured festival plate. Capped at 560px:
+              the source tile is 350×500 (documented photo limitation),
+              so beyond this the upscale reads soft; the remaining
+              track width becomes composition air. */}
+          <Reveal className="md:col-span-1 lg:col-span-7 lg:row-span-2 lg:max-w-[560px]">
             <Link
-              key={puja.title}
-              href={puja.href}
-              className={`group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory ${
-                i === 1 ? "md:mt-14" : ""
-              }`}
+              href={DURGA.href}
+              className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory"
+            >
+              <Figure
+                src={DURGA.image!}
+                alt={DURGA.alt!}
+                width={350}
+                height={500}
+                aspect="7/10"
+                imgClassName="object-top"
+              />
+            </Link>
+          </Reveal>
+
+          {/* Durga type — beside the plate at md, top of the column at lg */}
+          <Reveal>
+            <Link
+              href={DURGA.href}
+              className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory"
+            >
+              <p className="text-caption uppercase tracking-caps text-kallol-700">
+                {dateFor(events, DURGA)}
+              </p>
+              <h3 className="reveal-up mt-3 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
+                {DURGA.title}
+              </h3>
+              <p className="reveal-up mt-4 max-w-prose text-sm leading-relaxed text-ink-soft">
+                {DURGA.note}
+              </p>
+              <span
+                aria-hidden="true"
+                className="reveal-up mt-5 inline-block text-kallol-600 transition-transform duration-300 ease-calm group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
+          </Reveal>
+
+          {/* Kali Puja — the namesake, anchored to the shared baseline */}
+          <Reveal className="md:col-span-2 lg:col-span-5 lg:self-end">
+            <Link
+              href={KALI.href}
+              className="group block border-t border-stone-line pt-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory"
             >
               <div className="flex gap-6">
-                <div className="relative w-[38%] shrink-0 overflow-hidden">
-                  <img
-                    src={puja.image}
-                    alt={puja.alt}
+                <div className="w-[38%] shrink-0 md:w-[34%] lg:w-[42%]">
+                  <Figure
+                    src={KALI.image!}
+                    alt={KALI.alt!}
                     width={350}
                     height={500}
-                    loading="lazy"
-                    decoding="async"
-                    className="reveal-img img-breathe aspect-[7/10] h-full w-full object-cover"
+                    aspect="7/10"
+                    imgClassName="object-top"
                   />
                 </div>
                 <div className="flex flex-col justify-between py-1">
                   <div>
                     <p className="text-caption uppercase tracking-caps text-kallol-700">
-                      {dateFor(events, puja)}
+                      {dateFor(events, KALI)}
                     </p>
-                    <h3 className="mt-3 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
-                      {puja.title}
+                    <h3 className="reveal-up mt-2 font-display text-h3 text-ink transition-colors group-hover:text-kallol-700">
+                      {KALI.title}
                     </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-                      {puja.note}
+                    <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                      {KALI.note}
                     </p>
                   </div>
                   <span
                     aria-hidden="true"
-                    className="mt-6 inline-block text-kallol-600 transition-transform duration-300 ease-calm group-hover:translate-x-1"
+                    className="mt-5 inline-block text-kallol-600 transition-transform duration-300 ease-calm group-hover:translate-x-1"
                   >
                     →
                   </span>
                 </div>
               </div>
             </Link>
-          ))}
-        </Reveal>
+          </Reveal>
+        </div>
 
         {/* Minor entries — the ruled index */}
         <Reveal className="mt-14 md:mt-20">
@@ -204,18 +258,12 @@ export function PujaIndex({
             ))}
           </ul>
           <p className="mt-8 text-sm text-ink-mute">
-            Cultural evenings —{" "}
-            <Link href="/poila-baishak" className="link-editorial text-kallol-700">
-              Poila Baishakh
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="/rabindranath-tagore-birthday"
-              className="link-editorial text-kallol-700"
-            >
-              Rabindra Jayanti
-            </Link>{" "}
-            — are celebrated alongside the pujas.
+            Cultural evenings — Poila Baishakh, Rabindra Jayanti and Dol
+            Purnima —{" "}
+            <Link href="/cultural-events" className="link-editorial text-kallol-700">
+              have a calendar of their own
+            </Link>
+            .
           </p>
         </Reveal>
       </div>

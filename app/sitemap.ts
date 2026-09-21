@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/lakshmi-puja", priority: 0.8, freq: "monthly" },
     { path: "/saraswati-puja", priority: 0.8, freq: "monthly" },
     { path: "/special-puja", priority: 0.7, freq: "monthly" },
+    { path: "/cultural-events", priority: 0.8, freq: "monthly" },
     { path: "/poila-baishak", priority: 0.7, freq: "yearly" },
     { path: "/rabindranath-tagore-birthday", priority: 0.7, freq: "yearly" },
     { path: "/archives", priority: 0.6, freq: "monthly" },

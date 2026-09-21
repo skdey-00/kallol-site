@@ -21,9 +21,9 @@ export interface FigureProps {
   alt: string
   caption?: string
   href?: string
-  aspect?: "4/5" | "3/2" | "4/3" | "21/9" | "1/1"
+  aspect?: "4/5" | "3/2" | "4/3" | "21/9" | "1/1" | "7/10"
   /** Breakpoint-specific crop for the same frame, e.g. "4/3" at md */
-  aspectMd?: "4/5" | "3/2" | "4/3" | "21/9" | "1/1"
+  aspectMd?: "4/5" | "3/2" | "4/3" | "21/9" | "1/1" | "7/10"
   width: number
   height: number
   /** Eager-load for above-the-fold frames (LCP); default lazy */
@@ -38,6 +38,10 @@ const ASPECT_CLASS: Record<string, string> = {
   "4/3": "aspect-[4/3]",
   "21/9": "aspect-[21/9]",
   "1/1": "aspect-square",
+  /* 7/10 — the puja festival tiles' native ratio (350×500): shown
+     uncropped; the least destructive treatment for irreplaceable
+     photography that cannot be re-shot wider. */
+  "7/10": "aspect-[7/10]",
 }
 
 export function Figure({

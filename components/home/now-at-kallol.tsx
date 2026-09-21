@@ -61,6 +61,16 @@ export function NowAtKallol({
   const featured = pool.find(isFeaturedCandidate) ?? next
   const rail = pool.filter((e) => e !== featured).slice(0, 4)
 
+  // When Durga Puja is the cover story, lead with the Durgotsab
+  // invitation card art instead of the generic sanctum photograph.
+  const isDurga = featured?.href === "/durga-puja"
+  const featuredImage = isDurga
+    ? "/assets/durga-invitation-cover.webp"
+    : "/assets/kali-mandir-deity-1600-featured.jpg"
+  const featuredAlt = isDurga
+    ? "Durgotsab 2026 invitation card art — Goddess Durga"
+    : "Maa Kali at the Kallol Kali Mandir sanctum"
+
   return (
     <section aria-labelledby="now-heading" className="bg-ivory">
       <div className="container py-16 md:py-24 lg:py-28">
@@ -77,8 +87,8 @@ export function NowAtKallol({
                   >
                     <div className="relative overflow-hidden">
                       <img
-                        src="/assets/kali-mandir-deity-1600-featured.jpg"
-                        alt="Maa Kali at the Kallol Kali Mandir sanctum"
+                        src={featuredImage}
+                        alt={featuredAlt}
                         width={1600}
                         height={1067}
                         loading="lazy"

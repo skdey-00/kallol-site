@@ -130,32 +130,6 @@ export function UpcomingEventsView({
       featured: false,
       href: "/saraswati-puja",
     },
-    {
-      id: 7,
-      title: "Poila Boishakh (Bengali New Year)",
-      date: "Thursday, Apr 15, 2027",
-      time: "09:00 AM onwards",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Bengali New Year 1434 with Dashopachar Puja at 9:00 AM, Satyanarayan Puja at 6:00 PM and Kallol Anniversary, followed by a cultural program and authentic Bengali cuisine.",
-      image: "/assets/PoilaBoishak-ee6e477f.png",
-      category: "cultural",
-      featured: false,
-      href: "/poila-baishak",
-    },
-    {
-      id: 8,
-      title: "Rabindra Jayanti",
-      date: "Early May (25 Boishakh) — date to be announced",
-      time: "Evening",
-      location: "Kallol Kali Mandir, Bangur Nagar",
-      description:
-        "Cultural evening of Rabindra Sangeet, recitations and performances honouring Gurudev Rabindranath Tagore.",
-      image: "/assets/Final_1_ranbindra_opt1-1-1-55e1cfa0.png",
-      category: "cultural",
-      featured: false,
-      href: "/rabindranath-tagore-birthday",
-    },
   ]
 
   const filteredEvents =
@@ -168,7 +142,7 @@ export function UpcomingEventsView({
       <PageHeader
         eyebrow="Puja"
         title="Puja"
-        intro="Join us for upcoming pujas and events at Kallol Kali Mandir in Bangur Nagar, Goregaon West. Mark your calendars and be part of our vibrant community celebrations."
+        intro="Join us for upcoming pujas at Kallol Kali Mandir in Bangur Nagar, Goregaon West. Mark your calendars and be part of our vibrant community celebrations."
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
       />
       <div className="container mx-auto">
@@ -236,28 +210,32 @@ export function UpcomingEventsView({
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-4 md:mb-0">
               All <span className="text-kallol-700">Events</span>
             </h2>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
-              <TabsList className="bg-white border-2 border-kallol-700 p-1 h-auto w-full md:w-auto">
-                <TabsTrigger
-                  value="all"
-                  className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white py-2.5 px-4"
-                >
-                  All
-                </TabsTrigger>
-                <TabsTrigger
-                  value="religious"
-                  className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white py-2.5 px-4"
-                >
-                  Religious
-                </TabsTrigger>
-                <TabsTrigger
-                  value="cultural"
-                  className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white py-2.5 px-4"
-                >
-                  Cultural
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
+                <TabsList className="bg-white border-2 border-kallol-700 p-1 h-auto w-full md:w-auto">
+                  <TabsTrigger
+                    value="all"
+                    className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white py-2.5 px-4"
+                  >
+                    All
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="religious"
+                    className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white py-2.5 px-4"
+                  >
+                    Religious
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+              {/* Cultural events live on their own page now */}
+              <Link
+                href="/cultural-events"
+                className="text-kallol-700 inline-flex items-center font-medium hover:underline"
+              >
+                Cultural Programmes
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
           </div>
 
           <motion.div variants={staggerChildren} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

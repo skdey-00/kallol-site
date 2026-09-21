@@ -9,9 +9,10 @@ import { BrandLogo } from "@/components/brand-logo"
 import { useAuth } from "@/hooks/use-auth"
 import { useCart } from "@/hooks/use-cart"
 
-// Phase 4 IA: intent-based navigation. Five questions cover every major
-// journey: What is Kallol? / What's happening? / What does Kallol do for the
-// community? / Show me photos & past events. / How do I book, offer or donate?
+// Phase 4 IA: intent-based navigation. Six questions cover every major
+// journey: What is Kallol? / What's happening at the mandir? / What's
+// happening in the arts? / What does Kallol do for the community? /
+// Show me photos & past events. / How do I book, offer or donate?
 const navGroups = [
   {
     name: "About",
@@ -33,10 +34,16 @@ const navGroups = [
       { name: "Kali Puja", href: "/kali-puja" },
       { name: "Lakshmi Puja", href: "/lakshmi-puja" },
       { name: "Saraswati Puja", href: "/saraswati-puja" },
-      { dropdownDivider: true },
-      { name: "Cultural Events", href: "/poila-baishak" },
-      { name: "Rabindra Jayanti", href: "/rabindranath-tagore-birthday" },
       { name: "Special Pujas", href: "/special-puja" },
+    ],
+  },
+  {
+    name: "Cultural",
+    href: "/cultural-events",
+    children: [
+      { name: "Cultural Programmes", href: "/cultural-events" },
+      { name: "Poila Baishakh", href: "/poila-baishak" },
+      { name: "Rabindra Jayanti", href: "/rabindranath-tagore-birthday" },
       { name: "Past Events", href: "/archives" },
     ],
   },
@@ -120,9 +127,11 @@ export function Navbar() {
         scrolled ? "bg-ivory-raised/95 shadow-raised backdrop-blur-sm" : "bg-ivory-raised border-b border-stone-line"
       }`}
     >
-      {/* Top bar */}
+      {/* Utility bar — compact metadata strip (h-10 = 40px). Contact left,
+          social right; deliberately quiet. Uses the configured .container
+          so the logo, nav and hero all share one horizontal grid. */}
       <div className="bg-kallol-950 text-xs tracking-caps">
-        <div className="container mx-auto px-4 flex justify-between items-center h-10">
+        <div className="container flex justify-between items-center h-10">
           <div className="flex gap-6">
             <a href="tel:+918655852917" className="text-ivory/80 hover:text-ivory transition-colors duration-200">
               ☎ +91-8655852917
@@ -142,27 +151,35 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Main nav */}
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      {/* Primary navbar — ivory-raised, h-24 (96px) from md up (64px on
+          phones). One fixed element, one z-index; <main> pads to the exact
+          header height (40 + 64/96 + 1px border). Logo is the exact asset
+          at a locked ratio: 44px mobile / 68px desktop, fully inside the
+          bar. */}
+      <div className="container">
+        <div className="flex items-center justify-between h-16 md:h-24">
           {/* Canonical logo — exact asset, locked ratio, clear space right */}
           <Link href="/" aria-label="Kallol — home" className="flex items-center pr-4 md:pr-8">
             <BrandLogo size="md" className="md:hidden" />
-            <BrandLogo size="lg" className="hidden md:block" />
+            <BrandLogo height={68} className="hidden md:block" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1" aria-label="Primary">
+          {/* Desktop Navigation — xl and up: six groups + Contact + Donate
+              need more rail than lg offers once Cultural became its own group. */}
+          <nav className="hidden xl:flex items-center gap-1" aria-label="Primary">
             {navGroups.map((group) => (
               <div key={group.name} className="relative group">
                 <Link
                   href={group.href}
                   aria-current={isGroupActive(group) ? "page" : undefined}
-                  className="flex items-center gap-1 px-3 py-2 text-ink hover:text-kallol-600 transition-colors duration-200 ease-calm font-sans font-semibold text-sm"
+                  className="flex items-center gap-1.5 px-3 py-2 text-ink hover:text-kallol-600 transition-colors duration-200 ease-calm font-sans font-semibold text-sm"
                 >
                   {group.name}
                   {group.children && group.children.length > 0 && (
-                    <ChevronDown className="h-3 w-3" />
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="h-3 w-3 text-ink-faint transition-transform duration-200 ease-calm group-hover:rotate-180 group-focus-within:rotate-180"
+                    />
                   )}
                 </Link>
                 {/* Active indicator — echoes the logo's linked baseline */}
@@ -230,7 +247,7 @@ export function Navbar() {
           </nav>
 
           {/* Mobile Navigation Toggle */}
-          <div className="flex lg:hidden items-center">
+          <div className="flex xl:hidden items-center">
             <Link
               href="/cart"
               aria-label={`Cart${hydrated && totalItems > 0 ? ` (${totalItems} items)` : ""}`}
@@ -264,9 +281,9 @@ export function Navbar() {
       <div
         id="mobile-menu"
         hidden={!isOpen}
-        className="lg:hidden bg-ivory-raised border-t border-stone-line overflow-y-auto max-h-[85dvh] menu-enter"
+        className="xl:hidden bg-ivory-raised border-t border-stone-line overflow-y-auto max-h-[85dvh] menu-enter"
       >
-        <div className="container mx-auto px-4 py-4">
+        <div className="container py-4">
           <nav className="flex flex-col">
             {navGroups.map((group) => (
               <div key={group.name} className="border-b border-stone-line py-1">

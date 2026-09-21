@@ -10,10 +10,10 @@ export default function RabindraJayantiPage() {
   return (
     <main className="min-h-screen pb-16 bg-ivory">
       <PageHeader
-        eyebrow="Cultural Events"
+        eyebrow="Cultural"
         title="Rabindranath Tagore Birthday"
         intro="Honoring the Bard of Bengal"
-        crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
+        crumbs={[{ label: "Cultural", href: "/cultural-events" }]}
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-8">

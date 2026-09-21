@@ -12,7 +12,7 @@ export function Footer() {
   return (
     <footer className="bg-kallol-950 text-ivory/80">
       <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {/* Contact */}
           <div className="lg:col-span-1">
             {/* Canonical logo — same exact asset as the navbar.
@@ -113,9 +113,18 @@ export function Footer() {
               <li><Link href="/kali-puja" className="hover:text-ivory transition-colors duration-200">Kali Puja</Link></li>
               <li><Link href="/lakshmi-puja" className="hover:text-ivory transition-colors duration-200">Lakshmi Puja</Link></li>
               <li><Link href="/saraswati-puja" className="hover:text-ivory transition-colors duration-200">Saraswati Puja</Link></li>
+              <li><Link href="/special-puja" className="hover:text-ivory transition-colors duration-200">Special Pujas</Link></li>
+              <li><Link href="/archives" className="hover:text-ivory transition-colors duration-200">Past Events</Link></li>
+            </ul>
+          </div>
+
+          {/* Cultural */}
+          <div>
+            <h3 className="font-sans text-xs font-semibold uppercase tracking-caps text-ivory/50 mb-5">Cultural</h3>
+            <ul className="space-y-2.5">
+              <li><Link href="/cultural-events" className="hover:text-ivory transition-colors duration-200">Cultural Programmes</Link></li>
               <li><Link href="/poila-baishak" className="hover:text-ivory transition-colors duration-200">Poila Baishakh</Link></li>
               <li><Link href="/rabindranath-tagore-birthday" className="hover:text-ivory transition-colors duration-200">Rabindra Jayanti</Link></li>
-              <li><Link href="/archives" className="hover:text-ivory transition-colors duration-200">Past Events</Link></li>
             </ul>
           </div>
 

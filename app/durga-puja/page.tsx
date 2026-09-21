@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
+import { InvitationCardViewer } from "@/components/durga-puja/invitation-card-viewer"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
@@ -19,8 +20,8 @@ export default function DurgaPujaPage() {
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
-          <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
-            <img src="/assets/image-7-279fa7e2.png" alt="Durga Puja at Kallol" className="w-full h-full object-cover" />
+          <div className="relative aspect-[3300/2550] rounded-lg overflow-hidden shadow-lg">
+            <img src="/assets/durga-invitation-cover.webp" alt="Durgotsab 2026 invitation card cover art" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">The Pinnacle of Bengali Celebration</h2>
@@ -103,6 +104,8 @@ export default function DurgaPujaPage() {
           </CardContent>
         </Card>
       </div>
+
+      <InvitationCardViewer headingId="invitation-card-heading" />
     </main>
   )
 }

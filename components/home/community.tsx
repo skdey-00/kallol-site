@@ -1,14 +1,19 @@
 import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
+import { Figure } from "@/components/kallol/figure"
 
 /**
- * COMMUNITY — "More than a mandir" (Phase 5B).
+ * COMMUNITY — "More than a mandir" (Phase 5B; recomposed 5C).
  *
- * Not three equal cards. One large statement, then three
- * full-width ruled rows: eyebrow + title + body left, thumbnail
- * right (swap sides on mobile). The row is the Kallol visual
- * language: hairline in, content carried, hairline out.
- * Verified services only — library, dispensary, facilities.
+ * Editorial storytelling rather than a catalogue of rows: each
+ * service keeps its own silhouette on one 12-col grid —
+ *   Library    — the lead: tall portrait frame + generous text;
+ *   Medical    — reversed: text left, the wide dispensary banner
+ *                (its native 20:9 shape) right;
+ *   Facilities — the broad close: large landscape frame beside a
+ *                narrow metadata rail.
+ * Ghost numerals anchor the sequence; hairlines separate; nothing
+ * is a card. Verified services only — library, dispensary, halls.
  */
 const SERVICES = [
   {
@@ -40,7 +45,23 @@ const SERVICES = [
   },
 ] as const
 
+/** Ghost numeral — oversized, decorative, aria-hidden editorial anchor.
+    In flow (flex row with the text block): no absolute positioning,
+    no overlap with the hairlines. */
+function GhostNumber({ n }: { n: number }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="select-none shrink-0 basis-24 font-display text-[clamp(3.5rem,7vw,6rem)] leading-[0.8] text-kallol-600/15 lg:basis-28"
+    >
+      {String(n).padStart(2, "0")}
+    </span>
+  )
+}
+
 export function Community() {
+  const [library, medical, facilities] = SERVICES
+
   return (
     <section aria-labelledby="community-heading" className="bg-stone-warm/60">
       <div className="container py-16 md:py-24 lg:py-28">
@@ -64,50 +85,131 @@ export function Community() {
           </div>
         </Reveal>
 
+        {/* 01 · LIBRARY — the lead: tall frame + generous text */}
         <Reveal className="mt-12 lg:mt-16">
           <div className="rule-draw h-px bg-stone-line" aria-hidden="true" />
-          {SERVICES.map((s, i) => (
-            <article key={s.eyebrow} className="border-b border-stone-line">
-              <Link
-                href={s.href}
-                className="group grid gap-6 py-8 transition-colors hover:bg-kallol-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-warm md:grid-cols-12 md:items-center md:gap-10 md:py-10"
-              >
-                <div className="md:col-span-8 lg:col-span-9">
-                  <p className="text-caption uppercase tracking-caps text-kallol-700">
-                    {String(i + 1).padStart(2, "0")} · {s.eyebrow}
-                  </p>
-                  <h3 className="mt-2 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
-                    {s.title}
-                  </h3>
-                  <p className="mt-3 max-w-prose text-sm leading-relaxed text-ink-soft">
-                    {s.body}
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-kallol-700">
-                    <span className="link-editorial">{s.linkLabel}</span>
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-200 ease-calm group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
+          <Link
+            href={library.href}
+            className="group grid gap-8 border-b border-stone-line py-10 md:py-12 lg:grid-cols-12 lg:items-start lg:gap-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-warm"
+          >
+            <div className="lg:col-span-5 lg:pt-6">
+              <Figure
+                src={library.image}
+                alt={library.alt}
+                width={600}
+                height={500}
+                aspect="4/5"
+                imgClassName="object-top"
+              />
+            </div>
+            <div className="flex gap-6 lg:col-span-7 lg:gap-8">
+              <GhostNumber n={1} />
+              <div>
+                <p className="text-caption uppercase tracking-caps text-kallol-700">
+                  {library.eyebrow}
+                </p>
+                <h3 className="reveal-up mt-3 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
+                  {library.title}
+                </h3>
+                <p className="reveal-up mt-4 max-w-prose text-body-lg leading-relaxed text-ink-soft">
+                  {library.body}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-kallol-700">
+                  <span className="link-editorial">{library.linkLabel}</span>
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform duration-200 ease-calm group-hover:translate-x-1"
+                  >
+                    →
                   </span>
-                </div>
-                <div className="md:col-span-4 lg:col-span-3">
-                  <div className="overflow-hidden">
-                    <img
-                      src={s.image}
-                      alt={s.alt}
-                      width={640}
-                      height={400}
-                      loading="lazy"
-                      decoding="async"
-                      className="reveal-img img-breathe aspect-[3/2] w-full object-cover"
-                    />
-                  </div>
-                </div>
-              </Link>
-            </article>
-          ))}
+                </span>
+              </div>
+            </div>
+          </Link>
+        </Reveal>
+
+        {/* 02 · MEDICAL — reversed: text left, wide banner right */}
+        <Reveal>
+          <Link
+            href={medical.href}
+            className="group grid gap-8 border-b border-stone-line py-10 md:py-12 lg:grid-cols-12 lg:items-center lg:gap-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-warm"
+          >
+            <div className="flex gap-6 lg:order-1 lg:col-span-5 lg:gap-8">
+              <GhostNumber n={2} />
+              <div>
+                <p className="text-caption uppercase tracking-caps text-kallol-700">
+                  {medical.eyebrow}
+                </p>
+                <h3 className="reveal-up mt-3 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
+                  {medical.title}
+                </h3>
+                <p className="reveal-up mt-4 max-w-prose leading-relaxed text-ink-soft">
+                  {medical.body}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-kallol-700">
+                  <span className="link-editorial">{medical.linkLabel}</span>
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform duration-200 ease-calm group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div className="lg:order-2 lg:col-span-7">
+              <Figure
+                src={medical.image}
+                alt={medical.alt}
+                width={1600}
+                height={720}
+                aspect="21/9"
+                imgClassName="object-top"
+              />
+            </div>
+          </Link>
+        </Reveal>
+
+        {/* 03 · FACILITIES — the broad close: landscape frame + narrow rail */}
+        <Reveal>
+          <Link
+            href={facilities.href}
+            className="group grid gap-8 border-b border-stone-line py-10 md:py-12 lg:grid-cols-12 lg:items-end lg:gap-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-warm"
+          >
+            <div className="lg:col-span-7">
+              <Figure
+                src={facilities.image}
+                alt={facilities.alt}
+                width={1600}
+                height={1040}
+                aspect="3/2"
+                imgClassName="object-top"
+              />
+            </div>
+            <div className="flex gap-6 lg:col-span-5 lg:gap-8">
+              <GhostNumber n={3} />
+              <div>
+                <p className="text-caption uppercase tracking-caps text-kallol-700">
+                  {facilities.eyebrow}
+                </p>
+                <h3 className="reveal-up mt-3 font-display text-h2 text-ink transition-colors group-hover:text-kallol-700">
+                  {facilities.title}
+                </h3>
+                <p className="reveal-up mt-4 leading-relaxed text-ink-soft">
+                  {facilities.body}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-kallol-700">
+                  <span className="link-editorial">{facilities.linkLabel}</span>
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform duration-200 ease-calm group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </span>
+              </div>
+            </div>
+          </Link>
         </Reveal>
 
         <p className="mt-8 text-sm text-ink-mute">
