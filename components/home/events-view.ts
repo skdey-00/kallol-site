@@ -3,7 +3,7 @@ import type { EventView } from "@/components/kallol/event-view"
 import { eventHref } from "@/components/kallol/event-view"
 
 /**
- * Homepage event-view derivation — ONE SOURCE OF TRUTH.
+ * Homepage event-view derivation, ONE SOURCE OF TRUTH.
  *
  * Derives presentational views from the shared events store
  * (public Google Calendar via getEvents()), exactly like /calendar and

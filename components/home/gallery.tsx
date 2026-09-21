@@ -2,16 +2,14 @@ import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
 
 /**
- * GALLERY — visual memory, not a uniform grid (Phase 5B).
+ * GALLERY, visual memory, not a uniform grid (Phase 5B).
  *
- * One dominant frame (the sanctum, near-16:9 wide) anchors the
- * wall; three supporting frames sit beside/below at varied sizes
- * and intentional crops. Quiet captions under everything. All
- * frames verified against app/photos/page.tsx. Links to /photos.
- *
- * Layout (lg): dominant left ~58%, supporting column right with
- * two frames stacked, one wide frame below spanning. Asymmetry by
- * design; uniformity is the enemy.
+ * One dominant frame (the sanctum) anchors the wall full-width;
+ * three supporting frames follow in a row. Every frame renders at
+ * its intrinsic 3:2, nothing is cropped, nothing letterboxed, and
+ * the rows stay aligned because all sources share the ratio.
+ * Quiet captions under everything. All frames verified against
+ * app/photos/page.tsx. Links to /photos.
  */
 const DOMINANT = {
   src: "/assets/5B8A0782-1-2a544d2e.webp",
@@ -40,7 +38,7 @@ const SUPPORTING = [
 export function GalleryTeaser() {
   return (
     <section aria-labelledby="gallery-heading" className="bg-ivory-raised">
-      <div className="container py-16 md:py-24 lg:py-28">
+      <div className="container py-10 md:py-12 lg:py-16">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-2xl">
@@ -56,7 +54,7 @@ export function GalleryTeaser() {
                 className="reveal-up mt-4 max-w-prose text-body-lg text-ink-soft"
                 style={{ ["--reveal-delay" as string]: "120ms" }}
               >
-                The mandir, the festivals, the people — photographs from
+                The mandir, the festivals, the people, photographs from
                 Kallol&rsquo;s own celebrations.
               </p>
             </div>
@@ -71,9 +69,9 @@ export function GalleryTeaser() {
         </Reveal>
 
         <Reveal className="mt-12 lg:mt-16">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-            {/* Dominant frame — full-width at md, tall left column at lg */}
-            <figure className="group md:col-span-12 lg:col-span-7 lg:row-span-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+            {/* Dominant frame, full-width anchor at its native 3:2 */}
+            <figure className="group md:col-span-3">
               <Link
                 href="/photos"
                 className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-4 focus-visible:ring-offset-ivory-raised"
@@ -86,7 +84,7 @@ export function GalleryTeaser() {
                     height={1140}
                     loading="lazy"
                     decoding="async"
-                    className="reveal-img img-breathe aspect-[4/3] w-full object-cover lg:aspect-[4/5] lg:h-full"
+                    className="reveal-img img-breathe aspect-[3/2] w-full object-cover"
                   />
                 </div>
                 <figcaption className="img-caption mt-2">
@@ -95,64 +93,25 @@ export function GalleryTeaser() {
               </Link>
             </figure>
 
-            {/* Supporting frames — 2-up at md, stacked right column at lg */}
-            <figure className="group md:col-span-6 lg:col-span-5">
-              <Link href="/photos" className="block">
-                <div className="overflow-hidden">
-                  <img
-                    src={SUPPORTING[0].src}
-                    alt={SUPPORTING[0].alt}
-                    width={1500}
-                    height={1000}
-                    loading="lazy"
-                    decoding="async"
-                    className="reveal-img img-breathe aspect-[3/2] w-full object-cover"
-                  />
-                </div>
-                <figcaption className="img-caption mt-2">
-                  {SUPPORTING[0].caption}
-                </figcaption>
-              </Link>
-            </figure>
-
-            <figure className="group md:col-span-6 lg:col-span-5">
-              <Link href="/photos" className="block">
-                <div className="overflow-hidden">
-                  <img
-                    src={SUPPORTING[1].src}
-                    alt={SUPPORTING[1].alt}
-                    width={1920}
-                    height={1280}
-                    loading="lazy"
-                    decoding="async"
-                    className="reveal-img img-breathe aspect-[3/2] w-full object-cover"
-                  />
-                </div>
-                <figcaption className="img-caption mt-2">
-                  {SUPPORTING[1].caption}
-                </figcaption>
-              </Link>
-            </figure>
-
-            {/* Wide frame below — full-width, near-cinema crop */}
-            <figure className="group md:col-span-12">
-              <Link href="/photos" className="block">
-                <div className="overflow-hidden">
-                  <img
-                    src={SUPPORTING[2].src}
-                    alt={SUPPORTING[2].alt}
-                    width={1500}
-                    height={1000}
-                    loading="lazy"
-                    decoding="async"
-                    className="reveal-img img-breathe aspect-[3/2] w-full object-cover md:aspect-[21/9]"
-                  />
-                </div>
-                <figcaption className="img-caption mt-2">
-                  {SUPPORTING[2].caption}
-                </figcaption>
-              </Link>
-            </figure>
+            {/* Supporting frames, equal thirds at their native 3:2 */}
+            {SUPPORTING.map((s) => (
+              <figure key={s.src} className="group">
+                <Link href="/photos" className="block">
+                  <div className="overflow-hidden">
+                    <img
+                      src={s.src}
+                      alt={s.alt}
+                      width={1500}
+                      height={1000}
+                      loading="lazy"
+                      decoding="async"
+                      className="reveal-img img-breathe aspect-[3/2] w-full object-cover"
+                    />
+                  </div>
+                  <figcaption className="img-caption mt-2">{s.caption}</figcaption>
+                </Link>
+              </figure>
+            ))}
           </div>
         </Reveal>
       </div>

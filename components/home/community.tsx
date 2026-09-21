@@ -2,19 +2,19 @@ import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
 
 /**
- * COMMUNITY — "More than a mandir" (Phase 5B).
+ * COMMUNITY, "More than a mandir" (Phase 5B).
  *
  * Not three equal cards. One large statement, then three
  * full-width ruled rows: eyebrow + title + body left, thumbnail
  * right (swap sides on mobile). The row is the Kallol visual
  * language: hairline in, content carried, hairline out.
- * Verified services only — library, dispensary, facilities.
+ * Verified services only, library, dispensary, facilities.
  */
 const SERVICES = [
   {
     eyebrow: "Library",
     title: "A lending library of Bengali literature",
-    body: "Tagore, Sarat Chandra, Bankim Chandra and contemporary Bengali authors — alongside spiritual texts and periodicals — in a reading room open to members of all ages.",
+    body: "Tagore, Sarat Chandra, Bankim Chandra and contemporary Bengali authors, alongside spiritual texts and periodicals, in a reading room open to members of all ages.",
     href: "/library-services",
     linkLabel: "Visit the library",
     image: "/assets/library-de30773d.webp",
@@ -23,7 +23,7 @@ const SERVICES = [
   {
     eyebrow: "Medical",
     title: "A charitable homeopathy dispensary",
-    body: "Free consultations and affordable medicines three days a week — Tuesdays, Thursdays and Saturdays — open to all, staffed by experienced practitioners.",
+    body: "Free consultations and affordable medicines three days a week, Tuesdays, Thursdays and Saturdays, open to all, staffed by experienced practitioners.",
     href: "/medical-services",
     linkLabel: "Medical services",
     image: "/assets/Medical-a397b286.webp",
@@ -43,7 +43,7 @@ const SERVICES = [
 export function Community() {
   return (
     <section aria-labelledby="community-heading" className="bg-stone-warm/60">
-      <div className="container py-16 md:py-24 lg:py-28">
+      <div className="container py-10 md:py-12 lg:py-16">
         <Reveal>
           <div className="max-w-3xl">
             <p className="section-eyebrow">Community</p>
@@ -58,7 +58,7 @@ export function Community() {
               className="reveal-up mt-5 max-w-prose text-body-lg text-ink-soft"
               style={{ ["--reveal-delay" as string]: "140ms" }}
             >
-              Kallol is a working community institution — its campus serves
+              Kallol is a working community institution, its campus serves
               the neighbourhood long after the aarti ends.
             </p>
           </div>
@@ -84,15 +84,9 @@ export function Community() {
                   </p>
                   <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-kallol-700">
                     <span className="link-editorial">{s.linkLabel}</span>
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-200 ease-calm group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
                   </span>
                 </div>
-                <div className="md:col-span-4 lg:col-span-3">
+                <div className="md:col-span-4 lg:col-span-4">
                   <div className="overflow-hidden">
                     <img
                       src={s.image}
@@ -111,16 +105,12 @@ export function Community() {
         </Reveal>
 
         <p className="mt-8 text-sm text-ink-mute">
-          Past initiatives, such as the{" "}
+          And take a look at the{" "}
           <Link
             href="/medical-camp"
             className="link-editorial text-kallol-700"
           >
             March 2025 free medical camp
-          </Link>
-          , are preserved in the{" "}
-          <Link href="/archives" className="link-editorial text-kallol-700">
-            archives
           </Link>
           .
         </p>

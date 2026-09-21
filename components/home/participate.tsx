@@ -2,12 +2,12 @@ import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
 
 /**
- * PARTICIPATE — the dignified closing ask (Phase 5B).
+ * PARTICIPATE, the dignified closing ask (Phase 5B).
  *
  * One hierarchy, not four tiles: DONATE is the dominant action
  * with a real button; the other genuine ways to take part sit
  * beneath as quiet ruled links. No claims about where funds go,
- * no manipulative language — an invitation, not an advertisement.
+ * no manipulative language, an invitation, not an advertisement.
  */
 const QUIET_ACTIONS = [
   {
@@ -30,7 +30,7 @@ const QUIET_ACTIONS = [
 export function Participate() {
   return (
     <section aria-labelledby="participate-heading" className="bg-kallol-950">
-      <div className="container py-16 md:py-24 lg:py-28">
+      <div className="container py-10 md:py-12 lg:py-16">
         <Reveal className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           {/* The dominant ask */}
           <div className="lg:col-span-6">
@@ -46,7 +46,7 @@ export function Participate() {
               className="reveal-up mt-5 max-w-prose text-body-lg text-ivory/80"
               style={{ ["--reveal-delay" as string]: "140ms" }}
             >
-              Worship, celebrate, serve, or support — there are several ways
+              Worship, celebrate, serve, or support, there are several ways
               to be part of the community.
             </p>
             <div
@@ -65,7 +65,7 @@ export function Participate() {
             </div>
           </div>
 
-          {/* Quiet ruled links — the other genuine ways in */}
+          {/* Quiet ruled links, the other genuine ways in */}
           <div className="lg:col-span-6 lg:pl-12 lg:border-l lg:border-ivory/15">
             <p className="text-caption uppercase tracking-caps text-ivory/50">
               Also

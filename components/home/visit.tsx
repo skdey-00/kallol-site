@@ -2,17 +2,17 @@
 import { Reveal } from "@/components/kallol/reveal"
 
 /**
- * VISIT — the quiet, practical close (Phase 5B).
+ * VISIT, the quiet, practical close (Phase 5B).
  *
  * Address set as small metadata columns under a modest heading;
  * timings; the map kept (it is genuinely useful). CONTACT and
- * MAPS buttons remain from Phase 5A. Verified facts only — no
+ * MAPS buttons remain from Phase 5A. Verified facts only, no
  * invented hours, parking, or transport claims.
  */
 export function Visit() {
   return (
     <section aria-labelledby="visit-heading" className="bg-stone-paper">
-      <div className="container py-16 md:py-24">
+      <div className="container py-10 md:py-12">
         <Reveal className="grid gap-12 lg:grid-cols-12">
           {/* Metadata columns */}
           <div className="lg:col-span-5">
@@ -21,7 +21,7 @@ export function Visit() {
               Find us in Bangur Nagar
             </h2>
             <address className="mt-8 not-italic leading-relaxed text-ink-soft">
-              Kallol Kali Mandir
+              Kallol Kali Mandir Complex
               <br />
               Bangur Nagar, Goregaon West
               <br />
@@ -82,11 +82,11 @@ export function Visit() {
             </div>
           </div>
 
-          {/* Map — same embed as /contact */}
+          {/* Map, same embed as /contact */}
           <div className="lg:col-span-7">
             <div className="h-full min-h-[320px] overflow-hidden rounded-md border border-stone-line">
               <iframe
-                title="Map showing the location of Kallol Kali Mandir, Bangur Nagar, Goregaon West, Mumbai"
+                title="Map showing the location of Kallol Kali Mandir Complex, Bangur Nagar, Goregaon West, Mumbai"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13274.317827296245!2d72.83752767472929!3d19.16408215102074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b65c30fda125%3A0x8725da56052753f8!2sKallol+Kali+Mandir!5e0!3m2!1sen!2sin!4v1554378261303!5m2!1sen!2sin"
                 className="h-full w-full border-0"
                 loading="lazy"

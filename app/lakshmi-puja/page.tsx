@@ -4,8 +4,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 export const metadata = {
-  title: "Lakshmi Puja — Kojagari Purnima | Kallol Kali Mandir",
-  description: "Kojagari Purnima Lakshmi Puja at Kallol Kali Mandir, Goregaon West — the full-moon worship of Maa Lakshmi.",
+  title: "Lakshmi Puja, Kojagari Purnima | Kallol Kali Mandir",
+  description: "Kojagari Purnima Lakshmi Puja at Kallol Kali Mandir, Goregaon West, the full-moon worship of Maa Lakshmi.",
 }
 
 export default function LakshmiPujaPage() {
@@ -19,11 +19,11 @@ export default function LakshmiPujaPage() {
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
-          <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
+          <div className="relative rounded-lg overflow-hidden shadow-lg" style={{ aspectRatio: "832 / 422" }}>
             <img src="/assets/lakshmipuja-473705d3.webp" alt="Lakshmi Puja at Kallol" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Invoking the Goddess of Prosperity</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-kallol-800">Invoking the Goddess of Prosperity</h2>
             <p className="text-gray-700 leading-relaxed text-justify">
               As twilight descends and homes are lit with shimmering lamps, the spirit of Lakshmi Puja graces Kallol
               with devotion, light, and serenity. Celebrated with reverence and grandeur, Lakshmi Puja at Kallol is an
@@ -40,7 +40,7 @@ export default function LakshmiPujaPage() {
 
         <Card className="border-gray-200 mb-8">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-6">Kojagari Lakshmi Puja Schedule</h3>
+            <h3 className="text-xl font-bold text-kallol-800 mb-6">Kojagari Lakshmi Puja Schedule</h3>
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
               <p className="text-gray-700 text-sm mb-4">
                 <strong>Upcoming:</strong> Sunday, October 25, 2026 (Kojagari Purnima, 7 Kartik)
@@ -78,7 +78,7 @@ export default function LakshmiPujaPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <Card className="border-gray-200">
             <CardContent className="p-8">
-              <h3 className="text-lg font-bold text-[#44233b] mb-4">What Makes Lakshmi Puja at Kallol Unique</h3>
+              <h3 className="text-lg font-bold text-kallol-800 mb-4">What Makes Lakshmi Puja at Kallol Unique</h3>
               <ul className="space-y-2 text-gray-700 text-sm">
                 <li className="flex items-start gap-2"><span className="text-kallol-700 mt-1">&#10022;</span> Rituals steeped in Bengali tradition, conducted with purity and precision</li>
                 <li className="flex items-start gap-2"><span className="text-kallol-700 mt-1">&#10022;</span> A beautifully adorned altar radiating divine grace and serenity</li>
@@ -90,7 +90,7 @@ export default function LakshmiPujaPage() {
           </Card>
           <Card className="border-gray-200">
             <CardContent className="p-8">
-              <h3 className="text-lg font-bold text-[#44233b] mb-4">Be a Part of the Celebration</h3>
+              <h3 className="text-lg font-bold text-kallol-800 mb-4">Be a Part of the Celebration</h3>
               <ul className="space-y-2 text-gray-700 text-sm mb-4">
                 <li className="flex items-start gap-2"><span className="text-kallol-700 mt-1">&#10022;</span> Book special Lakshmi Puja offerings online</li>
                 <li className="flex items-start gap-2"><span className="text-kallol-700 mt-1">&#10022;</span> Offer bhog or Anna Seva in their name and Gotra</li>

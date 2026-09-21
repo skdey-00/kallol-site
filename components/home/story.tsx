@@ -2,18 +2,18 @@ import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
 
 /**
- * THE KALLOL STORY — editorial feature moment (Phase 5B).
+ * THE KALLOL STORY, editorial feature moment (Phase 5B).
  *
  * A pull-quote-scale statement set large, a narrow-measure narrative
  * beside it, and the verified community photograph held slightly
  * tall (portrait crop) with a quiet caption. "Discover our story"
- * as an underlined editorial link — an invitation, not a button.
+ * as an underlined editorial link, an invitation, not a button.
  * Copy is the verified About narrative; no invented facts.
  */
 export function Story() {
   return (
     <section aria-labelledby="story-heading" className="bg-ivory-sun">
-      <div className="container py-16 md:py-24 lg:py-32">
+      <div className="container py-10 md:py-12 lg:py-20">
         <Reveal className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Statement + narrative */}
           <div className="lg:col-span-7">
@@ -33,7 +33,7 @@ export function Story() {
             >
               <p className="leading-relaxed text-ink-soft">
                 In Goregaon, Mumbai&rsquo;s Bengali community established Kallol as a
-                social and cultural organization — conceived by founding members
+                social and cultural organization, conceived by founding members
                 who first came together to observe Basanta Panchami through the
                 worship of Maa Saraswati.
               </p>
@@ -75,7 +75,7 @@ export function Story() {
                 height={640}
                 loading="lazy"
                 decoding="async"
-                className="reveal-img aspect-[4/3] w-full object-cover object-center lg:aspect-[4/5]"
+                className="reveal-img aspect-[3/2] w-full object-cover object-center"
               />
             </div>
             <figcaption className="img-caption mt-3">

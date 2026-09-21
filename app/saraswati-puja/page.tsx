@@ -4,8 +4,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 export const metadata = {
-  title: "Saraswati Puja — Basanta Panchami | Kallol Kali Mandir",
-  description: "The Saraswati Puja Kallol was born of — Basanta Panchami worship of the Goddess of learning, music and arts in Goregaon West, Mumbai.",
+  title: "Saraswati Puja, Basanta Panchami | Kallol Kali Mandir",
+  description: "The Saraswati Puja Kallol was born of, Basanta Panchami worship of the Goddess of learning, music and arts in Goregaon West, Mumbai.",
 }
 
 export default function SaraswatiPujaPage() {
@@ -19,11 +19,11 @@ export default function SaraswatiPujaPage() {
       />
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-12">
-          <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-lg">
+          <div className="relative rounded-lg overflow-hidden shadow-lg" style={{ aspectRatio: "1600 / 583" }}>
             <img src="/assets/Saras-b12c15b3.webp" alt="Saraswati Puja at Kallol" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">
+            <h2 className="text-2xl md:text-3xl font-bold text-kallol-800">
               Celebrating Wisdom, Art, and New Beginnings
             </h2>
             <p className="text-gray-700 leading-relaxed text-justify">
@@ -44,7 +44,7 @@ export default function SaraswatiPujaPage() {
 
         <Card className="border-gray-200 mb-8">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-6">Puja Schedule</h3>
+            <h3 className="text-xl font-bold text-kallol-800 mb-6">Puja Schedule</h3>
             <div className="bg-kallol-50 rounded-lg p-6 border border-kallol-100">
               <p className="text-gray-700">
                 <strong>Upcoming:</strong> Thursday, February 11, 2027 (21 Magh, Bangabda 1433)
@@ -58,7 +58,7 @@ export default function SaraswatiPujaPage() {
 
         <Card className="border-gray-200 bg-gradient-to-r from-kallol-50 to-gray-50">
           <CardContent className="p-8">
-            <h3 className="text-xl font-bold text-[#44233b] mb-6">Be a Part of the Celebration</h3>
+            <h3 className="text-xl font-bold text-kallol-800 mb-6">Be a Part of the Celebration</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 "Book special Saraswati Puja offerings online",

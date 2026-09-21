@@ -7,10 +7,8 @@ import { useEffect, useState } from "react"
  * ≥7s per slide, no zoom, no parallax. First slide is
  * server-rendered so LCP is real content; the rest lazy-load.
  *
- * Scrims (Phase 5B full-bleed hero):
- * - a light overall wash for depth,
- * - a strong bottom gradient (up to ~90% kallol-950) that carries
- *   the logo + statement, per brand doc §2 dark-surface rule.
+ * No scrims or gradients: the slideshow stands alone — statement
+ * and CTAs render below it, on the page background.
  * Reduced-motion users see a single static frame.
  */
 const SLIDES = [
@@ -54,19 +52,6 @@ export function HeroSlideshow() {
           style={{ opacity: i === index ? 1 : 0 }}
         />
       ))}
-
-      {/* Depth wash */}
-      <div aria-hidden="true" className="absolute inset-0 bg-kallol-950/30" />
-      {/* Bottom scrim — carries logo + statement (deepest at base) */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-[85%] bg-gradient-to-t from-kallol-950/95 via-kallol-950/55 to-transparent"
-      />
-      {/* Slight left bias so the anchored block sits on quiet ground */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-kallol-950/45 to-transparent"
-      />
     </div>
   )
 }
