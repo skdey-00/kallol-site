@@ -18,7 +18,7 @@ import {
   Mail,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -120,7 +120,7 @@ export default function DonatePage() {
     if (isNaN(finalAmount) || finalAmount <= 0) {
       errors.amount = "Please select or enter a valid donation amount."
     } else if (paymentMethod === "online" && finalAmount < 9) {
-      errors.amount = "Online payments must be at least ₹9. Please use UPI or Paytm for smaller amounts."
+      errors.amount = "Online payments must be at least ₹9. Please use UPI for smaller amounts."
     }
 
     // Email format check (optional, online payments only)
@@ -256,43 +256,26 @@ export default function DonatePage() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Donation Impact Section */}
-          <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.2 }}>
-            <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
-              Donate Towards <span className="text-kallol-700">Specific Pujas</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {pujaDonations.map((puja) => (
-                <Card key={puja.id} className="border-stone-line hover:shadow-md transition-shadow h-full flex flex-col">
-                  <CardContent className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center space-x-4 mb-4">
-                      <Heart className="h-6 w-6 text-kallol-700" />
-                      <h3 className="text-lg font-semibold text-ink">{puja.name}</h3>
-                    </div>
-                    <p className="text-ink-soft mb-4 flex-grow">{puja.description}</p>
-                    <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-auto self-start">
-                      <Link href={`/donate/${puja.id}`}>
-                        Donate to {puja.name}
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* General Donation Form Section — first on mobile, right column on desktop */}
+          {/* General Donation Form Section — first in the DOM and in the
+              accessibility tree on mobile (no CSS reordering); right column
+              on desktop via lg:order-2 */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeIn}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="order-first lg:order-none"
+            className="lg:order-2"
           >
-            <Card className="border-stone-line shadow-lg">
+            <Card
+              id="general-donation"
+              className="scroll-mt-28 border-stone-line shadow-lg md:scroll-mt-32"
+            >
               <CardHeader>
-                <CardTitle className="text-2xl text-ink">General Donation</CardTitle>
+                {/* h2 (not the div-based CardTitle) so mobile heading order reads
+                    General Donation before the specific-puja h3s below it */}
+                <h2 className="text-2xl font-semibold leading-none tracking-tight text-ink">
+                  General Donation
+                </h2>
               </CardHeader>
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -323,7 +306,7 @@ export default function DonatePage() {
                       <div className="relative mt-1">
                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-faint">₹</span>
                         <Input
-                          id="custom-amount"
+                          id="custom-amount" aria-invalid={!!formErrors.amount} aria-describedby={formErrors.amount ? "amount-error" : undefined}
                           type="number"
                           placeholder="Enter amount"
                           className="pl-8 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
@@ -333,7 +316,7 @@ export default function DonatePage() {
                         />
                       </div>
                       {formErrors.amount && (
-                        <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <p id="amount-error" className="text-red-500 text-sm mt-1 flex items-center">
                           <AlertCircle className="h-4 w-4 mr-1" />
                           {formErrors.amount}
                         </p>
@@ -345,7 +328,7 @@ export default function DonatePage() {
                   <div>
                     <Label className="text-base font-medium text-ink mb-4 block">Payment Method</Label>
                     <Tabs value={paymentMethod} onValueChange={setPaymentMethod} className="w-full">
-                      <TabsList className="grid w-full grid-cols-3 bg-kallol-50">
+                      <TabsList className="grid w-full grid-cols-2 bg-kallol-50">
                         <TabsTrigger
                           value="online"
                           className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white"
@@ -417,7 +400,7 @@ export default function DonatePage() {
                           First Name
                         </Label>
                         <Input
-                          id="first-name"
+                          id="first-name" aria-invalid={!!formErrors.firstName} aria-describedby={formErrors.firstName ? "first-name-error" : undefined}
                           type="text"
                           className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                           value={firstName}
@@ -429,7 +412,7 @@ export default function DonatePage() {
                           required
                         />
                         {formErrors.firstName && (
-                          <p className="text-red-500 text-sm mt-1 flex items-center">
+                          <p id="first-name-error" className="text-red-500 text-sm mt-1 flex items-center">
                             <AlertCircle className="h-4 w-4 mr-1" />
                             {formErrors.firstName}
                           </p>
@@ -440,7 +423,7 @@ export default function DonatePage() {
                           Last Name
                         </Label>
                         <Input
-                          id="last-name"
+                          id="last-name" aria-invalid={!!formErrors.lastName} aria-describedby={formErrors.lastName ? "last-name-error" : undefined}
                           type="text"
                           className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                           value={lastName}
@@ -452,7 +435,7 @@ export default function DonatePage() {
                           required
                         />
                         {formErrors.lastName && (
-                          <p className="text-red-500 text-sm mt-1 flex items-center">
+                          <p id="last-name-error" className="text-red-500 text-sm mt-1 flex items-center">
                             <AlertCircle className="h-4 w-4 mr-1" />
                             {formErrors.lastName}
                           </p>
@@ -464,7 +447,7 @@ export default function DonatePage() {
                         Gotra
                       </Label>
                       <Input
-                        id="gotra"
+                        id="gotra" aria-invalid={!!formErrors.gotra} aria-describedby={formErrors.gotra ? "gotra-error" : undefined}
                         type="text"
                         className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                         value={gotra}
@@ -476,7 +459,7 @@ export default function DonatePage() {
                         required
                       />
                       {formErrors.gotra && (
-                        <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <p id="gotra-error" className="text-red-500 text-sm mt-1 flex items-center">
                           <AlertCircle className="h-4 w-4 mr-1" />
                           {formErrors.gotra}
                         </p>
@@ -487,7 +470,7 @@ export default function DonatePage() {
                         Phone Number
                       </Label>
                       <Input
-                        id="phone"
+                        id="phone" aria-invalid={!!formErrors.phoneNumber} aria-describedby={formErrors.phoneNumber ? "phone-error" : undefined}
                         type="tel"
                         placeholder="+91 XXXXX XXXXX"
                         className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
@@ -500,7 +483,7 @@ export default function DonatePage() {
                         required
                       />
                       {formErrors.phoneNumber && (
-                        <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <p id="phone-error" className="text-red-500 text-sm mt-1 flex items-center">
                           <AlertCircle className="h-4 w-4 mr-1" />
                           {formErrors.phoneNumber}
                         </p>
@@ -512,7 +495,7 @@ export default function DonatePage() {
                           Email (Optional)
                         </Label>
                         <Input
-                          id="email"
+                          id="email" aria-invalid={!!formErrors.email} aria-describedby={formErrors.email ? "email-error" : undefined}
                           type="email"
                           placeholder="you@example.com"
                           className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
@@ -524,7 +507,7 @@ export default function DonatePage() {
                           name="email"
                         />
                         {formErrors.email && (
-                          <p className="text-red-500 text-sm mt-1 flex items-center">
+                          <p id="email-error" className="text-red-500 text-sm mt-1 flex items-center">
                             <AlertCircle className="h-4 w-4 mr-1" />
                             {formErrors.email}
                           </p>
@@ -541,7 +524,7 @@ export default function DonatePage() {
                         )}
                       </Label>
                       <Input
-                        id="pan-number"
+                        id="pan-number" aria-invalid={!!formErrors.panNumber} aria-describedby={formErrors.panNumber ? "pan-number-error" : undefined}
                         type="text"
                         placeholder="ABCDE1234F"
                         className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700 uppercase"
@@ -553,7 +536,7 @@ export default function DonatePage() {
                         name="panNumber"
                       />
                       {formErrors.panNumber && (
-                        <p className="text-red-500 text-sm mt-1 flex items-center">
+                        <p id="pan-number-error" className="text-red-500 text-sm mt-1 flex items-center">
                           <AlertCircle className="h-4 w-4 mr-1" />
                           {formErrors.panNumber}
                         </p>
@@ -575,10 +558,37 @@ export default function DonatePage() {
                     </div>
                   </div>
 
+                  {/* Payment expectations, stated before confirmation (UX plan Phase 7).
+                      Verified behavior: Instamojo redirect for online, downloadable
+                      receipt on the thank-you page, site contact details for problems. */}
+                  <div className="space-y-1.5 rounded-md border border-stone-line bg-kallol-50/60 p-4 text-sm leading-relaxed text-ink-soft">
+                    {paymentMethod === "online" ? (
+                      <p className="flex items-start gap-2">
+                        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-kallol-700" aria-hidden="true" />
+                        <span>
+                          Payments are processed securely by our partner Instamojo. You&apos;ll be redirected to their
+                          page to pay, then brought back to Kallol.
+                        </span>
+                      </p>
+                    ) : null}
+                    <p>A receipt will be available to download once your donation is confirmed.</p>
+                    <p>
+                      For payment problems, call{" "}
+                      <a href="tel:+918655852917" className="link-editorial text-kallol-700">
+                        +91-8655852917
+                      </a>{" "}
+                      or email{" "}
+                      <a href="mailto:info@kallolmumbai.com" className="link-editorial text-kallol-700">
+                        info@kallolmumbai.com
+                      </a>
+                      .
+                    </p>
+                  </div>
+
                   <Button
                     type="submit"
                     className="w-full h-auto min-h-0 whitespace-normal text-center leading-snug bg-kallol-700 hover:bg-kallol-800 text-white py-3 px-4 text-base sm:text-lg shadow-md"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || getRawCurrentAmount() <= 0}
                   >
                     {isSubmitting || isRedirecting ? (
                       <>
@@ -592,6 +602,11 @@ export default function DonatePage() {
                       </>
                     )}
                   </Button>
+                  {getRawCurrentAmount() <= 0 && !isSubmitting && (
+                    <p id="amount-hint" className="text-sm text-ink-mute">
+                      Select or enter an amount to continue.
+                    </p>
+                  )}
                 </form>
 
                 {receiptPdfBase64 && (
@@ -615,6 +630,32 @@ export default function DonatePage() {
                 )}
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Donation Impact Section */}
+          <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.2 }}>
+            <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
+              Donate Towards <span className="text-kallol-700">Specific Pujas</span>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {pujaDonations.map((puja) => (
+                <Card key={puja.id} className="border-stone-line hover:shadow-md transition-shadow h-full flex flex-col">
+                  <CardContent className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <Heart className="h-6 w-6 text-kallol-700" />
+                      <h3 className="text-lg font-semibold text-ink">{puja.name}</h3>
+                    </div>
+                    <p className="text-ink-soft mb-4 flex-grow">{puja.description}</p>
+                    <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-auto self-start">
+                      <Link href={`/donate/${puja.id}`}>
+                        Donate to {puja.name}
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </motion.div>
         </div>
 
