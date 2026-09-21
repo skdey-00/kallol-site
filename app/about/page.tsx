@@ -49,8 +49,8 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="About"
         title="About Kallol"
-        intro="A Bengali social and cultural organization in Goregaon West — grown from a Saraswati Puja into a mandir, a dispensary, a library, and a community."
-        crumbs={[{ label: "About", href: "/about" }]}
+        intro="A Bengali social and cultural organization in Goregaon West, grown from a Saraswati Puja into a mandir, a dispensary, a library, and a community."
+        crumbs={[]}
       />
       <div className="container mx-auto">
         {/* About Content */}
@@ -70,7 +70,7 @@ export default function AboutPage() {
             />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b] mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-kallol-800 mb-6">
               Our Story
             </h2>
             <p className="text-gray-700 mb-4 leading-relaxed text-justify">
@@ -105,26 +105,20 @@ export default function AboutPage() {
           </Card>
         </motion.div>
 
-        {/* Our Values */}
+        {/* Our Services, ruled editorial rows */}
         <motion.div initial="hidden" animate="visible" variants={staggerChildren} className="mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#44233b] mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
             Our <span className="text-kallol-700">Services</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <motion.div key={index} variants={fadeIn}>
-                <Card className="border-gray-200 hover:shadow-lg transition-shadow duration-300 h-full">
-                  <CardContent className="p-6 text-center">
-                    <div className="bg-kallol-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                      <value.icon className="h-8 w-8 text-kallol-700" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">{value.title}</h3>
-                    <p className="text-gray-700 text-sm">{value.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+          <div className="rule-draw h-px bg-stone-line" aria-hidden="true" />
+          {values.map((value, index) => (
+            <div key={index} className="border-b border-stone-line py-7">
+              <p className="text-caption uppercase tracking-caps text-kallol-700">
+                {String(index + 1).padStart(2, "0")} · {value.title}
+              </p>
+              <p className="mt-2 max-w-prose text-sm leading-relaxed text-ink-soft">{value.description}</p>
+            </div>
+          ))}
         </motion.div>
 
         {/* Facilities */}
@@ -135,7 +129,7 @@ export default function AboutPage() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#44233b] mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-kallol-800 mb-12">
             Our <span className="text-kallol-700">Facilities</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -188,7 +182,7 @@ export default function AboutPage() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-[#44233b] mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-kallol-800 mb-8">
             Community <span className="text-kallol-700">Impact</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">

@@ -14,7 +14,6 @@ import {
   AlertCircle,
   Loader2,
   Download,
-  ArrowRight,
   ShieldCheck,
   Mail,
 } from "lucide-react"
@@ -237,19 +236,20 @@ export default function DonatePage() {
   }
 
   return (
-    <main className="min-h-screen pt-20 pb-16 px-4 md:px-6 lg:px-8 bg-gray-50">
+    <main className="min-h-screen pt-20 pb-16 px-4 md:px-6 lg:px-8 bg-ivory">
       <div className="container mx-auto">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="mb-10 max-w-2xl"
         >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <p className="section-eyebrow">Donate</p>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ink mt-3 mb-4">
             Support <span className="text-kallol-700">Kallol</span>
           </h1>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+          <p className="text-lg text-ink-soft">
             Your generous donations help us preserve Bengali culture, maintain the Kali Mandir, and organize community
             events that bring our heritage to life.
           </p>
@@ -258,23 +258,22 @@ export default function DonatePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Donation Impact Section */}
           <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.2 }}>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
               Donate Towards <span className="text-kallol-700">Specific Pujas</span>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {pujaDonations.map((puja) => (
-                <Card key={puja.id} className="border-gray-200 hover:shadow-md transition-shadow h-full flex flex-col">
+                <Card key={puja.id} className="border-stone-line hover:shadow-md transition-shadow h-full flex flex-col">
                   <CardContent className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center space-x-4 mb-4">
                       <Heart className="h-6 w-6 text-kallol-700" />
-                      <h3 className="text-lg font-semibold text-gray-900">{puja.name}</h3>
+                      <h3 className="text-lg font-semibold text-ink">{puja.name}</h3>
                     </div>
-                    <p className="text-gray-700 mb-4 flex-grow">{puja.description}</p>
+                    <p className="text-ink-soft mb-4 flex-grow">{puja.description}</p>
                     <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white mt-auto self-start">
                       <Link href={`/donate/${puja.id}`}>
                         Donate to {puja.name}
-                        <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
                   </CardContent>
@@ -283,17 +282,23 @@ export default function DonatePage() {
             </div>
           </motion.div>
 
-          {/* General Donation Form Section */}
-          <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.4 }}>
-            <Card className="border-gray-200 shadow-lg">
+          {/* General Donation Form Section — first on mobile, right column on desktop */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="order-first lg:order-none"
+          >
+            <Card className="border-stone-line shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl text-center text-gray-900">General Donation</CardTitle>
+                <CardTitle className="text-2xl text-ink">General Donation</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Amount Selection */}
                   <div>
-                    <Label className="text-base font-medium text-gray-900 mb-4 block">Select Amount (INR)</Label>
+                    <Label className="text-base font-medium text-ink mb-4 block">Select Amount (INR)</Label>
                     <div className="grid grid-cols-3 gap-3 mb-4">
                       {predefinedAmounts.map((amount) => (
                         <Button
@@ -312,16 +317,16 @@ export default function DonatePage() {
                       ))}
                     </div>
                     <div>
-                      <Label htmlFor="custom-amount" className="text-sm text-gray-700">
+                      <Label htmlFor="custom-amount" className="text-sm text-ink-soft">
                         Or enter custom amount
                       </Label>
                       <div className="relative mt-1">
-                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-faint">₹</span>
                         <Input
                           id="custom-amount"
                           type="number"
                           placeholder="Enter amount"
-                          className="pl-8 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                          className="pl-8 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                           value={customAmount}
                           onChange={(e) => handleCustomAmountChange(e.target.value)}
                           name="amount" // This name attribute is for the total amount, not individual items
@@ -338,9 +343,9 @@ export default function DonatePage() {
 
                   {/* Payment Method Selection */}
                   <div>
-                    <Label className="text-base font-medium text-gray-900 mb-4 block">Payment Method</Label>
+                    <Label className="text-base font-medium text-ink mb-4 block">Payment Method</Label>
                     <Tabs value={paymentMethod} onValueChange={setPaymentMethod} className="w-full">
-                      <TabsList className="grid w-full grid-cols-3 bg-gray-100">
+                      <TabsList className="grid w-full grid-cols-3 bg-kallol-50">
                         <TabsTrigger
                           value="online"
                           className="data-[state=active]:bg-kallol-700 data-[state=active]:text-white"
@@ -362,8 +367,8 @@ export default function DonatePage() {
                           <CardContent className="p-4">
                             <div className="text-center">
                               <ShieldCheck className="h-12 w-12 mx-auto mb-3 text-kallol-700" />
-                              <h3 className="font-semibold text-gray-900 mb-2">Pay Online Securely</h3>
-                              <p className="text-sm text-gray-700">
+                              <h3 className="font-semibold text-ink mb-2">Pay Online Securely</h3>
+                              <p className="text-sm text-ink-soft">
                                 Pay securely with UPI, cards, netbanking or wallets via our payment partner Instamojo.
                                 You&apos;ll be redirected to complete the payment.
                               </p>
@@ -377,8 +382,8 @@ export default function DonatePage() {
                           <CardContent className="p-4">
                             <div className="text-center">
                               <QrCode className="h-16 w-16 mx-auto mb-4 text-kallol-700" />
-                              <h3 className="font-semibold text-gray-900 mb-2">UPI Payment</h3>
-                              <p className="text-sm text-gray-700 mb-4">Scan QR code or use UPI ID to make payment</p>
+                              <h3 className="font-semibold text-ink mb-2">UPI Payment</h3>
+                              <p className="text-sm text-ink-soft mb-4">Scan QR code or use UPI ID to make payment</p>
                               <div className="bg-white p-3 rounded-md border border-kallol-200 mb-4">
                                 <div className="flex items-center justify-between">
                                   <span className="font-mono text-sm">kallol8655852917@iob</span>
@@ -393,7 +398,7 @@ export default function DonatePage() {
                                   </Button>
                                 </div>
                               </div>
-                              <p className="text-xs text-gray-600">
+                              <p className="text-xs text-ink-mute">
                                 Amount: <span className="font-semibold">{getCurrentAmount()}</span>
                               </p>
                             </div>
@@ -408,13 +413,13 @@ export default function DonatePage() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="first-name" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="first-name" className="text-sm font-medium text-ink-soft">
                           First Name
                         </Label>
                         <Input
                           id="first-name"
                           type="text"
-                          className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                          className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                           value={firstName}
                           onChange={(e) => {
                             setFirstName(e.target.value)
@@ -431,13 +436,13 @@ export default function DonatePage() {
                         )}
                       </div>
                       <div>
-                        <Label htmlFor="last-name" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="last-name" className="text-sm font-medium text-ink-soft">
                           Last Name
                         </Label>
                         <Input
                           id="last-name"
                           type="text"
-                          className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                          className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                           value={lastName}
                           onChange={(e) => {
                             setLastName(e.target.value)
@@ -455,13 +460,13 @@ export default function DonatePage() {
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="gotra" className="text-sm font-medium text-gray-700">
+                      <Label htmlFor="gotra" className="text-sm font-medium text-ink-soft">
                         Gotra
                       </Label>
                       <Input
                         id="gotra"
                         type="text"
-                        className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                        className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                         value={gotra}
                         onChange={(e) => {
                           setGotra(e.target.value)
@@ -478,14 +483,14 @@ export default function DonatePage() {
                       )}
                     </div>
                     <div>
-                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                      <Label htmlFor="phone" className="text-sm font-medium text-ink-soft">
                         Phone Number
                       </Label>
                       <Input
                         id="phone"
                         type="tel"
                         placeholder="+91 XXXXX XXXXX"
-                        className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                        className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                         value={phoneNumber}
                         onChange={(e) => {
                           setPhoneNumber(e.target.value)
@@ -503,14 +508,14 @@ export default function DonatePage() {
                     </div>
                     {paymentMethod === "online" && (
                       <div>
-                        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="email" className="text-sm font-medium text-ink-soft">
                           Email (Optional)
                         </Label>
                         <Input
                           id="email"
                           type="email"
                           placeholder="you@example.com"
-                          className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                          className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                           value={email}
                           onChange={(e) => {
                             setEmail(e.target.value)
@@ -527,19 +532,19 @@ export default function DonatePage() {
                       </div>
                     )}
                     <div>
-                      <Label htmlFor="pan-number" className="text-sm font-medium text-gray-700">
+                      <Label htmlFor="pan-number" className="text-sm font-medium text-ink-soft">
                         PAN Number{" "}
                         {getRawCurrentAmount() > 50000 ? (
                           <span className="text-red-500">*</span>
                         ) : (
-                          <span className="text-gray-400 text-xs">(Required for donations above Rs. 50,000)</span>
+                          <span className="text-ink-faint text-xs">(Required for donations above Rs. 50,000)</span>
                         )}
                       </Label>
                       <Input
                         id="pan-number"
                         type="text"
                         placeholder="ABCDE1234F"
-                        className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700 uppercase"
+                        className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700 uppercase"
                         value={panNumber}
                         onChange={(e) => {
                           setPanNumber(e.target.value.toUpperCase())
@@ -555,13 +560,13 @@ export default function DonatePage() {
                       )}
                     </div>
                     <div>
-                      <Label htmlFor="message" className="text-sm font-medium text-gray-700">
+                      <Label htmlFor="message" className="text-sm font-medium text-ink-soft">
                         Message (Optional)
                       </Label>
                       <Textarea
                         id="message"
                         placeholder="Share why you're supporting Kallol..."
-                        className="mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+                        className="mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
                         rows={3}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
@@ -621,10 +626,10 @@ export default function DonatePage() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mb-12"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
             Recognition <span className="text-kallol-700">Donors</span>
           </h2>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+          <p className="text-lg text-ink-soft max-w-2xl">
             Thank you to all our generous donors who have supported Kallol's cultural initiatives and temple
             maintenance.
           </p>

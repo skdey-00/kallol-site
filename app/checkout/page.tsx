@@ -125,7 +125,7 @@ export default function CheckoutPage() {
     if (isOnline) {
       const result = await submitOnlineOrder(formData)
       if (result.success && result.paymentUrl) {
-        // Clear the cart before handing off — the payment completes off-site.
+        // Clear the cart before handing off, the payment completes off-site.
         clearCart()
         setIsRedirecting(true)
         window.location.href = result.paymentUrl
@@ -149,7 +149,7 @@ export default function CheckoutPage() {
   // Wait for cart hydration before rendering anything meaningful.
   if (!hydrated) {
     return (
-      <main className="min-h-screen pt-20 pb-16 px-4 bg-gray-50">
+      <main className="min-h-screen pt-20 pb-16 px-4 bg-ivory">
         <div className="container mx-auto max-w-5xl">
           <div className="h-64" />
         </div>
@@ -165,16 +165,16 @@ export default function CheckoutPage() {
       </p>
     ) : null
 
-  const inputClass = "mt-1 border-gray-300 focus:border-kallol-700 focus:ring-kallol-700"
+  const inputClass = "mt-1 border-stone-line focus:border-kallol-700 focus:ring-kallol-700"
 
   return (
-    <main className="min-h-screen pt-20 pb-16 px-4 md:px-6 lg:px-8 bg-gray-50">
+    <main className="min-h-screen pt-20 pb-16 px-4 md:px-6 lg:px-8 bg-ivory">
       <div className="container mx-auto max-w-5xl">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-3xl md:text-4xl font-bold text-gray-900 mb-8"
+          className="text-3xl md:text-4xl font-bold text-ink mb-8"
         >
           Checkout
         </motion.h1>
@@ -183,14 +183,14 @@ export default function CheckoutPage() {
           {/* Left: billing + payment */}
           <div className="lg:col-span-3 space-y-6">
             {/* Billing details */}
-            <Card className="border-gray-200 shadow-lg">
+            <Card className="border-stone-line shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Billing Details</CardTitle>
+                <CardTitle className="text-xl text-ink">Billing Details</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="first-name" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="first-name" className="text-sm font-medium text-ink-soft">
                       First Name <span className="text-red-500">*</span>
                     </Label>
                     <Input
@@ -206,7 +206,7 @@ export default function CheckoutPage() {
                     {inputError("firstName")}
                   </div>
                   <div>
-                    <Label htmlFor="last-name" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="last-name" className="text-sm font-medium text-ink-soft">
                       Last Name <span className="text-red-500">*</span>
                     </Label>
                     <Input
@@ -224,14 +224,14 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="gotra" className="text-sm font-medium text-gray-700">
-                    Gotra <span className="text-gray-400 text-xs">(optional)</span>
+                  <Label htmlFor="gotra" className="text-sm font-medium text-ink-soft">
+                    Gotra <span className="text-ink-faint text-xs">(optional)</span>
                   </Label>
                   <Input id="gotra" className={inputClass} value={gotra} onChange={(e) => setGotra(e.target.value)} />
                 </div>
 
                 <div>
-                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="phone" className="text-sm font-medium text-ink-soft">
                     Phone <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -250,7 +250,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="email" className="text-sm font-medium text-ink-soft">
                     Email Address <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -269,7 +269,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="address-line1" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="address-line1" className="text-sm font-medium text-ink-soft">
                     Street Address <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -287,8 +287,8 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="address-line2" className="text-sm font-medium text-gray-700">
-                    Apartment, suite, unit, etc. <span className="text-gray-400 text-xs">(optional)</span>
+                  <Label htmlFor="address-line2" className="text-sm font-medium text-ink-soft">
+                    Apartment, suite, unit, etc. <span className="text-ink-faint text-xs">(optional)</span>
                   </Label>
                   <Input
                     id="address-line2"
@@ -300,7 +300,7 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <Label htmlFor="city" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="city" className="text-sm font-medium text-ink-soft">
                       Town / City <span className="text-red-500">*</span>
                     </Label>
                     <Input
@@ -316,12 +316,12 @@ export default function CheckoutPage() {
                     {inputError("city")}
                   </div>
                   <div>
-                    <Label htmlFor="state" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="state" className="text-sm font-medium text-ink-soft">
                       State <span className="text-red-500">*</span>
                     </Label>
                     <select
                       id="state"
-                      className={`mt-1 w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-kallol-700 focus:ring-kallol-700 ${formErrors.state ? "border-red-500" : ""}`}
+                      className={`mt-1 w-full h-10 rounded-md border border-stone-line bg-white px-3 text-sm text-ink focus:border-kallol-700 focus:ring-kallol-700 ${formErrors.state ? "border-red-500" : ""}`}
                       value={state}
                       onChange={(e) => {
                         setState(e.target.value)
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
                     {inputError("state")}
                   </div>
                   <div>
-                    <Label htmlFor="pincode" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="pincode" className="text-sm font-medium text-ink-soft">
                       PIN Code <span className="text-red-500">*</span>
                     </Label>
                     <Input
@@ -359,12 +359,12 @@ export default function CheckoutPage() {
 
                 {(subtotal > 50000 || panNumber) && (
                   <div>
-                    <Label htmlFor="pan-number" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="pan-number" className="text-sm font-medium text-ink-soft">
                       PAN Number{" "}
                       {subtotal > 50000 ? (
                         <span className="text-red-500">*</span>
                       ) : (
-                        <span className="text-gray-400 text-xs">(optional)</span>
+                        <span className="text-ink-faint text-xs">(optional)</span>
                       )}
                     </Label>
                     <Input
@@ -383,8 +383,8 @@ export default function CheckoutPage() {
                 )}
 
                 <div>
-                  <Label htmlFor="message" className="text-sm font-medium text-gray-700">
-                    Order Notes <span className="text-gray-400 text-xs">(optional)</span>
+                  <Label htmlFor="message" className="text-sm font-medium text-ink-soft">
+                    Order Notes <span className="text-ink-faint text-xs">(optional)</span>
                   </Label>
                   <Textarea
                     id="message"
@@ -399,14 +399,14 @@ export default function CheckoutPage() {
             </Card>
 
             {/* Payment method */}
-            <Card className="border-gray-200 shadow-lg">
+            <Card className="border-stone-line shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Payment Method</CardTitle>
+                <CardTitle className="text-xl text-ink">Payment Method</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <label
                   className={`flex items-start gap-3 rounded-md border p-4 cursor-pointer transition-colors ${
-                    paymentMethod === "counter" ? "border-kallol-700 bg-kallol-50" : "border-gray-200 hover:border-gray-300"
+                    paymentMethod === "counter" ? "border-kallol-700 bg-kallol-50" : "border-stone-line hover:border-stone-line"
                   }`}
                 >
                   <input
@@ -418,8 +418,8 @@ export default function CheckoutPage() {
                     className="mt-1 accent-[#8b2a2a]"
                   />
                   <div>
-                    <span className="font-medium text-gray-900">Pay at the Counter</span>
-                    <p className="text-sm text-gray-600">
+                    <span className="font-medium text-ink">Pay at the Counter</span>
+                    <p className="text-sm text-ink-mute">
                       Pay in person at the Kallol office/counter. Your order will be confirmed once payment is received.
                     </p>
                   </div>
@@ -428,10 +428,10 @@ export default function CheckoutPage() {
                 <label
                   className={`flex items-start gap-3 rounded-md border p-4 transition-colors ${
                     belowOnlineMinimum
-                      ? "border-gray-200 opacity-60 cursor-not-allowed"
+                      ? "border-stone-line opacity-60 cursor-not-allowed"
                       : paymentMethod === "online"
                         ? "border-kallol-700 bg-kallol-50 cursor-pointer"
-                        : "border-gray-200 hover:border-gray-300 cursor-pointer"
+                        : "border-stone-line hover:border-stone-line cursor-pointer"
                   }`}
                 >
                   <input
@@ -444,15 +444,15 @@ export default function CheckoutPage() {
                     className="mt-1 accent-[#8b2a2a]"
                   />
                   <div>
-                    <span className="font-medium text-gray-900">Pay via Instamojo</span>
-                    <p className="text-sm text-gray-600">Credit Card / Debit Card / Net Banking / UPI</p>
+                    <span className="font-medium text-ink">Pay via Instamojo</span>
+                    <p className="text-sm text-ink-mute">Credit Card / Debit Card / Net Banking / UPI</p>
                     {belowOnlineMinimum && (
                       <p className="text-sm text-red-500 mt-1">
-                        Online payments require a minimum total of ₹9 — use “Pay at the Counter” instead.
+                        Online payments require a minimum total of ₹9, use “Pay at the Counter” instead.
                       </p>
                     )}
                     {isOnline && !belowOnlineMinimum && (
-                      <p className="text-sm text-gray-600 mt-2 flex items-center">
+                      <p className="text-sm text-ink-mute mt-2 flex items-center">
                         <Lock className="h-3.5 w-3.5 mr-1.5 text-kallol-700" />
                         You&apos;ll be redirected to Instamojo&apos;s secure page to complete the payment.
                       </p>
@@ -465,21 +465,21 @@ export default function CheckoutPage() {
 
           {/* Right: order review */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="border-gray-200 shadow-lg lg:sticky lg:top-32">
+            <Card className="border-stone-line shadow-lg lg:sticky lg:top-32">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-900">Your Order</CardTitle>
+                <CardTitle className="text-xl text-ink">Your Order</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="border rounded-md divide-y divide-gray-200">
+                <div className="border rounded-md divide-y divide-stone-line">
                   {items.map((item) => (
                     <div key={item.productId} className="p-3 flex justify-between gap-3 text-sm">
                       <div>
-                        <p className="font-medium text-gray-900">{item.name}</p>
-                        <p className="text-gray-600">
+                        <p className="font-medium text-ink">{item.name}</p>
+                        <p className="text-ink-mute">
                           ₹{item.amount.toLocaleString("en-IN")} × {item.quantity}
                         </p>
                       </div>
-                      <p className="font-medium text-gray-900 whitespace-nowrap">
+                      <p className="font-medium text-ink whitespace-nowrap">
                         ₹{(item.amount * item.quantity).toLocaleString("en-IN")}
                       </p>
                     </div>
@@ -487,11 +487,11 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-700">Subtotal</span>
-                  <span className="font-medium text-gray-900">₹{subtotal.toLocaleString("en-IN")}</span>
+                  <span className="text-ink-soft">Subtotal</span>
+                  <span className="font-medium text-ink">₹{subtotal.toLocaleString("en-IN")}</span>
                 </div>
-                <div className="flex justify-between border-t border-gray-200 pt-3">
-                  <span className="text-lg font-medium text-gray-900">Total</span>
+                <div className="flex justify-between border-t border-stone-line pt-3">
+                  <span className="text-lg font-medium text-ink">Total</span>
                   <span className="text-xl font-bold text-kallol-700">₹{subtotal.toLocaleString("en-IN")}</span>
                 </div>
 
@@ -508,7 +508,7 @@ export default function CheckoutPage() {
                   ) : isOnline ? (
                     <>
                       <CreditCard className="h-5 w-5 mr-2" />
-                      Place Order — Pay Online
+                      Place Order, Pay Online
                     </>
                   ) : (
                     <>

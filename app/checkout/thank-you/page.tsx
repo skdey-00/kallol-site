@@ -4,7 +4,6 @@ import {
   Clock,
   XCircle,
   AlertCircle,
-  ArrowRight,
   Landmark,
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -89,7 +88,7 @@ export default async function CheckoutThankYouPage({ searchParams }: ThankYouPag
                     : "We've received your order and are confirming your payment."}
                 </p>
                 <p className="text-sm text-gray-600 mb-6">
-                  This page updates once the payment is confirmed — try refreshing in a few moments. A receipt will be
+                  This page updates once the payment is confirmed, try refreshing in a few moments. A receipt will be
                   available here after confirmation.
                 </p>
                 <div className="flex gap-3 justify-center">
@@ -112,7 +111,6 @@ export default async function CheckoutThankYouPage({ searchParams }: ThankYouPag
                 <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
                   <Link href="/donate">
                     Try Again
-                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </>

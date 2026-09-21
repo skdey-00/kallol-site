@@ -1,12 +1,12 @@
 import Link from "next/link"
-import { CheckCircle2, Clock, XCircle, AlertCircle, ArrowRight } from "lucide-react"
+import { CheckCircle2, Clock, XCircle, AlertCircle } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { getDonationById } from "@/actions/donations"
 import { ReceiptDownload } from "./ReceiptDownload"
 
 export const metadata = {
-  title: "Donation Received — Thank You | Kallol",
+  title: "Donation Received, Thank You | Kallol",
   description: "Thank you for your donation to Kallol Kali Mandir and the Kallol community, Goregaon West, Mumbai.",
 }
 
@@ -58,7 +58,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
                     : "We've received your donation details and are confirming your payment."}
                 </p>
                 <p className="text-sm text-gray-600 mb-6">
-                  This page updates once the payment is confirmed — try refreshing in a few moments. A receipt will be
+                  This page updates once the payment is confirmed, try refreshing in a few moments. A receipt will be
                   available here after confirmation.
                 </p>
                 <div className="flex gap-3 justify-center">
@@ -81,7 +81,6 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
                 <Button asChild className="bg-kallol-700 hover:bg-kallol-800 text-white">
                   <Link href="/donate">
                     Try Again
-                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </>
