@@ -1,8 +1,8 @@
 /**
- * MetaList — definition-list metadata set (Phase 6).
+ * MetaList, definition-list metadata set (Phase 6).
  *
  * The Phase 5B Visit-section treatment: small uppercase tracked
- * terms with body values — address, phone, email, timings. Sets
+ * terms with body values, address, phone, email, timings. Sets
  * practical facts quietly, <dl> semantics included.
  */
 

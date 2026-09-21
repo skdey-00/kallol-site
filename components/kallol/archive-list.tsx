@@ -2,9 +2,9 @@ import Link from "next/link"
 import { CATEGORY_LABELS } from "./event-view"
 
 /**
- * ArchiveList — the Kallol archive treatment (Phase 6).
+ * ArchiveList, the Kallol archive treatment (Phase 6).
  *
- * Past events as ruled rows grouped by year, newest first — the
+ * Past events as ruled rows grouped by year, newest first, the
  * homepage's ruled-row language applied to history. The year is set
  * large in serif (a quiet echo of the date-xl scale voice); each row
  * shows date left, serif title, category tag. The archive reads as

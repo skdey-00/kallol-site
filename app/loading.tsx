@@ -1,7 +1,7 @@
 import { BrandLogo } from "@/components/brand-logo"
 
 /**
- * Root loading state — canonical logo on ivory, quiet baseline pulse
+ * Root loading state, canonical logo on ivory, quiet baseline pulse
  * (disabled automatically under prefers-reduced-motion via globals.css).
  */
 export default function RootLoading() {

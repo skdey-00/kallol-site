@@ -5,7 +5,7 @@ import { handleInstamojoReturn } from "@/actions/donations"
  * Instamojo redirect target after payment (configured as `redirect_url`).
  * The browser lands here with `payment_request_id`, `payment_id`, `payment_status`
  * and `mac` query params. We verify, reconcile server-side, then redirect the
- * buyer to the thank-you page — shop checkout orders (checkout_kind = 'shop')
+ * buyer to the thank-you page, shop checkout orders (checkout_kind = 'shop')
  * go to /checkout/thank-you, donations to /donate/thank-you.
  */
 export async function GET(request: NextRequest) {

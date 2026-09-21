@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 /**
- * Figure — the Kallol photographic primitive (Phase 6).
+ * Figure, the Kallol photographic primitive (Phase 6).
  *
  * Standardizes real Kallol photography treatment from Phase 5B:
  * an overflow-hidden frame, fixed aspect ratio, object-cover, the

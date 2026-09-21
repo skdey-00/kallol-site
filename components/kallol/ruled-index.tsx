@@ -2,11 +2,11 @@ import Link from "next/link"
 import { Reveal } from "./reveal"
 
 /**
- * RuledIndex — the numbered ruled index (Phase 6).
+ * RuledIndex, the numbered ruled index (Phase 6).
  *
  * The Phase 5B homepage's minor-puja treatment generalized: numbered
  * rows (01–n), hairline in/out, title + optional inline note, date
- * right. Type carries the entries — no images, no cards.
+ * right. Type carries the entries, no images, no cards.
  *
  * Use for: minor pujas, service indexes, any list where entries are
  * peers but not individually photographic.
@@ -19,7 +19,7 @@ export interface RuledIndexEntry {
   href: string
   /** Inline descriptor shown next to the title on md+ */
   note?: string
-  /** Right-aligned metadata — usually a date chip */
+  /** Right-aligned metadata, usually a date chip */
   meta?: string
 }
 

@@ -1,8 +1,8 @@
 /**
- * EventMeta — event metadata line (Phase 6).
+ * EventMeta, event metadata line (Phase 6).
  *
  * The Phase 5B cover-story metadata treatment: date emphasized in
- * maroon, time and venue muted — one quiet flex line. Used directly
+ * maroon, time and venue muted, one quiet flex line. Used directly
  * under event titles on feature cards and event pages.
  */
 

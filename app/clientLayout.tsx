@@ -11,9 +11,9 @@ import { usePathname } from "next/navigation"
 import React from "react"
 
 /* ── Kallol type system ──────────────────────────────────────
-   DISPLAY  Source Serif 4  — headlines, editorial voice
-   BODY/UI  Inter          — reading, navigation, buttons
-   BENGALI  Noto Serif/Sans Bengali — first-class script support
+   DISPLAY  Source Serif 4 , headlines, editorial voice
+   BODY/UI  Inter         , reading, navigation, buttons
+   BENGALI  Noto Serif/Sans Bengali, first-class script support
    Fallback chains route Bengali glyphs to Noto automatically. */
 
 const inter = Inter({

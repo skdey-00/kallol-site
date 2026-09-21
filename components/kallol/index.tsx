@@ -2,7 +2,7 @@
  * Kallol component system (Phase 6).
  *
  * The shared, reusable presentation layer extracted from the Phase
- * 5B homepage — the single visual language every page will consume
+ * 5B homepage, the single visual language every page will consume
  * in Phase 7. Import from "@/components/kallol" or the individual
  * files; both work.
  *

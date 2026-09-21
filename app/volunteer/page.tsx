@@ -51,7 +51,7 @@ export default function VolunteerPage() {
   }, [user, isLoading, router])
 
   // Check if camera API is available (required for any scanning).
-  // BarcodeDetector is NOT required — jsQR is the fallback.
+  // BarcodeDetector is NOT required, jsQR is the fallback.
   // The only thing that kills camera access is a non-secure context
   // (HTTP that isn't localhost/127.0.0.1).
   useEffect(() => {
@@ -201,7 +201,7 @@ export default function VolunteerPage() {
         await videoRef.current.play()
       }
 
-      // Start scanning loop — BarcodeDetector if available, jsQR fallback otherwise
+      // Start scanning loop, BarcodeDetector if available, jsQR fallback otherwise
       const startScanning = async () => {
         // --- Fast path: native BarcodeDetector (Chrome, Edge, Safari) ---
         if ("BarcodeDetector" in window) {

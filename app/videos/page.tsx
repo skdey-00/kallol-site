@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata = {
-  title: "Videos — Mandir, Pujas & Community Events | Kallol",
+  title: "Videos, Mandir, Pujas & Community Events | Kallol",
   description: "Watch videos from Kallol Kali Mandir: pujas, festivals and community life in Goregaon West, Mumbai.",
 }
 
@@ -19,7 +19,7 @@ export default function VideosPage() {
         <Card className="border-gray-200">
           <CardContent className="p-12 text-center">
             <div className="max-w-md mx-auto">
-              <h2 className="text-2xl font-bold text-[#44233b] mb-4">Videos Coming Soon</h2>
+              <h2 className="text-2xl font-bold text-kallol-800 mb-4">Videos Coming Soon</h2>
               <p className="text-gray-700">
                 We are working on bringing you video content of our pujas, cultural events, and community programs.
                 Please check back soon for updates!

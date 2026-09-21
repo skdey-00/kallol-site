@@ -3,7 +3,7 @@ import { handleInstamojoWebhook } from "@/actions/donations"
 
 /**
  * Instamojo webhook target (configured as `webhook` on the payment request).
- * Instamojo POSTs form-urlencoded payment details here — never JSON.
+ * Instamojo POSTs form-urlencoded payment details here, never JSON.
  * Non-2xx responses make Instamojo retry, which is desirable on transient errors;
  * our finalizer is idempotent so duplicate webhooks are harmless.
  */
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const accepted = await handleInstamojoWebhook(fields)
     if (!accepted) {
       // Bad MAC (when salt is set), unknown payment request, or a transient API
-      // failure — 400 so Instamojo retries.
+      // failure, 400 so Instamojo retries.
       console.error("Instamojo webhook rejected for payment request:", fields.payment_request_id)
       return NextResponse.json({ error: "Verification failed" }, { status: 400 })
     }

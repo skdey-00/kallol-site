@@ -1,7 +1,7 @@
 /**
- * NextAmavasyaDate — static date of the next Amavasya Puja.
+ * NextAmavasyaDate, static date of the next Amavasya Puja.
  *
- * No countdown, no ticking — just the date. The target event is
+ * No countdown, no ticking, just the date. The target event is
  * derived server-side from data/local-events.json (via
  * nextAmavasyaEvent) and passed in as props, so this component
  * stores no dates of its own: an edit in /admin updates every
@@ -10,9 +10,9 @@
  * Renders nothing when no future Amavasya is known.
  *
  * Variants:
- *   band    — deep maroon panel (dedicated page placement)
- *   panel   — light boxed card for legacy-styled pages
- *   compact — single inline line for list rows and small cards
+ *   band   , deep maroon panel (dedicated page placement)
+ *   panel  , light boxed card for legacy-styled pages
+ *   compact, single inline line for list rows and small cards
  */
 
 export interface AmavasyaTarget {
@@ -61,7 +61,7 @@ export function amavasyaLongDate(iso: string): string {
   return `${weekday}, ${d} ${MONTHS[m - 1]} ${y}`
 }
 
-/** Short form — "2026-10-10" → "Sat, 10 Oct 2026" (for compact rows). */
+/** Short form, "2026-10-10" → "Sat, 10 Oct 2026" (for compact rows). */
 function shortDate(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number)
   if (!y || !m || !d) return iso

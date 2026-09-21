@@ -3,12 +3,12 @@
 import { useEffect, useRef } from "react"
 
 /**
- * Reveal — the Kallol scroll-motion primitive (extracted from the
+ * Reveal, the Kallol scroll-motion primitive (extracted from the
  * Phase 5B homepage).
  *
  * A single IntersectionObserver per wrapper: when it enters the
  * viewport it gains `.is-inview`, and CSS handles the rest
- * (`.reveal-up`, `.reveal-img`, `.rule-draw` children — including
+ * (`.reveal-up`, `.reveal-img`, `.rule-draw` children, including
  * per-element `--reveal-delay` staggering).
  *
  * - Once only (observer disconnects after firing).
@@ -28,7 +28,7 @@ export function Reveal({
 }: {
   children: React.ReactNode
   className?: string
-  /** Render element — "div" (default) or "li" for use inside <ul>/<ol>. */
+  /** Render element, "div" (default) or "li" for use inside <ul>/<ol>. */
   as?: "div" | "li"
 }) {
   const ref = useRef<HTMLDivElement | HTMLLIElement | null>(null)

@@ -2,9 +2,9 @@ import Link from "next/link"
 import type { EventView } from "./event-view"
 
 /**
- * EventRail — the ruled calendar rail (Phase 6).
+ * EventRail, the ruled calendar rail (Phase 6).
  *
- * Quiet bordered rows with the date right-aligned — the exact
+ * Quiet bordered rows with the date right-aligned, the exact
  * treatment the Phase 5B homepage established for secondary events
  * ("Also ahead this season"). This is the default way to list
  * upcoming events anywhere on the site: ruled rows, not cards.

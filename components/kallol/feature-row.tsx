@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Reveal } from "./reveal"
 
 /**
- * FeatureRow — full-width ruled row with thumbnail (Phase 6).
+ * FeatureRow, full-width ruled row with thumbnail (Phase 6).
  *
  * The Phase 5B homepage community treatment generalized: eyebrow +
  * serif title + body + editorial link left, thumbnail right

@@ -4,7 +4,7 @@ import { EventMeta } from "./event-meta"
 import type { EventView } from "./event-view"
 
 /**
- * FeaturedEvent — the cover-story treatment (Phase 6).
+ * FeaturedEvent, the cover-story treatment (Phase 6).
  *
  * The Phase 5B "Now at Kallol" feature generalized for interior
  * pages: real photography, enormous date numerals anchored on the
@@ -31,7 +31,7 @@ export function splitDateLabel(label: string): {
 export interface FeaturedEventProps {
   event: EventView
   image: { src: string; alt: string }
-  /** CTA label — usually "Explore …" derived from the destination */
+  /** CTA label, usually "Explore …" derived from the destination */
   ctaLabel?: string
   eyebrow?: string
 }
@@ -66,7 +66,7 @@ export function FeaturedEvent({
                 aria-hidden="true"
                 className="absolute bottom-0 right-0 hidden select-none p-5 md:block"
               >
-                <p className="font-display text-date-xl leading-none text-ivory drop-shadow-[0_2px_12px_rgba(42,14,15,0.55)]">
+                <p className="font-display text-date-xl leading-none text-ivory drop-shadow-[0_2px_12px_rgba(14,14,42,0.55)]">
                   {days}
                   {month && (
                     <span className="ml-2 align-baseline font-sans text-caption font-semibold uppercase tracking-caps text-ivory/90">
@@ -92,12 +92,6 @@ export function FeaturedEvent({
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <Link href={event.href} className="btn-primary">
             {ctaLabel}
-          </Link>
-          <Link
-            href="/calendar"
-            className="link-editorial text-sm font-semibold text-kallol-700 hover:text-kallol-800"
-          >
-            Full calendar
           </Link>
         </div>
       </article>

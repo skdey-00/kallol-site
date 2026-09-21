@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 /**
- * ArrowLink — editorial link with quiet arrow (Phase 6).
+ * ArrowLink, editorial link with quiet arrow (Phase 6).
  *
  * The Phase 5B "invitation, not a button" link: uppercase tracked
  * label with the link-editorial underline sweep and a right arrow

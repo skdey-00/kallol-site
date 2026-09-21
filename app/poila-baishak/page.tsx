@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/kallol/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata = {
-  title: "Poila Boishakh — Bengali New Year | Kallol, Goregaon",
+  title: "Poila Boishakh, Bengali New Year | Kallol, Goregaon",
   description: "Celebrate Poila Boishakh at Kallol: Dashopachar and Satyanarayan Puja, cultural programme and authentic Bengali cuisine in Goregaon West.",
 }
 
@@ -21,7 +21,7 @@ export default function PoilaBaishakPage() {
             <img src="/assets/PoilaBoishak-ee6e477f.webp" alt="Poila Baishak" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#44233b]">Poila Boishakh - Bengali New Year</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-kallol-800">Poila Boishakh - Bengali New Year</h2>
             <p className="text-gray-700 leading-relaxed text-justify">
               The arrival of Poila Boishakh, the Bengali New Year, is marked with much fanfare and festivity at Kallol.
               The day begins with prayers for prosperity and is followed by a colorful cultural program featuring

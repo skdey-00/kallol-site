@@ -2,12 +2,12 @@ import Link from "next/link"
 import { Reveal } from "./reveal"
 
 /**
- * CtaBand — the closing invitation band (Phase 6).
+ * CtaBand, the closing invitation band (Phase 6).
  *
  * The Phase 5B Participate treatment generalized: deep maroon ground,
  * serif statement, one primary action + one quiet editorial link,
  * optional ruled quiet-links column. Dignified close for interior
- * pages — an invitation, not an advertisement. No invented claims
+ * pages, an invitation, not an advertisement. No invented claims
  * about where donations go.
  */
 
@@ -28,7 +28,7 @@ export function CtaBand({
   eyebrow?: string
   title: string
   body?: string
-  /** Primary action — rendered as btn-primary */
+  /** Primary action, rendered as btn-primary */
   primary: CtaAction
   /** Quiet editorial link beside the button */
   secondary?: CtaAction

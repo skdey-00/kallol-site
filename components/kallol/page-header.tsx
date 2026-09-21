@@ -2,22 +2,22 @@ import Link from "next/link"
 import { Reveal } from "./reveal"
 
 /**
- * PageHeader — the standard interior-page header (Phase 6).
+ * PageHeader, the standard interior-page header (Phase 6).
  *
  * Replaces the legacy PageBanner (purple #44233b block, centered,
  * framer-motion fade) with the Phase 5B editorial language:
  * eyebrow metadata, serif statement title, a drawing baseline rule,
- * and a breadcrumb trail. Left-aligned, editorial — not a
+ * and a breadcrumb trail. Left-aligned, editorial, not a
  * marketing banner.
  *
  * VARIANTS
- *   default — eyebrow + statement title + rule + optional intro
+ *   default, eyebrow + statement title + rule + optional intro
  *             (About, Services, Community pages, Archives…)
- *   image   — adds real photography beside the title (right column
+ *   image  , adds real photography beside the title (right column
  *             on lg, portrait crop) for puja/mandir pages
  *
  * The global <main> already pads for the fixed navbar, so no negative
- * margins — the header begins flush below it.
+ * margins, the header begins flush below it.
  */
 
 export interface Crumb {

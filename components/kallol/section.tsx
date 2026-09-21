@@ -1,13 +1,13 @@
 import { Reveal } from "./reveal"
 
 /**
- * Section — the Kallol section primitive (Phase 6).
+ * Section, the Kallol section primitive (Phase 6).
  *
  * Wraps every interior-page section: <section> with aria-labelledby,
  * a container, the Phase 5B rhythm of section spacing, and the
  * standard head pattern (eyebrow → title → optional intro → rule).
  *
- * The head is typographic and ruled — NOT icon cards, not centered
+ * The head is typographic and ruled, NOT icon cards, not centered
  * marketing headings. Optional `actions` slot places an editorial
  * link at the right end of the head (as on the homepage puja index).
  *
@@ -27,14 +27,14 @@ const TONE_CLASS: Record<Tone, string> = {
 }
 
 export interface SectionProps {
-  /** id of the section's h2 — wired to aria-labelledby */
+  /** id of the section's h2, wired to aria-labelledby */
   labelledBy?: string
   tone?: Tone
   /** Compact sections (py-12/16) vs standard (py-16/24/28) */
   compact?: boolean
   /** Standard section head: eyebrow, title, optional intro, rule */
   eyebrow?: string
-  /** Section title — rendered as h2 */
+  /** Section title, rendered as h2 */
   title?: string
   /** One-to-two-line introduction below the title */
   intro?: string

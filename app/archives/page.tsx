@@ -51,7 +51,7 @@ export default async function ArchivesPage() {
       <PageHeader
         eyebrow="Puja"
         title="Past Events & Archives"
-        intro="A record of pujas, festivals and community celebrations at Kallol Kali Mandir — the community's history, kept by the calendars the committee published."
+        intro="A record of pujas, festivals and community celebrations at Kallol Kali Mandir, the community's history, kept by the calendars the committee published."
         crumbs={[{ label: "Puja", href: "/upcoming-events" }]}
       />
 
@@ -62,7 +62,7 @@ export default async function ArchivesPage() {
           <div className="max-w-2xl">
             <p className="text-ink-soft leading-relaxed">
               No past events have been recorded yet. Pujas and observances are
-              added to the calendar as the committee announces them — see the{" "}
+              added to the calendar as the committee announces them, see the{" "}
               <Link href="/calendar" className="link-editorial text-kallol-700">
                 Puja Calendar
               </Link>{" "}
@@ -71,7 +71,7 @@ export default async function ArchivesPage() {
           </div>
         )}
 
-        {/* Cross-navigation — where the record continues */}
+        {/* Cross-navigation, where the record continues */}
         <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-stone-line pt-8">
           <Link
             href="/calendar"
@@ -106,7 +106,7 @@ export default async function ArchivesPage() {
                 Free Medical Camp
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                A community health initiative held at the Kallol campus —
+                A community health initiative held at the Kallol campus,
                 preserved here as a record of Kallol&rsquo;s service to the
                 neighbourhood.
               </p>
@@ -116,7 +116,7 @@ export default async function ArchivesPage() {
               <h3 className="mt-2 font-display text-h3 text-ink">Earlier Years</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                 Records of previous years&rsquo; Durga Puja, Kali Puja and
-                cultural programmes [CONTENT REQUIRED — photographs, dates and
+                cultural programmes [CONTENT REQUIRED, photographs, dates and
                 programme details from the committee archives].
               </p>
             </div>
