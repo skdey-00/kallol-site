@@ -17,21 +17,21 @@ import { HeroSlideshow } from "@/components/home/hero-slideshow"
 export function Hero() {
   return (
     <section className="bg-ivory" aria-labelledby="hero-heading">
-      <div className="relative h-[50svh] min-h-[340px] max-h-[560px] w-full overflow-hidden">
+      <div className="relative h-[50svh] min-h-[340px] max-h-[560px] w-full overflow-hidden md:h-[45svh]">
         <HeroSlideshow />
       </div>
 
       {/* Statement, rail and CTAs below the slideshow */}
       <div className="container pt-8 pb-10 md:pt-10 md:pb-12">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <h1
             id="hero-heading"
             className="hero-enter font-display text-display-xl text-ink"
             style={{ ["--reveal-delay" as string]: "120ms" }}
           >
-            A Bengali mandir &amp; cultural
-            <br className="hidden md:block" /> community in the heart of
-            Goregaon.
+            A Bengali mandir &amp;
+            <br className="hidden md:block" /> cultural community in the
+            heart of Goregaon.
           </h1>
 
           <p
