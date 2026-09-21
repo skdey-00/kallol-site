@@ -292,7 +292,7 @@ export function PujaDonate({ puja }: { puja: PujaDonationCategory }) {
           {/* Puja Items Selection */}
           <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5, delay: 0.2 }}>
             <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
-              Select <span className="text-kallol-700">Donation Items</span>
+              Select <span className="text-kallol-700">Puja Offerings</span>
             </h2>
 
             <Card className="border-stone-line shadow-lg">
@@ -321,7 +321,7 @@ export function PujaDonate({ puja }: { puja: PujaDonationCategory }) {
                         <span className="text-sm">₹{item.amount.toLocaleString("en-IN")}</span>
                         {item.date && (
                           <span className="text-xs text-ink-faint mt-1">
-                            ({new Date(item.date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })})
+                            ({new Date(item.date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" })})
                           </span>
                         )}
                       </Button>
@@ -355,6 +355,7 @@ export function PujaDonate({ puja }: { puja: PujaDonationCategory }) {
                                 month: "short",
                                 day: "numeric",
                                 year: "numeric",
+                                timeZone: "UTC",
                               })}
                               )
                             </span>

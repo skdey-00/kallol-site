@@ -32,7 +32,6 @@ export const pujaDonations: PujaDonationCategory[] = [
     // Mon Oct 19 (7:26-8:14 AM), Navami Tue Oct 20 (Kumari Puja & Hom),
     // Vijaya Dashami Wed Oct 21.
     items: [
-      { purpose: "Shashti: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-16" },
       { purpose: "Shashti: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-16" },
       { purpose: "Saptami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-17" },
       { purpose: "Saptami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-17" },
@@ -43,7 +42,6 @@ export const pujaDonations: PujaDonationCategory[] = [
       { purpose: "Navami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
       { purpose: "Navami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
       { purpose: "Navami: Hom", category: "Durga Puja", amount: 11000, date: "2026-10-20" },
-      { purpose: "Shri Shri Kali Puja", category: "Durga Puja", amount: 51000 },
       { purpose: "Sandhi Puja", category: "Durga Puja", amount: 21000, date: "2026-10-19" },
     ],
     // Durga offerings section removed from /donate/durga-puja (committee
