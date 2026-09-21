@@ -42,24 +42,26 @@ export const pujaDonations: PujaDonationCategory[] = [
       { purpose: "Adhik Ashtami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-19" },
       { purpose: "Navami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
       { purpose: "Navami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-20" },
-      { purpose: "Dashami: Spl. Puja", category: "Durga Puja", amount: 2000, date: "2026-10-21" },
-      { purpose: "Dashami: Evening Puja", category: "Durga Puja", amount: 2000, date: "2026-10-21" },
+      { purpose: "Navami: Hom", category: "Durga Puja", amount: 11000, date: "2026-10-20" },
+      { purpose: "Shri Shri Kali Puja", category: "Durga Puja", amount: 51000 },
       { purpose: "Sandhi Puja", category: "Durga Puja", amount: 21000, date: "2026-10-19" },
     ],
-    offerings: [
-      { name: "Vastra (Saree) for Maa Durga", amount: 51000, description: "Sacred saree offered to Maa Durga" },
-      { name: "Vastra for Maa Lakshmi / Maa Saraswati / Shri Ganesh / Shri Kartik", amount: 15000, description: "Attire for the accompanying deities" },
-      { name: "Vastra (Saree) for Kumari Puja", amount: 15000, description: "Saree for the young girl worshipped in Kumari Puja" },
-      { name: "Maa Kali Vastra (Saree) - Mahalaya to Kojagari Purnima", amount: 15000, description: "Saree for Maa Kali for the full festive period" },
-      { name: "108 Lotus - Sandhi Puja", amount: 25000, description: "108 sacred lotuses offered during Sandhi Puja" },
-      { name: "General Bhog - Community Feeding (per day)", amount: 100000, description: "Sponsor the day's community bhog" },
-      { name: "Payesh (Kheer) - Community Feeding (per day)", amount: 15000, description: "Sponsor payesh prasad for the community" },
-      { name: "Hom (Two Family Members)", amount: 11000, description: "Two members of your family participate in the Hom" },
-      { name: "Floral Decor of Maa Kali's Abode (per festival day)", amount: 10000, description: "Flower decoration of the abode of Maa Kali" },
-      { name: "Puja Materials - Fruits / Flowers / Ghee", amount: 10000, description: "Fresh fruits, flowers and ghee for the puja" },
-      { name: "Chandan / Dhoop (Loban) / Agarbati / Camphor & Oil", amount: 5000, description: "Daily worship essentials" },
-      { name: "Saree / Dhuti Nivedan for Durga Puja (per day)", amount: 5000, description: "Traditional cloth offering on any puja day" },
-    ],
+    // Durga offerings section removed from /donate/durga-puja (committee
+    // request). The published list is kept here for reference so it can be
+    // restored if the offerings return:
+    //   Vastra (Saree) for Maa Durga — ₹51,000
+    //   Vastra for Maa Lakshmi / Maa Saraswati / Shri Ganesh / Shri Kartik — ₹15,000
+    //   Vastra (Saree) for Kumari Puja — ₹15,000
+    //   Maa Kali Vastra (Saree) - Mahalaya to Kojagari Purnima — ₹15,000
+    //   108 Lotus - Sandhi Puja — ₹25,000
+    //   General Bhog - Community Feeding (per day) — ₹1,00,000
+    //   Payesh (Kheer) - Community Feeding (per day) — ₹15,000
+    //   Hom (Two Family Members) — ₹11,000
+    //   Floral Decor of Maa Kali's Abode (per festival day) — ₹10,000
+    //   Puja Materials - Fruits / Flowers / Ghee — ₹10,000
+    //   Chandan / Dhoop (Loban) / Agarbati / Camphor & Oil — ₹5,000
+    //   Saree / Dhuti Nivedan for Durga Puja (per day) — ₹5,000
+    offerings: [],
   },
   {
     id: "kali-puja",
@@ -75,8 +77,6 @@ export const pujaDonations: PujaDonationCategory[] = [
       { name: "General Bhog - Community Feeding Deepavali Kali Puja", amount: 85000, description: "Sponsor the community bhog on Kali Puja night" },
       { name: "Floral Decor of Maa Kali's Abode (Deepavali Kali Puja)", amount: 51000, description: "Floral decoration of the abode of Maa Kali" },
       { name: "Annakut (November 10, 2026)", amount: 21000, description: "The great food-mountain offering after Kali Puja" },
-      { name: "Puja Materials - Fruits / Flowers / Ghee", amount: 10000, description: "Fresh fruits, flowers and ghee for the puja" },
-      { name: "Chandan / Dhoop (Loban) / Agarbati / Camphor & Oil", amount: 5000, description: "Daily worship essentials" },
     ],
   },
   {
@@ -104,11 +104,24 @@ export const pujaDonations: PujaDonationCategory[] = [
       { name: "Maa Lakshmi Pratima - Kojagari Lakshmi Puja", amount: 25000, description: "Idol of Maa Lakshmi for Kojagari night" },
       { name: "Maa Lakshmi Vastra (Saree) for Kojagari Lakshmi Puja", amount: 15000, description: "Traditional saree for Maa Lakshmi" },
       { name: "General Bhog - Community Feeding Kojagari Lakshmi Puja", amount: 51000, description: "Sponsor the community bhog on Kojagari Purnima" },
-      { name: "Puja Materials - Fruits / Flowers / Ghee", amount: 10000, description: "Fresh fruits, flowers and ghee for the puja" },
-      { name: "Chandan / Dhoop (Loban) / Agarbati / Camphor & Oil", amount: 5000, description: "Daily worship essentials" },
+      { name: "Payeesh (Kheer)", amount: 15000, description: "Payesh (kheer) offering for the Kojagari Lakshmi Puja" },
     ],
   },
-  
+  {
+    id: "amavasya-puja",
+    name: "Amavasya Puja",
+    description: "Support the monthly Amavasya Puja — new moon worship of Maa Kali and Khichdi Bhog for the community.",
+    // Monthly observance (every new moon night), so unlike the annual pujas
+    // these items carry no fixed date.
+    items: [
+      { purpose: "Amavasya: Spl. Puja", category: "Amavasya Puja", amount: 2000 },
+    ],
+    offerings: [
+      { name: "General Bhog", amount: 35000, description: "General bhog offering for the Amavasya Puja" },
+      { name: "Water", amount: 5000, description: "Water offering for the Amavasya Puja" },
+    ],
+  },
+
 ]
 
 // NOTE: the old exported `generalOfferings` list was removed — it was imported
