@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Reveal } from "@/components/kallol/reveal"
+import { ArrowLink } from "@/components/kallol/arrow-link"
 import type { EventView } from "@/components/kallol/event-view"
 
 /**
@@ -118,10 +119,11 @@ export function NowAtKallol({
                     <span className="text-ink-mute">{featured.location}</span>
                   ) : null}
                 </p>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
+                <div className="mt-8 flex flex-wrap items-center gap-4 md:gap-6">
                   <Link href={featured.href} className="btn-primary">
                     Explore {HREF_NAMES[featured.href] ?? "the event"}
                   </Link>
+                  <ArrowLink href="/calendar">View full calendar</ArrowLink>
                 </div>
               </article>
             ) : (
