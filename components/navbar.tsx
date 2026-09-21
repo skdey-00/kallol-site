@@ -1,6 +1,6 @@
 ﻿"use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react"
@@ -73,6 +73,7 @@ const navGroups = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [openGroup, setOpenGroup] = useState<string | null>(null)
+  const menuTriggerRef = useRef<HTMLButtonElement | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const { user, logout } = useAuth()
   const { totalItems, hydrated } = useCart()
@@ -96,11 +97,21 @@ export function Navbar() {
     setIsOpen(false)
   }, [pathname])
 
-  // Lock body scroll while the mobile menu is open.
+  // Lock body scroll while the mobile menu is open. Escape closes it and
+  // returns focus to the menu trigger (UX plan Phase 9).
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : ""
+    if (!isOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false)
+        menuTriggerRef.current?.focus()
+      }
+    }
+    document.addEventListener("keydown", onKeyDown)
     return () => {
       document.body.style.overflow = ""
+      document.removeEventListener("keydown", onKeyDown)
     }
   }, [isOpen])
 
@@ -252,6 +263,7 @@ export function Navbar() {
             <Button
               variant="outline"
               size="icon"
+              ref={menuTriggerRef}
               onClick={toggleMenu}
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
@@ -279,11 +291,13 @@ export function Navbar() {
                 {group.children ? (
                   <>
                     {/* Collapsed accordion group — tap to expand, keeps the
-                        menu to a single screen; Contact + Donate stay visible */}
+                        menu to a single screen; Contact + Donate stay visible.
+                        Each button exposes its panel via aria-controls/id. */}
                     <button
                       type="button"
                       onClick={() => setOpenGroup(openGroup === group.name ? null : group.name)}
                       aria-expanded={openGroup === group.name}
+                      aria-controls={`mobile-group-${group.name.toLowerCase().replace(/\s+/g, "-")}`}
                       className="flex w-full items-center justify-between py-3 text-left text-ink hover:text-kallol-600 transition-colors duration-200 font-sans font-semibold"
                     >
                       {group.name}
@@ -291,8 +305,13 @@ export function Navbar() {
                         className={`h-4 w-4 transition-transform duration-200 ${openGroup === group.name ? "rotate-180" : ""}`}
                       />
                     </button>
-                    {openGroup === group.name && (
-                      <div className="pl-4 pb-2">
+                    {/* Panel stays mounted (hidden, not unmounted) so the
+                        button's aria-controls always resolves to a live id. */}
+                    <div
+                      id={`mobile-group-${group.name.toLowerCase().replace(/\s+/g, "-")}`}
+                      hidden={openGroup !== group.name}
+                      className="pl-4 pb-2"
+                    >
                         {group.children.map((child) =>
                           "dropdownDivider" in child ? (
                             <div key="m-divider" className="border-t border-stone-line my-2" />
@@ -307,8 +326,7 @@ export function Navbar() {
                             </Link>
                           ),
                         )}
-                      </div>
-                    )}
+                    </div>
                   </>
                 ) : (
                   <Link

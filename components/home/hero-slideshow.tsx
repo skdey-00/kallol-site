@@ -30,11 +30,26 @@ const ALTS = [
 export function HeroSlideshow() {
   const [index, setIndex] = useState(0)
 
+  // Reduced motion (UX plan Phase 9): never start the rotation — the
+  // server-rendered first slide stays as a stable still image. If the
+  // preference changes mid-session, start/stop the interval to match.
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
+    if (media.matches) return
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % SLIDES.length)
     }, 7000)
-    return () => clearInterval(id)
+    const onChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIndex(0)
+        clearInterval(id)
+      }
+    }
+    media.addEventListener("change", onChange)
+    return () => {
+      clearInterval(id)
+      media.removeEventListener("change", onChange)
+    }
   }, [])
 
   return (
