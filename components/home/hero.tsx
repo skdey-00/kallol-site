@@ -50,6 +50,12 @@ export function Hero() {
               Upcoming events
             </Link>
             <Link
+              href="/durga-puja"
+              className="inline-flex items-center justify-center rounded-xl border-2 border-kallol-700 bg-transparent px-5 py-2.5 text-sm font-semibold uppercase tracking-caps text-kallol-700 transition-colors duration-200 hover:bg-kallol-700 hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+            >
+              Durgotsab 2026
+            </Link>
+            <Link
               href="/about"
               className="inline-flex items-center justify-center rounded-xl border-2 border-kallol-700 bg-transparent px-5 py-2.5 text-sm font-semibold uppercase tracking-caps text-kallol-700 transition-colors duration-200 hover:bg-kallol-700 hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kallol-600 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
             >
