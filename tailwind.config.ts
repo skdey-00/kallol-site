@@ -41,30 +41,30 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         /* ── BRAND ─────────────────────────────────────────────
-           kallol.600 IS the logo color (blue wave from kallolmumbai.com,
-           #3D3F92). Do not shift it.
-           Ramp built around it (same S/L structure as the old maroon
-           ramp, hue rotated to 239deg). */
+           The UI THEME is the maroon ramp (#832F30), restored from the
+           pre-blue design. The canonical LOGO stays blue (#3D3F92 wave)
+           — BrandLogo renders the blue asset and is not themed.
+           Same S/L structure as the blue ramp, hue back at 359deg. */
         kallol: {
-          DEFAULT: "#3D3F92",
-          50: "#F5F5FB",
-          100: "#E7E7F4",
-          200: "#CECEE8",
-          300: "#A9AAD7",
-          400: "#7A7BBE",
-          500: "#5051A3",
-          600: "#3D3F92", // canonical — matches public/images/kallol-logo-blue.png
-          700: "#26276F",
-          800: "#1F2059",
-          900: "#16173E",
-          950: "#0E0E2A",
+          DEFAULT: "#832F30",
+          50: "#FBF5F5",
+          100: "#F4E7E7",
+          200: "#E8CECF",
+          300: "#D7A9AA",
+          400: "#BE7A7C",
+          500: "#A35053",
+          600: "#832F30", // theme anchor — the LOGO remains blue
+          700: "#6F2627",
+          800: "#591F20",
+          900: "#3E1617",
+          950: "#2A0E0F",
         },
-        /* Deep charcoal / near-black with the brand blue's coolness */
+        /* Deep charcoal / near-black with the maroon's warmth */
         ink: {
-          DEFAULT: "#1F1F23",
-          soft: "#35353B",
-          mute: "#66666E",
-          faint: "#9B9BA3",
+          DEFAULT: "#231F20",
+          soft: "#3B3536",
+          mute: "#6E6667",
+          faint: "#A39B9C",
         },
         /* Warm ivory / off-white */
         ivory: {

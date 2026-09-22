@@ -4,7 +4,9 @@
 
 /* ============================================================
    KALLOL DESIGN TOKENS — Phase 3 brand system
-   Palette derived from the canonical logo blue (#3D3F92).
+   Palette restored to the maroon theme (#832F30). The canonical
+   LOGO remains blue (#3D3F92) — BrandLogo renders the blue asset
+   and is intentionally not themed.
    Component code should use Tailwind token classes
    (text-kallol-600, bg-ivory, font-display …), not raw hex.
    ============================================================ */
@@ -18,7 +20,7 @@
     --card-foreground: 300 4% 13%;
     --popover: 40 100% 99%;
     --popover-foreground: 300 4% 13%;
-    --primary: 239 41% 41%;          /* kallol blue #3D3F92 */
+    --primary: 359 47% 35%;          /* kallol maroon #832F30 */
     --primary-foreground: 33 43% 96%;
     --secondary: 33 31% 91%;         /* warm stone */
     --secondary-foreground: 300 4% 13%;
@@ -30,13 +32,13 @@
     --destructive-foreground: 0 0% 98%;
     --border: 33 24% 82%;            /* stone-line #DDD3C6 */
     --input: 33 24% 82%;
-    --ring: 239 41% 41%;             /* brand blue focus ring */
+    --ring: 359 47% 35%;             /* maroon focus ring */
     --radius: 0.375rem;              /* editorial, not pill */
 
     /* Kallol core tokens (hex, for reference + one-off utilities) */
-    --kallol-maroon: #3d3f92;   /* legacy var name, now brand blue */
-    --kallol-maroon-deep: #26276f;
-    --kallol-ink: #1f1f23;
+    --kallol-maroon: #832f30;   /* brand theme maroon (logo stays blue) */
+    --kallol-maroon-deep: #6f2627;
+    --kallol-ink: #231f20;
     --kallol-ivory: #faf6f0;
     --kallol-stone-line: #ddd3c6;
     --kallol-copper: #b0793f;
@@ -66,8 +68,8 @@
     line-break: strict;
   }
   ::selection {
-    background: #a9aad7;
-    color: #0e0e2a;
+    background: #d7a9aa;
+    color: #2a0e0f;
   }
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -327,7 +329,7 @@
      ============================================ */
   .bengali-pattern {
     background-color: #fff9f9;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233d3f92' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23832f30' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   .hero-gradient {
